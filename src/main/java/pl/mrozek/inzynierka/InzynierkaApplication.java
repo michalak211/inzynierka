@@ -14,11 +14,11 @@ public class InzynierkaApplication {
     String home() {
         return "Hello World!";
     }
+
+
     public static void main(String[] args) {
         SpringApplication.run(InzynierkaApplication.class, args);
 //        System.out.println("jest?");
-//        KoktailService koktailService = new KoktailService();
-//        koktailService.addKoktai();
     }
 
 //    @Override

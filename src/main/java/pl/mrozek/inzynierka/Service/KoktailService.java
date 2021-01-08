@@ -1,21 +1,25 @@
 package pl.mrozek.inzynierka.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.mrozek.inzynierka.Entity.Koktail;
+import pl.mrozek.inzynierka.Entity.przepis.Koktail;
 import pl.mrozek.inzynierka.Repo.KoktailRepo;
 
 @Service
 public class KoktailService {
 
-//    @Autowired
-//    KoktailRepo koktailRepo;
+    final
+    KoktailRepo koktailRepo;
 
-//    public void addKoktai(){
-//        Koktail koktail=new Koktail();
-//        koktail.setNazwa("nowy");
-//        koktailRepo.save(koktail);
-//    }
+    public KoktailService(KoktailRepo koktailRepo) {
+        this.koktailRepo = koktailRepo;
+    }
 
+    public void addKoktai(){
+        Koktail koktail=new Koktail();
+        koktail.setNazwa("nowy");
+        System.out.println("utworzono nowy koktajl "+koktail);
+        koktailRepo.save(koktail);
+        System.out.println("dodano koktail "+ koktail);
+    }
 
 }
