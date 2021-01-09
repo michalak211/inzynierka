@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import pl.mrozek.inzynierka.Entity.User;
-import pl.mrozek.inzynierka.Entity.skladniki.Skaldnik;
+import pl.mrozek.inzynierka.Entity.skladniki.Skladnik;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class Koktail {
     private String klasa;
 
     @OneToOne
-    private Skaldnik skladnikGlowny;
+    private Skladnik skladnikGlowny;
     @Nullable
     private int ocena;
     @Nullable

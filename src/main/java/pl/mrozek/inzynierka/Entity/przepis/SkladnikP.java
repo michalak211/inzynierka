@@ -1,7 +1,7 @@
 package pl.mrozek.inzynierka.Entity.przepis;
 
 import lombok.*;
-import pl.mrozek.inzynierka.Entity.skladniki.Skaldnik;
+import pl.mrozek.inzynierka.Entity.skladniki.Skladnik;
 
 import javax.persistence.*;
 
@@ -18,7 +18,7 @@ public class SkladnikP {
     private Long id;
 
     @OneToOne
-    private Skaldnik skaldnik;
+    private Skladnik skladnik;
     private int ilosc;
 
 }

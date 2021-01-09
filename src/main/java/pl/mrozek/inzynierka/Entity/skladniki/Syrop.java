@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @ToString
 
 @Entity
-public class Syrop extends Skaldnik{
+public class Syrop extends Skladnik {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

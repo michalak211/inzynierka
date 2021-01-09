@@ -14,7 +14,7 @@ import javax.persistence.*;
 @ToString
 
 @Entity
-public class Alkohol extends Skaldnik {
+public class Alkohol extends Skladnik {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

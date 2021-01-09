@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 //@DiscriminatorColumn(name = "rodzaj" ,discriminatorType = DiscriminatorType.INTEGER)
 
-public class Skaldnik {
+public class Skladnik {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
