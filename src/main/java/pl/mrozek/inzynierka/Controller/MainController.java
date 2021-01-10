@@ -2,12 +2,14 @@ package pl.mrozek.inzynierka.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.mrozek.inzynierka.Entity.User;
 import pl.mrozek.inzynierka.Service.KoktailService;
 
 @Controller
-@RequestMapping("baza")
+@RequestMapping("")
 public class MainController {
 
     final
@@ -19,7 +21,13 @@ public class MainController {
 
     @GetMapping("/test")
     public void test(){
-        koktailService.addKoktai();
+        koktailService.addKoktajl();
     }
 
+    @GetMapping ("/przegladaj")
+    public String przegladanie(Model model){
+
+        model.addAttribute("koktailList",koktailService.getAllUserKoktajls());
+        return "/lista";
+    }
 }
