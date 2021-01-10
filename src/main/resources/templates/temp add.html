@@ -1,0 +1,1126 @@
+<!--http://forum.thymeleaf.org/jquery-thymeleaf-how-to-dynamically-add-forms-with-the-object-fields-td4031323.html-->
+
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div class="starter-template">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <h3>Formularz rejestru KWN</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-6 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading clearfix">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <label class="col-md-9 control-label">KARTA WYROBU NIEZGODNEGO</label>
+                                    <label class="col-md-1 control-label">Nr KWN:</label>
+                                    <label class="col-md-2 control-label" th:text="${kwnForm.nrKwn}"></label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="panel-body">
+                            <form class="form-horizontal row-border" action="#"
+                                  th:object="${kwnForm}" method="post">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div id="divCheckbox" style="display: none;">
+                                                <input th:field="*{nrKwn}" type="text" class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                            <label class="col-md-2 control-label">Nazwa wyrobu</label>
+                                            <div class="col-md-6">
+                                                <input th:field="*{nazwaWyrobu}" type="text" class="form-control"
+                                                       placeholder="" required>
+                                            </div>
+
+                                            <label class="col-md-2 control-label">Obszar</label>
+                                            <div class="col-md-2">
+                                                <select th:field="*{obszar}" class="form-control" required>
+                                                    <option value=""> --</option>
+                                                    <option value="PZD">PZD</option>
+                                                    <option value="PZB">PZB</option>
+                                                    <option value="PZP">PZP</option>
+                                                    <option value="PV">PV</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">ilość</label>
+                                            <div class="col-md-2">
+                                                <input th:field="*{ilosc}" type="number" class="form-control"
+                                                       placeholder="" required>
+                                            </div>
+                                            <label class="col-md-2 control-label">typ</label>
+                                            <div class="col-md-2">
+                                                <select th:field="*{typilosci}" class="form-control">
+                                                    <option value=""> --</option>
+                                                    <option value="sztuka">Sztuka</option>
+                                                    <option value="arkusz">Arkusz</option>
+                                                    <option value="paleta">Paleta</option>
+                                                    <option value="partia">Partia</option>
+                                                    <option value="rola">Rola</option>
+                                                    <option value="kopmlet">Kopmlet</option>
+                                                    <option value="ryza">Ryza</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Zgłaszający niezgodność:</label>
+                                            <div class="col-md-3">
+                                                <input th:field="*{zglaszajacyNiezgodnosc}" type="text"
+                                                       class="form-control" placeholder="" required>
+                                            </div>
+
+                                            <label class="col-md-1 control-label">Kom. org.</label>
+                                            <div class="col-md-2">
+                                                <input th:field="*{komOrg}" type="text" class="form-control"
+                                                       placeholder="" required>
+                                            </div>
+
+                                            <label class="col-md-2 control-label">data zgłoszen.:</label>
+                                            <div class="col-md-2">
+                                                <input th:field="*{dataZgloszenia}" type="date" class="form-control"
+                                                       placeholder="" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Numer zlecenia:</label>
+                                            <div class="col-md-5">
+                                                <input th:field="*{nrZlecenia}" type="text" class="form-control"
+                                                       placeholder="" required>
+                                                <span class="help-block">
+                                                    <p class="text-danger">
+                                                        Zlecenia muszą być oddzielone przecinkami
+                                                    </p>
+                                                </span>
+                                            </div>
+                                            <label class="col-md-3 control-label">Dział/Wydział</label>
+                                            <div class="col-md-2">
+                                                <input th:field="*{dzialWydzial}" type="text" class="form-control"
+                                                       placeholder="" required>
+                                                <span class="help-block">(miejsce wykrycia)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Wykryte na etapie:</label>
+                                            <div class="col-md-4">
+                                                <input th:field="*{wykryteNaEtapie}" type="text" class="form-control"
+                                                       placeholder="" required>
+                                            </div>
+
+                                            <label class="col-md-2 control-label">Nr prot.odb.:</label>
+                                            <div class="col-md-4">
+                                                <input th:field="*{nrPtotOdb}" type="text" class="form-control"
+                                                       placeholder="" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Niezgodność dotyczy:</label>
+                                            <div class="col-md-4">
+                                                <select th:field="*{niezgodnoscDotyczy}" class="form-control"
+                                                        name="parent_selection" id="parent_selection" required>
+                                                    <option value="">--</option>
+                                                    <option th:each="Niezgodnosc : ${niezgodnoscList}"
+                                                            th:value="${Niezgodnosc.niezgodnoscNaz}"
+                                                            th:text="${Niezgodnosc.niezgodnoscNaz}"></option>
+                                                    th:value="${Niezgodnosc.niezgodnoscNaz}"
+                                                    th:text="${Niezgodnosc.niezgodnoscNaz}" ></option>
+                                                    <!--                                                    <option value="dostawa">dostawa</option>-->
+                                                    <!--                                                    <option value="papier">papier</option>-->
+                                                    <!--                                                    <option value="offset">offset</option>-->
+                                                    <!--                                                    <option value="sitodruk">sitodruk</option>-->
+                                                    <!--                                                    <option value="staloryt">staloryt</option>-->
+                                                    <!--                                                    <option value="typografia">typografia</option>-->
+                                                    <!--                                                    <option value="injet">injet</option>-->
+                                                    <!--                                                    <option value="lakierowanie">lakierowanie</option>-->
+                                                    <!--                                                    <option value="hot stamping ">hot stamping</option>-->
+                                                    <!--                                                    <option value="krojenie">krojenie</option>-->
+                                                    <!--                                                    <option value="złamywanie">złamywanie</option>-->
+                                                    <!--                                                    <option value="szycie">szycie</option>-->
+                                                    <!--                                                    <option value="wykrawanie">wykrawanie</option>-->
+                                                    <!--                                                    <option value="nacinanie">nacinanie</option>-->
+                                                    <!--                                                    <option value="laminowanie">laminowanie</option>-->
+                                                    <!--                                                    <option value="chip/mikroprocesor">chip/mikroprocesor</option>-->
+                                                    <!--                                                    <option value="pakowanie">pakowanie</option>-->
+                                                    <!--                                                    <option value="sortowanie manualne">sortowanie manualne</option>-->
+                                                    <!--                                                    <option value="sortowanie maszynowe">sortowanie maszynowe</option>-->
+                                                    <!--                                                    <option value="wymiana dobitek">wymiana dobitek</option>-->
+                                                    <!--                                                    <option value="nieokreślone">nieokreślone</option>-->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Cecha/element:</label>
+                                            <div class="col-md-4">
+                                                <select th:field="*{cecha}" name="child_selection1"
+                                                        id="child_selection1" class="form-control" multiple="multiple"
+                                                        required>
+                                                </select>
+                                            </div>
+                                            <label class="col-md-2 control-label">Opis niezgodności:</label>
+                                            <div class="col-md-4">
+                                                <select th:field="*{opisNiezgodnosci}" name="child_selection2"
+                                                        id="child_selection2" class="form-control" multiple="multiple"
+                                                        required>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Nowa cecha</label>
+                                            <div class="col-md-4">
+                                                <input th:field="*{nowaCecha}" type="text" class="form-control"
+                                                       placeholder="">
+                                            </div>
+
+                                            <label class="col-md-2 control-label">Nowy opis niezgodnosci</label>
+                                            <div class="col-md-4">
+                                                <input th:field="*{nowyOpisNiezgodnosci}" type="text"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Dodatkowy opis niezgodności:</label>
+                                            <div class="col-md-10">
+                                                <textarea th:field="*{dodatkowyOpisNiezgodnosci}" class="form-control"
+                                                          rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" xmlns:th="http://www.w3.org/1999/xhtml">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Potencjalna przyczyna:</label>
+                                            <div class="col-md-4">
+                                                <select th:field="*{rodzajPrzyczyny}" class="form-control"
+                                                        multiple="multiple" name="child_selection4"
+                                                        id="child_selection4">
+                                                    <div th:replace="fragments/potencjalna_przyczyna"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Opis przyczyny:</label>
+                                            <div class="col-md-10">
+                                                <textarea th:field="*{potencjalnaPrzyczyna}" class="form-control"
+                                                          rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Data spotkania Zespołu:</label>
+                                            <div class="col-md-3">
+                                                <input th:field="*{dataSpotkaniaZ}" type="date" class="form-control"
+                                                       placeholder="" required></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Decyzja Zespołu ds. KWN :</label>
+                                            <div class="col-md-4">
+                                                <select th:field="*{decyzjaZKWN}" class="form-control"
+                                                        name="child_selection3"
+                                                        id="child_selection3"
+                                                        multiple="multiple">
+                                                    <option value="--"> --</option>
+                                                    <option value="dopuścić">dopuścić</option>
+                                                    <option value="odrzucić">odrzucić</option>
+                                                    <option value="naprawić">naprawić</option>
+                                                    <option value="reklamować u dostawcy/podwykonawcy">reklamować u
+                                                        dostawcy/podwykonawcy
+                                                    </option>
+                                                    <option value="inne ">inne</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Uzasadnienie decyzji:</label>
+                                            <div class="col-md-10">
+                                                <textarea th:field="*{uzasadnienie}" class="form-control"
+                                                          rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Zadania</label>
+                                            <div class="col-md-10">
+                                                <table id="TP" class=" table order-list" th:if="${newKwn == 1}">
+                                                    <thead>
+                                                    <tr>
+                                                        <!--                                                        <td>Lp.</td>-->
+                                                        <td>Treść zadania</td>
+                                                        <td>Termin realizacji</td>
+                                                        <td>Osoba odpowiedzialna</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="itemTP" th:each="movie, status : ${kwnForm.tableTPDtos}">
+
+                                                        <td class="col-sm-4">
+                                                            <input th:field="*{tableTPDtos[__${status.index}__].trybPostepowania}"
+                                                                   type="text" class="form-control"/>
+                                                        </td>
+                                                        <td class="col-sm-1">
+                                                            <input th:field="*{tableTPDtos[__${status.index}__].terminRealizacji}"
+                                                                   type="date" class="form-control" placeholder="">
+                                                        </td>
+                                                        <td class="col-sm-4">
+                                                            <select th:field="*{tableTPDtos[__${status.index}__].employee}"
+                                                                    data-show-subtext="true" data-live-search="true"
+                                                                    class="form-control">
+                                                                <th:block th:each="employee2 : ${employees}">
+                                                                    <option th:value="${employee2.id}"
+                                                                            th:text="${employee2.getFirstAndLastName()} + '  (' + ${employee2.getDepartment()} + ')' "/>
+                                                                </th:block>
+                                                            </select>
+                                                        </td>
+                                                        <td class="col-sm-1">
+                                                            <button class="removeRowBtn">
+                                                                Usuń
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                    <tr>
+                                                        <td colspan="5" style="text-align: left;">
+                                                            <input type="button" class="btn btn-lg btn-block "
+                                                                   onclick="addRow('tableTPDtos',['trybPostepowania', 'terminRealizacji'], '.itemTP', 'terminRealizacji', 'TP')"
+                                                                   value="Dodaj kolejny wiersz"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+                                                <div th:if="${newKwn == 0}">
+                                                    <button type="submit" class="btn btn-lg btn-block" name="zadania">
+                                                        Przejdz do edycji zadań
+                                                    </button>
+
+                                                    <!--                                                    <a  th:href="@{/task/editkwntasks/} + ${kwnid}">-->
+
+                                                    <!--                                                        <input type="button" class="btn btn-lg btn-block "-->
+
+                                                    <!--                                                           value="Przejdz do edycji zadań" />-->
+                                                    <!--                                                    </a>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Zalecenia Zespołu:</label>
+                                            <div class="col-md-10">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label"></label>
+                                            <label class="col-md-4 control-label">Reklamować u
+                                                dostawcy/podwykonawcy:</label>
+                                            <div class="col-md-2">
+                                                <select th:field="*{zzreklamowac}" class="form-control">
+                                                    <option value=""> --</option>
+                                                    <option value="tak">tak</option>
+                                                    <option value="nie">nie</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label"></label>
+                                            <label class="col-md-4 control-label">Uruchomić działania korygujące (wg.
+                                                P-04):</label>
+                                            <div class="col-md-2">
+                                                <select th:field="*{zzuruchomic}" onchange="changeFunc();"
+                                                        id="selectBox" class="form-control">
+                                                    <option value=""> --</option>
+                                                    <option value="tak">tak</option>
+                                                    <option value="nie">nie</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label"></label>
+                                            <label class="col-md-4 control-label">Osoba odpowiedzialna za działania
+                                                korygujące:</label>
+                                            <div class="col-md-2">
+                                                <select th:field="*{osobaOdp}" id="osobaOdp"
+                                                        class="form-control select-checkbox">
+                                                    <th:block th:each="employee : ${employees}">
+                                                        <option th:value="${employee.id}"
+                                                                th:text="${employee.getFirstAndLastName()} + ' &emsp; &emsp; (' + ${employee.getDepartment()} + ')' "/>
+                                                    </th:block>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label"></label>
+                                            <label class="col-md-4 control-label">Otworzyć zlecenie kosztowe
+                                                reklamacji/KWN:</label>
+                                            <div class="col-md-2">
+                                                <select th:field="*{zzotworzyc}" class="form-control">
+                                                    <option value=""> --</option>
+                                                    <option value="tak">tak</option>
+                                                    <option value="nie">nie</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Komentarz:</label>
+                                            <div class="col-md-10">
+                                                <textarea th:field="*{uwagi}" class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Moderator spotkania</label>
+                                            <div class="col-md-10">
+                                                <select th:field="*{moderator}" class="form-control select-checkbox">
+                                                    <th:block th:each="employee : ${employees}">
+                                                        <option th:value="${employee.id}"
+                                                                th:text="${employee.getFirstAndLastName()} + ' &emsp; &emsp; (' + ${employee.getDepartment()} + ')' "/>
+                                                    </th:block>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <label class="col-md-2 control-label">Lista osób</label>
+                                            <div class="col-md-10">
+                                                <table id="PC" class=" table order-list">
+                                                    <thead>
+                                                    <tr>
+                                                        <!--                                                        <td>Lp.</td>-->
+                                                        <td>Imię i Nazwisko, Dział</td>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id='test123'>
+                                                    <tr class="itemPC" th:each="movie, status : ${kwnForm.tablePCDtos}">
+                                                        <td class="col-sm-4">
+                                                            <select th:field="*{tablePCDtos[__${status.index}__].employee}"
+                                                                    class="form-control">
+                                                                <th:block th:each="employee : ${employees}">
+                                                                    <option th:value="${employee.getId()}"
+                                                                            th:text="${employee.getFirstAndLastName()} + ' &emsp; &emsp; (' + ${employee.getDepartment()} + ')' "/>
+                                                                </th:block>
+                                                            </select>
+                                                        </td>
+
+                                                        <td class="col-sm-1">
+                                                            <button class="removeRowBtn">
+                                                                Usuń
+                                                            </button>
+                                                        </td>
+
+                                                    </tr>
+                                                    </tbody>
+
+                                                    <tfoot>
+                                                    <tr>
+                                                        <!--                                   'tableTPDtos',['trybPostepowania', 'terminRealizacji', 'osobaOdpowiedzialna'], '.itemTP', 'terminRealizacji', 'TP'-->
+                                                        <td colspan="5" style="text-align: left;">
+                                                            <input type="button" class="btn btn-lg btn-block "
+                                                                   onclick="addInput('tablePCDtos', 'employee', '.itemPC', 'PC' )"
+                                                                   value="Dodaj kolejny wiersz"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary" name="zapisz">Zapisz</button>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row end -->
+
+        </div>
+    </div>
+</div>
+
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+<script th:inline="javascript">
+
+
+    function changeFunc() {
+        var selectBox = document.getElementById("selectBox");
+        var osobaOdp = document.getElementById("osobaOdp");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+        if (selectedValue == "tak") {
+            osobaOdp.setAttribute('required', 'required');
+            osobaOdp.removeAttribute('disabled');
+        } else {
+            osobaOdp.removeAttribute('required');
+            osobaOdp.setAttribute('disabled', 'disabled');
+        }
+    }
+
+
+    function deleteRowTask(id) {
+        document.getElementById("TP").deleteRow(id);
+    }
+
+    function test() {
+
+    }
+
+    var choices = [[${employees}]];
+    var c = 0;
+
+    $('body').on('click', '.removeRowBtn', function () {
+        // to make sure at least one row remains
+        if ($('.removeRowBtn').length > 0) {
+            $(this).parents('tr').remove();
+        }
+    });
+
+    function addInput(listName, fieldName, rowIndexSelector, elementName) {
+        let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+//Create and append the options
+        let selectList = document.createElement('select');
+
+        for (var i = 0; i < choices.length; i++) {
+            var option = document.createElement("option");
+            option.value = choices[i].id;
+            option.text = choices[i].firstAndLastName + "  (" + choices[i].department + ")";
+            selectList.appendChild(option);
+        }
+
+        selectList.classList.add('form-control');
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-7');
+        selectList.id = listName + rowIndex + '.' + fieldName;
+        selectList.setAttribute('name', listName + '[' + rowIndex + '].' + fieldName);
+        col.appendChild(selectList);
+        row.appendChild(col);
+
+        let col2 = document.createElement('td');
+        col2.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");   // Create a <button> element
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        col2.appendChild(btn);
+        row.appendChild(col2);
+
+        document.getElementById(elementName).appendChild(row);
+    }
+
+    //'tableTPDtos',['trybPostepowania', 'terminRealizacji', 'osobaOdpowiedzialna'], '.itemTP', 'terminRealizacji', 'TP'
+    let addRow = function (listName, fieldsNames, rowIndexSelector, dataFieldName, elementName) {
+        let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+
+        fieldsNames.forEach((fieldName) => {
+            let col = document.createElement('td');
+            if (fieldName === dataFieldName) {
+                col.classList.add('col-sm-2');
+            } else {
+                col.classList.add('col-sm-4');
+            }
+
+            let input = document.createElement('input');
+            if (fieldName === dataFieldName) {
+                input.type = 'date';
+            } else {
+                input.type = 'text';
+            }
+
+            input.classList.add('form-control');
+            input.id = listName + rowIndex + '.' + fieldName;
+            input.setAttribute('name', listName + '[' + rowIndex + '].' + fieldName);
+
+            col.appendChild(input);
+
+
+            row.appendChild(col);
+        });
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-4');
+        let selectList = document.createElement('select');
+        for (var i = 0; i < choices.length; i++) {
+            var option = document.createElement("option");
+            option.value = choices[i].id;
+            option.text = choices[i].firstAndLastName + "  (" + choices[i].department + ")";
+            selectList.appendChild(option);
+        }
+        selectList.classList.add('form-control');
+        selectList.id = listName + rowIndex + '.' + 'employee';
+        selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'employee');
+        col.appendChild(selectList);
+        row.appendChild(col);
+
+
+        let col2 = document.createElement('td');
+        col2.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");   // Create a <button> element
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        col2.appendChild(btn);
+        row.appendChild(col2);
+
+
+        document.getElementById(elementName).appendChild(row);
+    };
+
+
+    // var counter1 = 0;
+    // var counter2 = 0;
+    //
+    // $("#addrow").on("click", function () {
+    //     var newRow = $("<tr>");
+    //     var cols = "";
+    //     cols += '<td> ' + (counter1 + 2) + '</td>'
+    //     cols += '<td><input type="text" class="form-control" name="trybpostepowania' + counter1 + '"/></td>';
+    //     cols += '<td><input type="date" class="form-control" name="terminrealizacji' + counter1 + '"/></td>';
+    //     cols += '<td><input type="text" class="form-control" name="osobaodpowiedzialna' + counter1 + '"/></td>';
+    //
+    //     cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Usuń"></td>';
+    //     newRow.append(cols);
+    //     $("#myTable.order-list").append(newRow);
+    //     counter1++;
+    // });
+    //
+    //
+    // $("#myTable.order-list").on("click", ".ibtnDel", function (event) {
+    //     $(this).closest("tr").remove();
+    //     counter1 -= 1
+    // });
+    //
+    //
+    // $("#addrow2").on("click", function () {
+    //     var newRow = $("<tr>");
+    //     var cols = "";
+    //     cols += '<td><input type="text" class="form-control" name="imieinazwisko' + counter2 + '"/></td>';
+    //     cols += '<td><input type="text" class="form-control" name="symboldzialu' + counter2 + '"/></td>';
+    //
+    //     cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Usuń"></td>';
+    //     newRow.append(cols);
+    //     $("#myTable2.order-list").append(newRow);
+    //     counter2++;
+    // });
+    //
+    //
+    // $("#myTable2.order-list").on("click", ".ibtnDel", function (event) {
+    //     $(this).closest("tr").remove();
+    //     counter2 -= 1
+    // });
+    //
+
+    //let's create arrays
+    var dostawa1 = [
+        {display: "cechy wizualne", value: "cechy wizualne"},
+        {display: "cechy mierzalne", value: "cechy mierzalne"}];
+
+    var dostawa2 = [
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"}];
+
+    var papier1 = [
+        {display: "kolorystyka VIS", value: "kolorystyka VIS"},
+        {display: "widok w  UV", value: "widok w  UV"},
+        {display: "znak wodny", value: "znak wodny"},
+        {display: "nitka zabezpieczająca", value: "nitka zabezpieczająca"},
+        {display: "włókna zabezpieczające", value: "włókna zabezpieczające"},
+        {display: "przezrocze", value: "przezrocze"},
+        {display: "wygląd/odwzorowanie", value: "wygląd/odwzorowanie"},
+        {display: "parametry", value: "parametry"},
+        {display: "format", value: "format"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"},
+        {
+            display: "aplikacja (hologram/kinegram/druk irydescentny",
+            value: "aplikacja (hologram/kinegram/druk irydescentny"
+        },
+        {display: "połączenie warstw klejem", value: "połączenie warstw klejem"},
+        {display: "zabezpieczenia III stopnia", value: "zabezpieczenia III stopnia"},
+        {display: "drukowność/zadrukowywalność", value: "drukowność/zadrukowywalność"}];
+
+    var papier2 = [
+        {display: "brak elementu/zabezpieczenia", value: "brak elementu/zabezpieczenia"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "dziury", value: "dziury"},
+        {display: "zgęstki", value: "zgęstki"},
+        {display: "cętki", value: "cętki"},
+        {display: "nierównomierne przezrocze", value: "nierównomierne przezrocze"},
+        {display: "plamy", value: "plamy"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"},
+        {display: "format poza tolerancją", value: "format poza tolerancją"}];
+
+    var offset1 = [
+        {display: "kolorystyka VIS", value: "kolorystyka VIS"},
+        {display: "kolorystyka UV", value: "kolorystyka UV"},
+        {display: "widok w IR", value: "widok w IR"},
+        {display: "irysy", value: "irysy"},
+        {display: "grafika", value: "grafika"},
+        {display: "teksty", value: "teksty"},
+        {display: "mikroteksty", value: "mikroteksty"},
+        {display: "wygląd/odwzorowanie", value: "wygląd/odwzorowanie"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"},
+        {display: "efekt termochromowy", value: "efekt termochromowy"},
+        {display: "zabezpieczenia III stopnia", value: "zabezpieczenia III stopnia"}];
+
+    var offset2 = [
+        {display: "brak elementu/zabezpieczenia", value: "brak elementu/zabezpieczenia"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "nieprawidłowe rozstawienie irysów", value: "nieprawidłowe rozstawienie irysów"},
+        {display: "ubytki", value: "ubytki"},
+        {display: "zabrudzenia z farby", value: "zabrudzenia z farby"},
+        {display: "zaburzona czyteność mikrotektów", value: "zaburzona czyteność mikrotektów"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"},
+        {display: "odciągnięcia", value: "odciągnięcia"}
+    ];
+
+    var sitodruk1 = [
+        {display: "kolorystyka VIS", value: "kolorystyka VIS"},
+        {display: "zmienność optyczna", value: "zmienność optyczna"},
+        {display: "Spark", value: "Spark"},
+        {display: "Irydescencja", value: "Irydescencja"},
+        {display: "grafika", value: "grafika"},
+        {display: "wygląd/odwzorowanie", value: "wygląd/odwzorowanie"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"},
+        {display: "zabezpieczenia III stopnia", value: "zabezpieczenia III stopnia"}];
+
+    var sitodruk2 = [
+        {display: "brak elementu/zabezpieczenia", value: "brak elementu/zabezpieczenia"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "ubytki", value: "ubytki"},
+        {display: "zabrudzenia z farby", value: "zabrudzenia z farby"},
+        {display: "pozycjonowanie poza tolerancją ", value: "pozycjonowanie poza tolerancją"},
+        {display: "odciągnięcia", value: "odciągnięcia"}
+    ];
+
+    var staloryt1 = [
+        {display: "kolorystyka VIS", value: "kolorystyka VIS"},
+        {display: "kolorystyka UV", value: "kolorystyka UV"},
+        {display: "widok w IR", value: "widok w IR"},
+        {display: "metameria IR", value: "metameria IR"},
+        {display: "OVI", value: "OVI"},
+        {display: "grafika", value: "grafika"},
+        {display: "teksty", value: "teksty"},
+        {display: "mikroteksty", value: "mikroteksty"},
+        {display: "wygląd/odwzorowanie", value: "wygląd/odwzorowanie"},
+        {display: "kontrast (lab)", value: "kontrast (lab)"},
+        {display: "magnetyzm", value: "magnetyzm"},
+        {display: "efekt kątowy", value: "efekt kątowy"},
+        {display: "DR mark", value: "DR mark"},
+        {display: "wysokość druku", value: "wysokość druku"}];
+
+    var staloryt2 = [
+        {display: "brak elementu", value: "brak elementu"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "ubytki", value: "ubytki"},
+        {display: "zabrudzenia z farby", value: "zabrudzenia z farby"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"},
+        {display: "odciągnięcia", value: "odciągnięcia"}
+    ];
+
+    var typografia1 = [
+        {display: "kolorystyka VIS", value: "kolorystyka VIS"},
+        {display: "kolorystyka UV", value: "kolorystyka UV"},
+        {display: "wygląd/odwzorowanie", value: "wygląd/odwzorowanie"},
+        {display: "algorytm numeracji", value: "algorytm numeracji"},
+        {display: "magnetyzm", value: "magnetyzm"},
+        {display: "fluoresciencja", value: "fluoresciencja"},
+        {display: "Zgodność numeracji", value: "Zgodność numeracji"}];
+
+    var typografia2 = [
+        {display: "brak elementu", value: "brak elementu"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "ubytki", value: "ubytki"},
+        {display: "zabrudzenia z farby", value: "zabrudzenia z farby"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"},
+        {display: "odciągnięcia", value: "odciągnięcia"}
+    ]
+
+    var injet1 = [
+        {display: "kolorystyka VIS", value: "kolorystyka VIS"},
+        {display: "kolorystyka UV", value: "kolorystyka UV"},
+        {display: "widok w IR", value: "widok w IR"},
+        {display: "kod", value: "kod"},
+        {display: "zgodność kodu z numeracją", value: "zgodność kodu z numeracją"},
+        {display: "algorytm", value: "algorytm"},
+        {display: "wygląd/odwzorowanie", value: "wygląd/odwzorowanie"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"}];
+
+    var injet2 = [
+        {display: "brak elementu", value: "brak elementu"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "ubytki", value: "ubytki"},
+        {display: "zabrudzenia z farby", value: "zabrudzenia z farby"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"},
+        {display: "odciągnięcia", value: "odciągnięcia"}
+    ]
+
+    var lakierowanie1 = [
+        {display: "połysk", value: "połysk"},
+        {display: "gramatura", value: "gramatura"},
+        {display: "utrawalenie", value: "utrawalenie"},
+        {display: "wygląd/odwzorowanie", value: "wygląd/odwzorowanie"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"}];
+
+    var lakierowanie2 = [
+        {display: "brak elementu", value: "brak elementu"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"},
+    ]
+
+    var hot_stamping1 = [
+        {display: "wygląd/odwzorowanie", value: "wygląd/odwzorowanie"},
+        {display: "jakość krawędzi", value: "jakość krawędzi"},
+        {display: "przyczepność", value: "przyczepność"},
+        {display: "własciwości UV", value: "własciwości UV"},
+        {display: "widok IR", value: "widok IR"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"},
+        {display: "up-convertering", value: "up-convertering"}];
+
+    var hot_stamping2 = [
+        {display: "brak elementu/zabezpieczenia", value: "brak elementu/zabezpieczenia"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"}
+    ]
+
+    var krojenie1 = [
+        {display: "format", value: "format"},
+        {display: "ostrość krawędzi", value: "ostrość krawędzi"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"}];
+
+    var krojenie2 = [
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"}
+    ]
+
+    var zlamywanie1 = [
+        {display: "kolejność stron", value: "kolejność stron"},
+        {display: "prostokątność złamu", value: "prostokątność złamu"}];
+
+    var zlamywanie2 = [
+        {display: "nieprawidłowa kolejność stron", value: "nieprawidłowa kolejność stron"},
+        {display: "skosy w złamie", value: "skosy w złamie"}
+    ]
+
+    var szycie1 = [
+        {display: "kolorystyka VIS", value: "kolorystyka VIS"},
+        {display: "kolorystyka UV", value: "kolorystyka UV"},
+        {display: "up-convertering", value: "up-convertering"},
+        {display: "zgodność ściegu", value: "zgodność ściegu"},
+        {display: "ciągłość ściegu", value: "ciągłość ściegu"},
+        {display: "wygląd ścieg", value: "wygląd ścieg"}];
+
+    var szycie2 = [
+        {display: "brak elementu/zabezpieczenia", value: "brak elementu/zabezpieczenia"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"}
+    ]
+
+    var wykrawanie1 = [
+        {display: "format", value: "format"},
+        {display: "prostokątność", value: "prostokątność"},
+        {display: "ostrość krawędzi", value: "ostrość krawędzi"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"}];
+
+    var wykrawanie2 = [
+        {display: "brak elementu/zabezpieczenia", value: "brak elementu/zabezpieczenia"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"}
+    ]
+
+    var nacinanie1 = [
+        {display: "format", value: "format"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"},
+        {display: "wygląd", value: "wygląd"},
+        {display: "głębokość", value: "głębokość"},
+        {display: "funkcjonalność", value: "funkcjonalność"}];
+
+    var nacinanie2 = [
+        {display: "brak elementu/zabezpieczenia", value: "brak elementu/zabezpieczenia"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"}
+    ]
+
+    var laminowanie1 = [
+        {display: "powierzchnia laminatu", value: "powierzchnia laminatu"},
+        {display: "tłoczenia", value: "tłoczenia"},
+        {display: "MLI/CLI", value: "MLI/CLI"},
+        {display: "pozycjonowanie", value: "pozycjonowanie"}];
+
+    var laminowanie2 = [
+        {display: "brak elementu", value: "brak elementu"},
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "pozycjonowanie poza tolerancją", value: "pozycjonowanie poza tolerancją"}
+    ]
+
+
+    var chip_mikroprocesor1 = [
+        {display: "żywotność", value: "żywotność"},
+        {display: "odczyt danych", value: "odczyt danych"}];
+
+    var chip_mikroprocesor2 = [
+        {display: "Nie odpowiada ATR", value: "Nie odpowiada ATR"},
+        {display: "Nie odpowiada ATS", value: "Nie odpowiada ATS"},
+        {display: "brak odczytu danych", value: "brak odczytu danych"}
+    ]
+
+    var pakowanie1 = [
+        {display: "zgodność numeracji", value: "zgodność numeracji"},
+        {display: "zgodność ilościowa", value: "zgodność ilościowa"},
+        {display: "zgodność etykiety z zawartością", value: "zgodność etykiety z zawartością"}];
+
+    var pakowanie2 = [
+        {display: "błędna numeracja", value: "błędna numeracja"},
+        {display: "niezgodność ilościowa", value: "niezgodność ilościowa"},
+        {display: "etykieta niezgodna z zawartością", value: "etykieta niezgodna z zawartością"}
+    ]
+
+    var sortowanie_manualne1 = [
+        {display: "cechy wizualne", value: "cechy wizualne"},
+        {display: "cechy mierzalne", value: "cechy mierzalne"}];
+
+    var sortowanie_manualne2 = [
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"}
+    ]
+
+
+    var sortowanie_maszynowe1 = [
+        {display: "cechy wizualne", value: "cechy wizualne"},
+        {display: "cechy mierzalne", value: "cechy mierzalne"}];
+
+    var sortowanie_maszynowe2 = [
+        {display: "niezgodność z wzorcem", value: "niezgodność z wzorcem"},
+        {display: "niezgodność z ST", value: "niezgodność z ST"}
+    ]
+
+
+    var wymiana_dobitek1 = [
+        {display: "zgodność numeracji", value: "zgodność numeracji"}];
+
+    var wymiana_dobitek2 = [
+        {display: "błędna numeracja", value: "błędna numeracja"}];
+
+    var parent = $("#parent_selection").val(); //get option value from parent
+    var niezgodnosci = [[${niezgodnoscList}]];
+
+    niezgodnosci.forEach((niezgodnosc) => {
+        var bol = niezgodnosc.niezgodnoscNaz.localeCompare(parent);
+        if (!bol) {
+            list(niezgodnosc.cechaList, niezgodnosc.opisList)
+        }
+    });
+
+    $("#parent_selection").change(function () {
+        var parent = $(this).val(); //get option value from parent
+
+        var niezgodnosci = [[${niezgodnoscList}]];
+
+        niezgodnosci.forEach((niezgodnosc) => {
+
+            // console.log(niezgodnosc.niezgodnoscNaz);
+            // console.log(parent + "                   odczyt");
+
+            var bol = niezgodnosc.niezgodnoscNaz.localeCompare(parent);
+            // console.log(bol);
+
+            if (!bol) {
+                list(niezgodnosc.cechaList, niezgodnosc.opisList)
+
+            }
+
+        });
+
+    });
+
+    function list(array_list1, array_list2) {
+        $("#child_selection1").html("");
+        $(array_list1).each(function (i) {
+            $("#child_selection1").append("<option value=\"" + array_list1[i].cechaNaz + "\">" + array_list1[i].cechaNaz + "</option>");
+        });
+
+        $("#child_selection2").html("");
+        $(array_list2).each(function (i) {
+            $("#child_selection2").append("<option value=\"" + array_list2[i].opis + "\">" + array_list2[i].opis + "</option>");
+        });
+    }
+
+    function select_(elId, selectValues) {
+        if (selectValues !== null) {
+            var x = document.getElementById(elId)
+            for (var option of x.getElementsByTagName("option")) {
+                const value = option.value;
+                if (selectValues.indexOf(value) !== -1) {
+                    option.setAttribute('selected', 'selected');
+                } else {
+                    option.removeAttribute('selected');
+                }
+            }
+        }
+    }
+
+    select_('child_selection1', [[${kwnForm.cecha}]])
+    select_('child_selection2', [[${kwnForm.opisNiezgodnosci}]])
+    select_('child_selection3', [[${kwnForm.decyzjaZKWN}]])
+    select_('child_selection4', [[${kwnForm.rodzajPrzyczyny}]])
+
+
+</script>
+
+
+</body>
+</html>

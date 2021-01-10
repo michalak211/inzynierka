@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+
+    <title>Archiwum KWN</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+    <form class="form-horizontal row-border" action="#" th:action="@{/archiwum/kwn}"
+          th:object="${filterSetKWN}" method="post">
+
+        <h1> Archiwum KWN
+        </h1>
+        <!--        Od tego miejsca -->
+        <div class="panel-body" id="filter" style="display: none;">
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="row">
+
+                        <label class="col-md-2 control-label">Nazwa wyrobu</label>
+
+                        <div class="col-md-2">
+                            <input th:field="*{nazwaWyrobu}" type="text" class="form-control"
+                                   placeholder="">
+                        </div>
+                        <label class="col-md-2 control-label">Obszar</label>
+
+                        <div class="col-md-2">
+                            <select th:field="*{obszar}" class="form-control">
+                                <option value=""> --</option>
+                                <option value="PZD">PZD</option>
+                                <option value="PZB">PZB</option>
+                                <option value="PZP">PZP</option>
+                                <option value="PV">PV</option>
+                            </select>
+                        </div>
+
+                        <label class="col-md-2 control-label">Zglaszajacy niezgodnosc</label>
+
+                        <div class="col-md-2"><input th:field="*{zglaszajacyNiezgodnosc}" type="text"
+                                                     class="form-control"
+                                                     placeholder=""></div>
+                    </div>
+
+                    <div class="row">
+
+                        <label class="col-md-2 control-label">Numer zlecenia</label>
+
+                        <div class="col-md-2">
+                            <input th:field="*{nrZlecenia}" type="text" class="form-control"
+                                   placeholder="">
+                        </div>
+                        <label class="col-md-2 control-label">Etap wykrycia</label>
+
+                        <div class="col-md-2">
+                            <select th:field="*{wykryteNaEtapie}" class="form-control">
+                                <option value=""> --</option>
+                                <option value="kontrola wejściowa">kontrola wejściowa</option>
+                                <option value="kontrola międzyoperacyjna">kontrola
+                                    międzyoperacyjna
+                                </option>
+                                <option value="kontrola końcowa">kontrola końcowa</option>
+                                <option value="etap procesu produkcji">etap procesu produkcji
+                                </option>
+                            </select>
+                        </div>
+
+                        <label class="col-md-2 control-label">Decyzja Zespołu ds. KWN</label>
+
+                        <div class="col-md-2">
+                            <select th:field="*{decyzjaZKWN}" class="form-control"
+                                    multiple="multiple">
+                                <option value=""> --</option>
+                                <option value="dopuścić">dopuścić</option>
+                                <option value="odrzucić">odrzucić</option>
+                                <option value="naprawić">naprawić</option>
+                                <option value="reklamować u dostawcy/podwykonawcy">reklamować u
+                                    dostawcy/podwykonawcy
+                                </option>
+                                <option value="naprawić">naprawić</option>
+                                <option value="inne ">inne</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+
+                        <label class="col-md-2 control-label">Opis niezgodności</label>
+
+                        <div class="col-md-5"><input th:field="*{opisNiezgodnosci}" type="text" class="form-control"
+                                                     placeholder="" id="opisniezgodnosci"></div>
+
+
+                    </div>
+                    <br>
+
+                    <div class="row">
+
+                        <label class="col-md-2 control-label">Data zgloszenia od </label>
+
+                        <div class="col-md-2">
+                            <input th:field="*{dataZgloszeniaPo}" type="date" class="form-control"
+                                   placeholder="">
+                        </div>
+
+                        <label class="col-md-1 control-label">do</label>
+
+                        <div class="col-md-2">
+                            <input th:field="*{dataZgloszeniaPrzed}" type="date" class="form-control"
+                                   placeholder="">
+                        </div>
+
+
+                    </div>
+                    <br>
+                    <div class="row">
+
+                        <label class="col-md-2 control-label">Data spotkania od</label>
+
+                        <div class="col-md-2">
+                            <input th:field="*{dataSpotkaniaPo}" type="date" class="form-control"
+                                   placeholder="">
+                        </div>
+
+                        <label class="col-md-1 control-label">do</label>
+
+                        <div class="col-md-2">
+                            <input th:field="*{dataSpotkaniaPrzed}" type="date" class="form-control"
+                                   placeholder="">
+                        </div>
+
+
+                        <!--                        <div class="row">-->
+
+                        <!--                            <label class="col-md-2 control-label">Aktywne KWN</label>-->
+
+                        <!--                            <div class="col-md-2">-->
+                        <!--                                <input th:field="*{aktywne}" type="checkbox" checked="checked" >-->
+                        <!--                            </div>-->
+                        <!--                            <label class="col-md-2 control-label">Zakończone KWN</label>-->
+
+                        <!--                            <div class="col-md-2">-->
+                        <!--                                <input th:field="*{zakonczone}" type="checkbox" checked="checked" autocomplete="on">-->
+                        <!--                            </div>-->
+
+
+                        <!--                        </div>-->
+                        <br>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <button onkeydown="return event.key == 'Enter';" type="submit" class="btn btn-primary" name="filtr">
+                Filtruj
+            </button>
+
+            <!--        <div id="myDIV">-->
+            <!--            This is my DIV element.-->
+            <!--        </div>-->
+        </div>
+        <!--            <a th:href="@{/archiwum/kwn/downAll}" class="btn btn-default">Pobierz podsumowanie </a>-->
+        <button onkeydown="return event.key != 'Enter';" type="submit" class="btn btn-primary" name="down"
+                style="margin-bottom: 15px">Pobierz podsumowanie
+        </button>
+
+
+    </form>
+    <!--    </div>-->
+    <button class="btn btn-success" onclick="showFilters()" id="btnf">Pokaż filtry</button>
+
+
+    <table class="table table-hover table-dark">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nr KWN</th>
+            <th scope="col">Nazwa wyrobu</th>
+            <th scope="col">Niezgodność dotyczy</th>
+            <th scope="col">Opis niezgodności</th>
+            <th scope="col">Data zgłoszenia</th>
+            <th scope="col"></th>
+            <th scope="col">Podgląd/Pobierz</th>
+            <th th:each="component : ${#authentication.getAuthorities()}"
+                th:if="${component.getAuthority().equals('SG-RTAdmin')}">Admin
+            </th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="itemPC" th:each="accKwn, status : ${KWNList}">
+            <th scope="row" th:text="__${status.index}__+1"></th>
+            <td th:text="*{KWNList[__${status.index}__].nrKwn}"></td>
+            <td th:text="*{KWNList[__${status.index}__].nazwaWyrobu}"></td>
+            <td th:text="*{KWNList[__${status.index}__].niezgodnoscDotyczy}"></td>
+            <td th:text="*{KWNList[__${status.index}__].opisNiezgodnosci}"></td>
+            <td th:text="${#dates.format(KWNList[__${status.index}__].dataZgloszenia, 'dd-MM-yyyy')}"></td>
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td>
+                <div sec:authorize="isAuthenticated()">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Opcje
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/archiwum/kwn/} + ${KWNList[__${status.index}__].id}">Podgląd</a></li>
+                            <li><a th:href="@{/archiwum/kwn/files/} + ${KWNList[__${status.index}__].id}">Pliki
+                                dodatkowe</a></li>
+                            <li><a th:if="*{KWNList[__${status.index}__].plik != null}"
+                                   th:href="@{/archiwum/kwn/download/} + ${KWNList[__${status.index}__].id}">Pobierz
+                                pdf</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div th:each="component : ${#authentication.getAuthorities()}"
+                     th:if="${component.getAuthority().equals('SG-RTAdmin')} ">
+
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Opcje
+                            Admin
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{'/kwn/' + ${KWNList[__${status.index}__].id} + '/meeting'}">Nowe
+                                spotkanie</a></li>
+                            <!--                                <li><a th:href="@{/kwn/} + ${KWNList[__${status.index}__].id} + /meeting">Nowe-->
+                            <!--                                    spotkanie</a></li>-->
+                            <li><a th:href="@{'/kwn/' +  ${KWNList[__${status.index}__].id} + '/download'}">Wygeneruj
+                                Excel</a></li>
+                            <li><a th:href="@{/kwn/upload/} + ${KWNList[__${status.index}__].id}">Wgraj pdf</a></li>
+                            <li><a th:href="@{/task/kwn/editkwntasks/} + ${KWNList[__${status.index}__].id}">Lista
+                                zadań</a>
+                            </li>
+                            <li><a th:href="@{/kwn/edit/} + ${KWNList[__${status.index}__].id}">Edytuj</a></li>
+                            <li><a th:if="*{accKwn.getModerator().getEmployee().getUserName()}==${accEmployee}
+                            and*{accKwn.getStatus().equals(T(pl.pwpw.demo.ogolne.Entity.Status).AKTYWNY)}"
+                                   th:href="@{/archiwum/kwn/accept/} + ${KWNList[__${status.index}__].id}">Akceptuj
+                                KWN</a></li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <!--    https://getbootstrap.com/docs/4.1/components/dropdowns/    -->
+</div>
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+<script>
+
+    function showFilters() {
+        var x = document.getElementById("filter");
+        var btnf = document.getElementById("btnf");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            btnf.innerText = "Ukryj filtry";
+            btnf.className = "btn btn-warning";
+        } else {
+            x.style.display = "none";
+            btnf.innerText = "Pokaż filtry";
+            btnf.className = "btn btn-success";
+
+        }
+    }
+
+
+    // var array_list2 = [[${opisNiezgodnoscis}]];
+    // $("#opisniezgodnosci").html("");
+    // $(array_list2).each(function (i) {
+    //     $("#opisniezgodnosci").append("<option value=\"" + array_list2[i].opis +
+    //         "\">" + array_list2[i].opis + "</option>");
+    // });
+</script>
+
+</body>
+</html>
