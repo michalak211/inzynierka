@@ -12,7 +12,8 @@ public class KoktailController {
 
     @GetMapping("/add")
     public String addKoktajl(Model model){
-        return "test";
+        System.out.println("weszlo");
+        return "/tytulowa";
     }
 
     @GetMapping("/edit/{id}")
