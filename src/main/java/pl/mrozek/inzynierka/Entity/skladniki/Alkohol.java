@@ -30,7 +30,8 @@ public class Alkohol extends Skladnik {
 //    private  Typ typ;
 
 
-    private List<String> typList;
+    @OneToMany (cascade = CascadeType.ALL)
+    private List<Typ> typList;
 
 
 //    @Nullable

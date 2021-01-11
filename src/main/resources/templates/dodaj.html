@@ -9,46 +9,59 @@
 <div th:replace="fragments/header :: header"></div>
 
 
-<div class=="container">
+<div class="container">
+    <div class="starter-template">
 
-    <div class="col-md-12 col-sm-6 col-xs-12">
-        <div class="panel panel-default">
-            <div class="panel-heading clearfix">
-                <div class="col-md-12">
-                    <div class="row">
-                        <label class="col-md-9 control-label">Dodaj nowy koktajl</label>
-                    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <h3>Dodawanie koktajli</h3>
                 </div>
-
-            </div>
-            <div class="panel-body">
-                <form class="form-horizontal row-border" action="#"
-                      th:object="${KoktajlForm}" method="post">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </form>
-
-
-
-
-
             </div>
 
+
+            <div class="col-md-12 col-sm-6 col-xs-12">
+<!--                <div class="panel panel-default">-->
+<!--                    <div class="panel-heading clearfix">-->
+<!--                        <div class="col-md-12">-->
+<!--                            <div class="row">-->
+<!--                                <label class="col-md-9 control-label">Dodaj nowy koktajl</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+                    <!--            <div class="panel-body">-->
+                    <!--                <form class="form-horizontal row-border" action="#"-->
+                    <!--                      th:object="${KoktajlForm}" method="post">-->
+
+
+                    <!--                    <div class="form-group">-->
+                    <!--                        <div class="col-md-12">-->
+                    <!--                            <div class="row">-->
+                    <!--                                <label class="col-md-2 control-label">Skladniki:</label>-->
+                    <!--                                <div class="col-md-4">-->
+                    <!--                                    <select th:field="*{skladnikNazwa}" class="form-control"-->
+                    <!--                                            name="parent_selection" id="parent_selection" required>-->
+                    <!--                                        <option value="">--</option>-->
+                    <!--                                        <option th:each="Alkohol : ${skladnikList}"-->
+                    <!--                                                th:value="${Alkohol.nazwa}"-->
+                    <!--                                                th:text="${Alkohol.nazwa}"></option>-->
+                    <!--                                        th:value="${Niezgodnosc.niezgodnoscNaz}"-->
+                    <!--                                        th:text="${Niezgodnosc.niezgodnoscNaz}" ></option>-->
+                    <!--                                    </select>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
+
+                    <!--                </form>-->
+
+
+                    <!--            </div>-->
+<!--                </div>-->
+
+            </div>
         </div>
     </div>
 
@@ -57,5 +70,11 @@
 
 
 <div th:replace="fragments/footer :: footer"></div>
+
+<script th:inline="javascript">
+
+
+</script>
+
 </body>
 </html>

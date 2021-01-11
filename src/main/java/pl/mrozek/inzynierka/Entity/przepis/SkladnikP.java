@@ -18,9 +18,11 @@ public class SkladnikP {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    private Skladnik skladnik;
+//    @OneToOne
+//    private Skladnik skladnik;
     private double iloscML;
+    private String nazwa;
+    private String typ;
     @Nullable
     private String opisDodatkowy;
 
