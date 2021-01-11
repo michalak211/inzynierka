@@ -5,6 +5,7 @@ import com.sun.istack.Nullable;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,18 +21,20 @@ public class Alkohol extends Skladnik {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String nazwa;
-    private int procenty;
-    private String marka;
+//    private String nazwa;
+//    private int procenty;
+//    private String marka;
 
-    @Nullable
-    @OneToOne (cascade = CascadeType.ALL)
-    private Typ typ;
+//    @Nullable
+//    @OneToOne (cascade = CascadeType.ALL)
+//    private  Typ typ;
 
-    @Nullable
-    private String podTyp;
-    @Nullable
-    private String opis;
+
+    private List<String> typList;
+
+
+//    @Nullable
+//    private String podTyp;
 
 
 
