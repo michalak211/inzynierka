@@ -16,16 +16,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("koktajl")
+
 public class KoktailController {
 
-    @Autowired
+
+    final
     SkladnikRepo skladnikRepo;
-    @Autowired
+    final
     AlkoholRepo alkoholRepo;
-
-
-    @Autowired
+    final
     TypRepo typRepo;
+
+    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo) {
+        this.skladnikRepo = skladnikRepo;
+        this.alkoholRepo = alkoholRepo;
+        this.typRepo = typRepo;
+    }
+
     @GetMapping("/add")
     public String addKoktajl(Model model){
 
@@ -34,7 +41,7 @@ public class KoktailController {
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("koktajlForm",new KoktajlForm());
 
-        return "/tytulowa";
+        return "/dodaj";
     }
 
     @GetMapping("/edit/{id}")

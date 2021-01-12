@@ -10,11 +10,6 @@ import pl.mrozek.inzynierka.Service.KoktailService;
 public class InzynierkaApplication {
 
 
-    @RequestMapping("/")
-    String home() {
-        return "Hello World!";
-    }
-
 
     public static void main(String[] args) {
         SpringApplication.run(InzynierkaApplication.class, args);

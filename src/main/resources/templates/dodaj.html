@@ -21,45 +21,45 @@
 
 
             <div class="col-md-12 col-sm-6 col-xs-12">
-<!--                <div class="panel panel-default">-->
-<!--                    <div class="panel-heading clearfix">-->
-<!--                        <div class="col-md-12">-->
-<!--                            <div class="row">-->
-<!--                                <label class="col-md-9 control-label">Dodaj nowy koktajl</label>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <label class="col-md-9 control-label">Dodaj nowy koktajl</label>
+                            </div>
+                        </div>
 
-<!--                    </div>-->
-                    <!--            <div class="panel-body">-->
-                    <!--                <form class="form-horizontal row-border" action="#"-->
-                    <!--                      th:object="${KoktajlForm}" method="post">-->
-
-
-                    <!--                    <div class="form-group">-->
-                    <!--                        <div class="col-md-12">-->
-                    <!--                            <div class="row">-->
-                    <!--                                <label class="col-md-2 control-label">Skladniki:</label>-->
-                    <!--                                <div class="col-md-4">-->
-                    <!--                                    <select th:field="*{skladnikNazwa}" class="form-control"-->
-                    <!--                                            name="parent_selection" id="parent_selection" required>-->
-                    <!--                                        <option value="">--</option>-->
-                    <!--                                        <option th:each="Alkohol : ${skladnikList}"-->
-                    <!--                                                th:value="${Alkohol.nazwa}"-->
-                    <!--                                                th:text="${Alkohol.nazwa}"></option>-->
-                    <!--                                        th:value="${Niezgodnosc.niezgodnoscNaz}"-->
-                    <!--                                        th:text="${Niezgodnosc.niezgodnoscNaz}" ></option>-->
-                    <!--                                    </select>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
+                    </div>
+                                <div class="panel-body">
+                                    <form class="form-horizontal row-border" action="#"
+                                          th:object="${koktajlForm}" method="post">
 
 
-                    <!--                </form>-->
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <label class="col-md-2 control-label">Skladniki:</label>
+                                                    <div class="col-md-4">
+                                                        <label>
+                                                            <select th:field="*{nazwa}" class="form-control"
+                                                                    >
+                                                                <option value="">--</option>
+                                                                <option th:each="Alkohol : ${skladnikList}"
+                                                                        th:value="${Alkohol.nazwa}"
+                                                                        th:text="${Alkohol.nazwa}"></option>
+                                                            </select>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
 
-                    <!--            </div>-->
-<!--                </div>-->
+                                    </form>
+
+
+                                </div>
+                </div>
 
             </div>
         </div>
@@ -73,6 +73,38 @@
 
 <script th:inline="javascript">
 
+
+    var parent = $("#parent_selection").val(); //get option value from parent
+    var skladniki = [[${skladnikList}]];
+
+    skladniki.forEach((skladnik) => {
+        var bol = skladniki.nazwa.localeCompare(parent);
+        if (!bol) {
+            list(skladnik.typList)
+        }
+    });
+
+    $("#parent_selection").change(function () {
+        var parent = $(this).val(); //get option value from parent
+
+        var skladniki = [[${skladnikList}]];
+
+        skladniki.forEach((skladnik) => {
+
+            // console.log(niezgodnosc.niezgodnoscNaz);
+            // console.log(parent + "                   odczyt");
+
+            var bol = skladnik.nazwa.localeCompare(parent);
+            // console.log(bol);
+
+            if (!bol) {
+                list(skladnik.typList)
+
+            }
+
+        });
+
+    });
 
 </script>
 

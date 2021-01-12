@@ -28,6 +28,6 @@ public class MainController {
     public String przegladanie(Model model){
 
         model.addAttribute("koktailList",koktailService.getAllUserKoktajls());
-        return "/lista";
+        return "/dodaj";
     }
 }
