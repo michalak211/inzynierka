@@ -54,6 +54,24 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <label class="col-md-2 control-label">typ</label>
+                                                    <div class="col-md-4">
+                                                        <select th:field="*{skladnikTyp}" name="child_selection1"
+                                                                id="child_selection1" class="form-control" multiple="multiple"
+                                                                required>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+
+
 
                                     </form>
 
@@ -105,6 +123,31 @@
         });
 
     });
+
+    function list(array_list1) {
+        $("#child_selection1").html("");
+        $(array_list1).each(function (i) {
+            $("#child_selection1").append("<option value=\"" + array_list1[i].typList + "\">" + array_list1[i].typList + "</option>");
+        });
+    }
+
+    function select_(elId, selectValues) {
+        if (selectValues !== null) {
+            var x = document.getElementById(elId)
+            for (var option of x.getElementsByTagName("option")) {
+                const value = option.value;
+                if (selectValues.indexOf(value) !== -1) {
+                    option.setAttribute('selected', 'selected');
+                } else {
+                    option.removeAttribute('selected');
+                }
+            }
+        }
+    }
+
+
+    select_('child_selection1', [[${koktajlForm.skladnikTyp}]])
+
 
 </script>
 
