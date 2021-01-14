@@ -9,10 +9,10 @@
 <div th:replace="fragments/header :: header"></div>
 
 
-<div class="container">
+<div class="container-fluid">
     <div class="starter-template">
 
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h3>Dodawanie koktajli</h3>
@@ -39,6 +39,10 @@
                                             <div class="col-md-12">
                                                 <div class="row">
                                                     <label class="col-md-1 control-label">Skladniki:</label>
+                                                    <label class="col-md-2 control-label">Typ:</label>
+
+                                                </div>
+                                                <div class="row">
                                                     <div class="col-md-2">
                                                         <label>
                                                             <select th:field="*{nazwa}" class="form-control"
@@ -51,11 +55,10 @@
                                                         </label>
 
                                                     </div>
-                                                    <label class="col-md-1 control-label">Typ:</label>
                                                     <div class="col-md-2">
                                                         <label>
                                                             <select th:field="*{skladnikTyp}" name="child_selection1"
-                                                                    id="child_selection1" class="form-control" multiple="multiple">
+                                                                    id="child_selection1" class="form-control">
                                                             </select>
                                                         </label>
 
