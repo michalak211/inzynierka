@@ -47,12 +47,18 @@ public class Koktail {
     @Nullable
     private String opisPrzyzadzenia;
 
+    @Nullable
+    private String zdobienie;
+
+
     @Lob
     private byte[] zdjecie;
 
     @OneToOne
     private User creator;
 
+    @Nullable
+    private int cena;
 
 
 }

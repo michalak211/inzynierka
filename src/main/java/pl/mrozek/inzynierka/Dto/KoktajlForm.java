@@ -16,7 +16,12 @@ import java.util.List;
 public class KoktajlForm {
 
     private String nazwa;
-    private String skladnikNazwa;
-    private String skladnikTyp;
-private List<SkladnikP> listaSkladnikow;
+    private String klasa;
+    private String szklo;
+//    private String skladnikTyp;
+    private String vegan;
+    private String opisPrzyrzadzenia;
+    private String zdobienie;
+
+    private List<SkladnikP> listaSkladnikow;
 }

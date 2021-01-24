@@ -13,65 +13,150 @@
     <div class="starter-template">
 
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <h3>Dodawanie koktajli</h3>
-                </div>
-            </div>
-
-
-            <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="container-fluid">
                 <div class="panel panel-default">
                     <div class="panel-heading clearfix">
-                        <div class="col-md-12">
+                        <div class="container-fluid">
                             <div class="row">
-                                <label class="col-md-9 control-label">Dodaj nowy koktajl</label>
+                                <label class="col-md-9 control-label"> </label>
                             </div>
                         </div>
 
                     </div>
-                                <div class="panel-body">
-                                    <form class="form-horizontal row-border" action="#"
-                                          th:object="${koktajlForm}" method="post">
+                    <div class="panel-body">
+                        <form class="form-horizontal row-border" action="#"
+                              th:object="${koktajlForm}" method="post">
 
 
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <label class="col-md-1 control-label">Skladniki:</label>
-                                                    <label class="col-md-2 control-label">Typ:</label>
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <div class="row">
 
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2">
-                                                        <label>
-                                                            <select th:field="*{nazwa}" class="form-control"
-                                                                    name="parent_selection" id="parent_selection" required>
-                                                                <option value="">--</option>
-                                                                <option th:each="Alkohol : ${skladnikList}"
-                                                                        th:value="${Alkohol.nazwa}"
-                                                                        th:text="${Alkohol.nazwa}"></option>
-                                                            </select>
-                                                        </label>
+                                        <div class="container-fluid">
+                                            <table class=" table order-list">
+                                                <thead>
+                                                <tr>
+                                                    <td style="text-align:center">Nazwa</td>
+                                                    <td style="text-align:center">Klasa</td>
+                                                    <td style="text-align:center">Podawane w:</td>
+                                                    <td style="text-align:center">Zdobienie:</td>
+                                                    <td style="text-align:center">Wegański:</td>
+                                                    <td></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="col-sm-2">
+                                                        <input th:field="*{nazwa}" type="text" class="form-control"
+                                                               placeholder="Nazwa" required>
+                                                    </td>
+                                                    <td class="col-sm-2">
+                                                        <input th:field="*{klasa}" type="text" class="form-control"
+                                                               placeholder="Klasa">
+                                                    </td>
+                                                    <td class="col-sm-2">
+                                                        <input th:field="*{szklo}" type="text" class="form-control"
+                                                               placeholder="Szklo">
+                                                    </td>
+                                                    <td class="col-sm-2">
+                                                        <input th:field="*{zdobienie}" type="text" class="form-control">
+                                                    </td>
+                                                    <td class="col-sm-2">
+                                                        <select th:field="*{vegan}" type="text" class="form-control">
+                                                            <option selected="selected" value="tak">tak</option>
+                                                            <option value="nie">nie</option>
+                                                        </select>
+                                                    </td>
 
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <label>
-                                                            <select th:field="*{skladnikTyp}" name="child_selection1"
-                                                                    id="child_selection1" class="form-control">
-                                                            </select>
-                                                        </label>
 
-                                                    </div>
+                                                </tr>
+                                                </tbody>
 
-                                                </div>
-                                            </div>
+
+                                            </table>
                                         </div>
-
-                                    </form>
-
+                                    </div>
 
                                 </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <!--                                        <label  style="text-align:center" class="col-md-2 control-label">Skladniki</label>-->
+                                        <div class="container-fluid">
+                                            <table id="SkladTable" class=" table order-list">
+                                                <thead>
+                                                <tr>
+                                                    <td style="text-align:center">Skladnik</td>
+                                                    <td style="text-align:center">Typ</td>
+                                                    <td style="text-align:center">Ilość</td>
+                                                    <td style="text-align:center">Opis dodatkowy</td>
+                                                    <td></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="status : ${koktajlForm.listaSkladnikow}">
+
+                                                    <td class="col-sm-4">
+                                                        <select th:field="*{listaSkladnikow[__${status.index}__].nazwa}"
+                                                                data-show-subtext="true" data-live-search="true"
+                                                                class="form-control">
+                                                            <th:block th:each="skladnik : ${skladnikList}">
+                                                                <option th:value="${skladnik.id}"
+                                                                        th:text="${skladnik.getNazwa()}"></option>
+                                                            </th:block>
+                                                        </select>
+                                                    </td>
+
+                                                    <td class="col-sm-4">
+                                                        <input th:field="*{listaSkladnikow[__${status.index}__].opisDodatkowy}"
+                                                               type="text" class="form-control"/>
+                                                    </td>
+                                                    <td class="col-sm-1">
+                                                        <input th:field="*{listaSkladnikow[__${status.index}__].typ}"
+                                                               type="date" class="form-control" placeholder="">
+                                                    </td>
+                                                    <td class="col-sm-1">
+                                                        <button class="removeRowBtn">
+                                                            Usuń
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="5" style="text-align: left;">
+                                                        <input type="button" class="btn btn-lg btn-block "
+                                                               onclick="addRow('listaSkladnikow', 'typ', 'SkladTable')"
+                                                               value="Dodaj kolejny składnik"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <label class="container-fluid">Opis przyrządzenia</label>
+                                    <textarea th:field="*{opisPrzyrzadzenia}" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary" name="zapisz">Zapisz</button>
+
+
+                        </form>
+
+
+                    </div>
                 </div>
 
             </div>
@@ -87,61 +172,125 @@
 <script th:inline="javascript">
 
 
-    var parent = $("#parent_selection").val(); //get option value from parent
-    var skladniki = [[${skladnikList}]];
+    // usuwanie rzedu
 
-    skladniki.forEach((skladnik) => {
-        var bol = skladnik.nazwa.localeCompare(parent);
-        if (!bol) {
-            list(skladnik.typList)
+    $('body').on('click', '.removeRowBtn', function () {
+        // to make sure at least one row remains
+        if ($('.removeRowBtn').length > 0) {
+            $(this).parents('tr').remove();
         }
     });
 
-    $("#parent_selection").change(function () {
-        var parent = $(this).val(); //get option value from parent
+    // DODAWANIE WIERSZY
 
-        var skladniki = [[${skladnikList}]];
+    var choices = [[${skladnikList}]];
 
-        skladniki.forEach((skladnik) => {
 
-            // console.log(niezgodnosc.niezgodnoscNaz);
-            // console.log(parent + "                   odczyt");
+    let addRow = function (listName, rowIndexSelector, elementName) {
+        let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
 
-            var bol = skladnik.nazwa.localeCompare(parent);
-            // console.log(bol);
 
-            if (!bol) {
-                list(skladnik.typList)
+        let col = document.createElement('td');
+        col.classList.add('col-sm-2');
+        let selectList = document.createElement('select');
+        var option = document.createElement("option");
+        option.value = "-----";
+        option.text = "-----";
+        selectList.appendChild(option);
 
-            }
+        for (var i = 0; i < choices.length; i++) {
+            var option = document.createElement("option");
+            option.value = choices[i].nazwa;
+            option.text = choices[i].nazwa;
+            selectList.appendChild(option);
+        }
 
-        });
+        selectList.classList.add('form-control');
+        selectList.id = listName + rowIndex + '.' + 'nazwa';
+        selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
 
-    });
 
-    function list(array_list1) {
-        $("#child_selection1").html("");
-        $(array_list1).each(function (i) {
-            $("#child_selection1").append("<option value=\"" + array_list1[i].nazwa + "\">" + array_list1[i].nazwa + "</option>");
-        });
-    }
+        col.appendChild(selectList);
+        row.appendChild(col);
 
-    function select_(elId, selectValues) {
-        if (selectValues !== null) {
-            var x = document.getElementById(elId)
-            for (var option of x.getElementsByTagName("option")) {
-                const value = option.value;
-                if (selectValues.indexOf(value) !== -1) {
-                    option.setAttribute('selected', 'selected');
-                } else {
-                    option.removeAttribute('selected');
+        let col2 = document.createElement('td');
+        col2.classList.add('col-sm-2');
+        let selectList2 = document.createElement('select');
+        selectList2.classList.add('form-control');
+        selectList2.id = listName + rowIndex + '.' + 'typ';
+        selectList2.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
+        col2.appendChild(selectList2);
+        row.appendChild(col2);
+
+        let col4 = document.createElement('td');
+        col4.classList.add('col-sm-2');
+        let input = document.createElement('input');
+        input.type = 'number';
+        input.step = "7.5";
+        input.value = "0";
+        input.classList.add('form-control');
+        input.id = listName + rowIndex + '.' + 'iloscML';
+        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
+        col4.appendChild(input);
+        row.appendChild(col4);
+
+        let col5 = document.createElement('td');
+        col5.classList.add('col-sm-2');
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.classList.add('form-control');
+        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
+        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
+        col5.appendChild(input2);
+        row.appendChild(col5);
+
+
+        let col3 = document.createElement('td');
+        col3.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");   // Create a <button> element
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        col3.appendChild(btn);
+        row.appendChild(col3);
+
+
+        selectList.addEventListener("change", function () {
+            alkoChanger(row, listName, rowIndex, selectList, selectList2)
+        }, true);
+
+        function alkoChanger(row, listName, rowIndex, selectList, selectList2) {
+
+            var typToDelete = listName + rowIndex + '.' + 'typ';
+            $(typToDelete).remove();
+
+            var parent = selectList.value; //get option value from parent
+            var skladniki = [[${skladnikList}]];
+            skladniki.forEach((skladnik) => {
+                var bol = skladnik.nazwa.localeCompare(parent);
+                if (!bol) {
+                    var typLista = skladnik.typList;
+                    var x = document.getElementById(selectList2.id);
+                    for (var i = 0; i < typLista.length; i++) {
+                        if (x.length > 0) {
+                            x.remove(x.length - 1);
+                        }
+                    }
+
+                    for (var i = 0; i < typLista.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = typLista[i].nazwa;
+                        option.text = typLista[i].nazwa;
+                        selectList2.appendChild(option);
+                    }
                 }
-            }
+            });
         }
-    }
 
 
-    select_('child_selection1', [[${koktajlForm.skladnikTyp}]])
+        document.getElementById(elementName).appendChild(row);
+    };
 
 
 </script>

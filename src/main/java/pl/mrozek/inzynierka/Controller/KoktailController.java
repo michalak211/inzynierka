@@ -33,16 +33,39 @@ public class KoktailController {
         this.typRepo = typRepo;
     }
 
+    @Transactional
     @GetMapping("/add")
     public String addKoktajl(Model model){
 
-        System.out.println(alkoholRepo.findAll());
-        System.out.println(skladnikRepo.findAll());
+//        System.out.println(alkoholRepo.findAll());
+//        System.out.println(skladnikRepo.findAll());
+
+        KoktajlForm koktajlForm=new KoktajlForm();
+        koktajlForm.setZdobienie("Dowolne");
+
         model.addAttribute("skladnikList", alkoholRepo.findAll());
-        model.addAttribute("koktajlForm",new KoktajlForm());
+        model.addAttribute("koktajlForm",koktajlForm);
 
         return "/dodaj";
     }
+
+    @Transactional
+    @PostMapping("/add")
+    public String addKoktajlSubmitt(@ ModelAttribute("koktajlForm") KoktajlForm koktajlForm,Model model){
+
+        System.out.println("odbieram koktajl form");
+        System.out.println(koktajlForm);
+        model.addAttribute("skladnikList", alkoholRepo.findAll());
+        model.addAttribute("koktajlForm",new KoktajlForm());
+
+        return  "/dodaj";
+    }
+
+
+
+
+
+
 
     @GetMapping("/edit/{id}")
     public String editKoktajl(@PathVariable Long id, Model model){
@@ -69,8 +92,6 @@ public class KoktailController {
         typ3.setNazwa("jasny");
         typRepo.save(typ3);
 
-        System.out.println(typRepo.findAll());
-
         List<Typ> typLista= new ArrayList<>();
         typLista.add(typ);
         typLista.add(typ1);
@@ -80,7 +101,7 @@ public class KoktailController {
         typLista1.add(typ3);
 
         Alkohol alkohol= new Alkohol();
-        alkohol.setNazwa("wyskey");
+        alkohol.setNazwa("whyskey");
 
         Alkohol alkohol1= new Alkohol();
         alkohol1.setNazwa("rum");
@@ -91,9 +112,9 @@ public class KoktailController {
         alkohol1.setTypList(typLista1);
         alkoholRepo.save(alkohol1);
 
-        System.out.println("dodano");
-        System.out.println(alkohol);
-        System.out.println(alkohol1);
+//        System.out.println("dodano");
+//        System.out.println(alkohol);
+//        System.out.println(alkohol1);
 
         return  "redirect:/koktajl/add";
 
