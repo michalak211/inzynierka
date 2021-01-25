@@ -88,10 +88,11 @@
                                             <table id="SkladTable" class=" table order-list">
                                                 <thead>
                                                 <tr>
-                                                    <td style="text-align:center">Skladnik</td>
-                                                    <td style="text-align:center">Typ</td>
+                                                    <td style="text-align:center">Rodzaj</td>
                                                     <td style="text-align:center">Ilość</td>
                                                     <td style="text-align:center">Opis dodatkowy</td>
+                                                    <td style="text-align:center">Nazwa</td>
+                                                    <td style="text-align:center">Typ</td>
                                                     <td></td>
                                                 </tr>
                                                 </thead>
@@ -128,7 +129,7 @@
                                                 <tr>
                                                     <td colspan="5" style="text-align: left;">
                                                         <input type="button" class="btn btn-lg btn-block "
-                                                               onclick="addRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                               onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
                                                                value="Dodaj kolejny składnik"/>
                                                     </td>
                                                 </tr>
@@ -185,10 +186,202 @@
     var choices = [[${skladnikList}]];
 
 
-    let addRow = function (listName, rowIndexSelector, elementName) {
+    let AddMainRow = function (listName, rowIndexSelector, elementName){
         let rowIndex = document.querySelectorAll(rowIndexSelector).length;
         let row = document.createElement('tr');
         row.classList.add(rowIndexSelector.substr(1));
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-2');
+        let selectList = document.createElement('select');
+
+        var option = document.createElement("option");
+        option.value = "-----";
+        option.text = "Wybierz typ";
+        selectList.appendChild(option);
+
+        var option1 = document.createElement("option");
+        option1.value = "alkohol";
+        option1.text = "Alkohol";
+        selectList.appendChild(option1);
+
+        var option2 = document.createElement("option");
+        option2.value = "sok";
+        option2.text = "Sok";
+        selectList.appendChild(option2);
+
+        var option3 = document.createElement("option");
+        option3.value = "syrop";
+        option3.text = "Syrop";
+        selectList.appendChild(option3);
+
+        var option4 = document.createElement("option");
+        option4.value = "inny";
+        option4.text = "Inny";
+        selectList.appendChild(option4);
+
+        selectList.classList.add('form-control');
+        selectList.id = listName + rowIndex + '.' + 'rodzaj';
+        selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'rodzaj');
+
+
+        col.appendChild(selectList);
+        row.appendChild(col);
+
+
+
+        let colusun = document.createElement('td');
+        colusun.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");   // Create a <button> element
+        btn.id=listName + rowIndex + '.' + 'remove';
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        colusun.appendChild(btn);
+        row.appendChild(colusun);
+
+        selectList.addEventListener("change", function () {
+            mainChanger(row, listName, rowIndex, selectList)
+        }, true);
+
+
+        function mainChanger(row, listName, rowIndex, selectList) {
+
+            var rodzaj = selectList.value;
+            console.log(row.cells);
+
+            console.log(row.lastChild);
+
+
+            // while (!row.lastChild)) {
+            //     console.log(row.lastChild);
+            // }
+            // https://stackoverflow.com/questions/3072233/getting-value-from-table-cell-in-javascript-not-jquery
+            for (var i = 0; i < row.cells-1; i++) {
+                console.log(row.lastChild);
+                row.removeChild(row.cells-1);
+                // selectList.appendChild(option);
+            }
+
+            switch (rodzaj) {
+                case 'alkohol':
+                    addAlkoRow(listName, rowIndex, elementName,row);
+                    break;
+
+                default:
+                    addSyropRow(listName, rowIndex, elementName,row);
+
+            }
+        }
+
+        document.getElementById(elementName).appendChild(row);
+    };
+
+    let addSyropRow= function(listName, rowIndex, elementName, row){
+
+        // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
+
+        let col4 = document.createElement('td');
+        col4.classList.add('col-sm-2');
+        let input = document.createElement('input');
+        input.type = 'number';
+        input.step = "0.5";
+        input.value = "0";
+        input.classList.add('form-control');
+        input.id = listName + rowIndex + '.' + 'iloscML';
+        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
+        col4.appendChild(input);
+        row.appendChild(col4);
+
+        let col5 = document.createElement('td');
+        col5.classList.add('col-sm-2');
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.classList.add('form-control');
+        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
+        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
+        input2.placeholder="Opis dodatkowy";
+        col5.appendChild(input2);
+        row.appendChild(col5);
+
+        let col3 = document.createElement('td');
+        col3.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        col3.appendChild(btn);
+        row.appendChild(col3);
+
+    }
+
+    let addSokRow= function(listName, rowIndex, elementName, row){
+
+        // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
+
+        let col4 = document.createElement('td');
+        col4.classList.add('col-sm-2');
+        let input = document.createElement('input');
+        input.type = 'number';
+        input.step = "0.5";
+        input.value = "0";
+        input.classList.add('form-control');
+        input.id = listName + rowIndex + '.' + 'iloscML';
+        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
+        col4.appendChild(input);
+        row.appendChild(col4);
+
+        let col5 = document.createElement('td');
+        col5.classList.add('col-sm-2');
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.classList.add('form-control');
+        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
+        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
+        input2.placeholder="Opis dodatkowy";
+        col5.appendChild(input2);
+        row.appendChild(col5);
+
+        let col3 = document.createElement('td');
+        col3.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");   // Create a <button> element
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        col3.appendChild(btn);
+        row.appendChild(col3);
+
+
+    };
+
+
+    let addAlkoRow = function (listName, rowIndex, elementName, row) {
+        // let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+        // let row = document.createElement('tr');
+        // row.classList.add(rowIndexSelector.substr(1));
+
+        // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
+
+
+        let col4 = document.createElement('td');
+        col4.classList.add('col-sm-2');
+        let input = document.createElement('input');
+        input.type = 'number';
+        input.step = "7.5";
+        input.value = "0";
+        input.classList.add('form-control');
+        input.id = listName + rowIndex + '.' + 'iloscML';
+        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
+        col4.appendChild(input);
+        row.appendChild(col4);
+
+        let col5 = document.createElement('td');
+        col5.classList.add('col-sm-2');
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.classList.add('form-control');
+        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
+        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
+        input2.placeholder="Opis dodatkowy";
+        col5.appendChild(input2);
+        row.appendChild(col5);
 
 
         let col = document.createElement('td');
@@ -223,28 +416,7 @@
         col2.appendChild(selectList2);
         row.appendChild(col2);
 
-        let col4 = document.createElement('td');
-        col4.classList.add('col-sm-2');
-        let input = document.createElement('input');
-        input.type = 'number';
-        input.step = "7.5";
-        input.value = "0";
-        input.classList.add('form-control');
-        input.id = listName + rowIndex + '.' + 'iloscML';
-        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
-        col4.appendChild(input);
-        row.appendChild(col4);
 
-        let col5 = document.createElement('td');
-        col5.classList.add('col-sm-2');
-        let input2 = document.createElement('input');
-        input2.type = 'text';
-        input2.classList.add('form-control');
-        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
-        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
-        input2.placeholder="Opis dodatkowy";
-        col5.appendChild(input2);
-        row.appendChild(col5);
 
 
         let col3 = document.createElement('td');
@@ -264,10 +436,8 @@
         function alkoChanger(row, listName, rowIndex, selectList, selectList2) {
 
 
-            var typToDelete = listName + rowIndex + '.' + 'typ';
-            document.getElementById(typToDelete).remove();
-            // $(typToDelete).remove();
-            // console.log(typToDelete+" usuwanie");
+            // var typToDelete = listName + rowIndex + '.' + 'typ';
+            // document.getElementById(typToDelete).remove();
 
             var parent = selectList.value; //get option value from parent
             var skladniki = [[${skladnikList}]];
@@ -295,7 +465,7 @@
         }
 
 
-        document.getElementById(elementName).appendChild(row);
+        // document.getElementById(elementName).appendChild(row);
     };
 
 

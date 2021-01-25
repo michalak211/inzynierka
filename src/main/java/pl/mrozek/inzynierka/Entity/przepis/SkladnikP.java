@@ -22,6 +22,7 @@ public class SkladnikP {
 //    private Skladnik skladnik;
     private double iloscML;
     private String nazwa;
+    private String rodzaj;
     private String typ;
     @Nullable
     private String opisDodatkowy;
