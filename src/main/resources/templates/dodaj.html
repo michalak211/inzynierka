@@ -11,14 +11,13 @@
 
 <div class="container-fluid">
     <div class="starter-template">
-
         <div class="container-fluid">
             <div class="container-fluid">
                 <div class="panel panel-default">
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
                             <div class="row">
-                                <label class="col-md-9 control-label"> </label>
+                                <label class="col-md-9 control-label">Dodaj koktajl</label>
                             </div>
                         </div>
 
@@ -97,7 +96,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr th:each="status : ${koktajlForm.listaSkladnikow}">
+                                                <tr class="skladnikTable" th:each="status : ${koktajlForm.listaSkladnikow}">
 
                                                     <td class="col-sm-4">
                                                         <select th:field="*{listaSkladnikow[__${status.index}__].nazwa}"
@@ -129,7 +128,7 @@
                                                 <tr>
                                                     <td colspan="5" style="text-align: left;">
                                                         <input type="button" class="btn btn-lg btn-block "
-                                                               onclick="addRow('listaSkladnikow', 'typ', 'SkladTable')"
+                                                               onclick="addRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
                                                                value="Dodaj kolejny składnik"/>
                                                     </td>
                                                 </tr>
@@ -243,6 +242,7 @@
         input2.classList.add('form-control');
         input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
         input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
+        input2.placeholder="Opis dodatkowy";
         col5.appendChild(input2);
         row.appendChild(col5);
 
@@ -256,14 +256,18 @@
         row.appendChild(col3);
 
 
+
         selectList.addEventListener("change", function () {
             alkoChanger(row, listName, rowIndex, selectList, selectList2)
         }, true);
 
         function alkoChanger(row, listName, rowIndex, selectList, selectList2) {
 
+
             var typToDelete = listName + rowIndex + '.' + 'typ';
-            $(typToDelete).remove();
+            document.getElementById(typToDelete).remove();
+            // $(typToDelete).remove();
+            // console.log(typToDelete+" usuwanie");
 
             var parent = selectList.value; //get option value from parent
             var skladniki = [[${skladnikList}]];
@@ -284,8 +288,10 @@
                         option.text = typLista[i].nazwa;
                         selectList2.appendChild(option);
                     }
+                    // row.appendChild(selectList2);
                 }
             });
+
         }
 
 
