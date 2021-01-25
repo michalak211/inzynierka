@@ -247,19 +247,19 @@
         function mainChanger(row, listName, rowIndex, selectList) {
 
             var rodzaj = selectList.value;
-            console.log(row.cells);
-
-            console.log(row.lastChild);
+            // console.log(row.cells);
+            //
+            // console.log(row.lastChild);
 
 
             // while (!row.lastChild)) {
             //     console.log(row.lastChild);
             // }
             // https://stackoverflow.com/questions/3072233/getting-value-from-table-cell-in-javascript-not-jquery
-            for (var i = 0; i < row.cells-1; i++) {
-                console.log(row.lastChild);
-                row.removeChild(row.cells-1);
-                // selectList.appendChild(option);
+            var temp=row.cells.length-1;
+            for (var i = 0; i < (temp); i++) {
+                var usuwany=row.cells.length-1;
+                row.removeChild(row.cells[usuwany]);
             }
 
             switch (rodzaj) {
