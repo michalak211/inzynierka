@@ -4,6 +4,7 @@ import com.sun.istack.Nullable;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.User;
 import pl.mrozek.inzynierka.Entity.skladniki.Skladnik;
 
@@ -30,13 +31,13 @@ public class Koktail {
 
     @OneToMany (cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<SkladnikP> skladnikPList=new ArrayList<>();
+    private List<SkladnikB> skladnikBList=new ArrayList<>();
 
     @Nullable
     private String klasa;
 
-    @OneToOne
-    private Skladnik skladnikGlowny;
+//    @OneToOne
+//    private Skladnik skladnikGlowny;
     @Nullable
     private int ocena;
     @Nullable
