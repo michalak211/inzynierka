@@ -189,3 +189,43 @@
 //
 //
 //}
+
+//TODO
+//tu jest kontroller do pobierania plkikow
+
+//@GetMapping(path = "/upload/{id}")
+//public String UploadRRormPDF(@PathVariable Long id, Model model) {
+//        model.addAttribute("RRToUpload", id);
+//        model.addAttribute("rr", rrRepo.getOne(id));
+//
+//        return "/rr/uploadRR";
+//        }
+//
+//@PostMapping("/upload/{id}")
+//public String handleFileUpload(@RequestParam("uploadFile") MultipartFile file,
+//@PathVariable Long id, Model model) {
+//        rrService.saveFileRRRap(file, id);
+//        return "redirect:/archiwum/rr";
+//        }
+
+
+//TODO
+//html do pobierania plikow
+
+//<div>
+//<br> <br>
+//<form class="form-horizontal row-border" action="#" th:action="@{/rr/upload/} + ${RRToUpload}"
+//        method="post"
+//        enctype="multipart/form-data">
+//<!--        <form method="POST" enctype="multipart/form-data" action="/">-->
+//
+//<h3>Dodaj nowy plik</h3>
+//<br>
+//<input type="file" name="uploadFile"/>
+//<br>
+//<input type="submit" value="Upload" class="btn btn-primary"/>
+//
+//</form>
+//<br>
+//<br>
+//</div>
