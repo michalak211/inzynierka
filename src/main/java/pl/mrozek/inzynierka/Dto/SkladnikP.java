@@ -1,10 +1,6 @@
 package pl.mrozek.inzynierka.Dto;
 
-import com.sun.istack.Nullable;
 import lombok.*;
-import pl.mrozek.inzynierka.Entity.skladniki.Skladnik;
-
-import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +19,7 @@ public class SkladnikP {
     private double iloscML;
     private String nazwa;
     private int rodzaj;
-    private String typ;
+    private long typ;
 //    @Nullable
     private String opisDodatkowy;
 

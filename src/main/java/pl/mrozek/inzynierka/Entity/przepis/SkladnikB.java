@@ -23,8 +23,6 @@ public class SkladnikB {
     @OneToOne
     private Skladnik skladnik;
     private String opisDodatkowy;
-    @OneToOne
-    @Nullable
-    private Typ typ;
+    private double ilosc;
 
 }

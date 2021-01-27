@@ -2,6 +2,7 @@ package pl.mrozek.inzynierka.Entity.skladniki;
 
 import com.sun.istack.Nullable;
 import lombok.*;
+import pl.mrozek.inzynierka.Repo.SkladnikRepo;
 
 import javax.persistence.*;
 
@@ -9,21 +10,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @ToString
 
 @Entity
-public class Typ extends Skladnik{
+
+public class AlkoholSkladnik extends Skladnik {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String nazwa;
 
-    @OneToOne
-    @Nullable
-    private AlkoholSkladnik workhorse;
+    private int typID;
 
-    private int alkoholID;
 
 }

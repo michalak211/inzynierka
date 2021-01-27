@@ -1,18 +1,15 @@
 package pl.mrozek.inzynierka.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.przepis.Koktail;
 import pl.mrozek.inzynierka.Entity.przepis.SkladnikB;
-import pl.mrozek.inzynierka.Entity.skladniki.Alkohol;
-import pl.mrozek.inzynierka.Repo.AlkoholRepo;
-import pl.mrozek.inzynierka.Repo.SkladnikRepo;
-import pl.mrozek.inzynierka.Repo.SokRepo;
-import pl.mrozek.inzynierka.Repo.SyropRepo;
+import pl.mrozek.inzynierka.Entity.skladniki.Typ;
+import pl.mrozek.inzynierka.Repo.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Component
 public class Mapper {
@@ -24,12 +21,14 @@ public class Mapper {
     SokRepo sokRepo;
     final
     SyropRepo syropRepo;
+    final TypRepo typRepo;
 
-    public Mapper(AlkoholRepo alkoholRepo, SkladnikRepo skladnikRepo, SokRepo sokRepo, SyropRepo syropRepo) {
+    public Mapper(AlkoholRepo alkoholRepo, SkladnikRepo skladnikRepo, SokRepo sokRepo, SyropRepo syropRepo, TypRepo typRepo) {
         this.alkoholRepo = alkoholRepo;
         this.skladnikRepo = skladnikRepo;
         this.sokRepo = sokRepo;
         this.syropRepo = syropRepo;
+        this.typRepo = typRepo;
     }
 
 
@@ -59,9 +58,18 @@ public class Mapper {
 
         for (SkladnikP skladnikP:koktajlForm.getListaSkladnikow()){
 
+            SkladnikB skladnikB= new SkladnikB();
+            skladnikB.setIlosc(skladnikP.getIloscML());
+            skladnikB.setOpisDodatkowy(skladnikP.getOpisDodatkowy());
+
             switch (skladnikP.getRodzaj()){
                 case 0:
-//                    Alkohol alkohol= alkoholRepo.fi
+                    Optional<Typ> typ= typRepo.findById(skladnikP.getTyp());
+                    skladnikB.setSkladnik(typ);
+
+                    koktail.getSkladnikBList()
+
+
             }
         }
 

@@ -1,8 +1,9 @@
-package pl.mrozek.inzynierka.Entity.skladniki;
+package pl.mrozek.inzynierka.Entity.przepis;
 
 
 import com.sun.istack.Nullable;
 import lombok.*;
+import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,13 +16,13 @@ import java.util.List;
 @ToString
 
 @Entity
-public class Alkohol extends Skladnik {
+public class Alkohol  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    private String nazwa;
+    private String nazwa;
 //    private int procenty;
 //    private String marka;
 

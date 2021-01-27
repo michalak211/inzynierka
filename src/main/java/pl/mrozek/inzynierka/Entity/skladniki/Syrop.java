@@ -1,5 +1,6 @@
 package pl.mrozek.inzynierka.Entity.skladniki;
 
+import com.sun.istack.Nullable;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -21,4 +22,7 @@ public class Syrop extends Skladnik {
     private Long id;
 
     private String przepis;
+    @Nullable
+    private double cenaZaLitr;
+
 }
