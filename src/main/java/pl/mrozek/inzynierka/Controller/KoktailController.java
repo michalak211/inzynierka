@@ -1,12 +1,10 @@
 package pl.mrozek.inzynierka.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
-import pl.mrozek.inzynierka.Entity.skladniki.Alkohol;
-import pl.mrozek.inzynierka.Entity.skladniki.Skladnik;
+import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
 

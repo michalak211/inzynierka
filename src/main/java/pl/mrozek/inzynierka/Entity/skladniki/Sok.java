@@ -23,4 +23,7 @@ public class Sok {
 
     @Nullable
     private String opisDodatkowy;
+    @Nullable
+    private double cenaZaLitr;
+
 }

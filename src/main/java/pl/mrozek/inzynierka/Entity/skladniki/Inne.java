@@ -1,9 +1,13 @@
 package pl.mrozek.inzynierka.Entity.skladniki;
 
+
 import com.sun.istack.Nullable;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,19 +15,14 @@ import javax.persistence.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-
 @Entity
-public class Typ extends Skladnik{
+public class Inne extends Skladnik{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
-    @OneToOne
     @Nullable
-    private AlkoholSkladnik workhorse;
-
-    private int alkoholID;
+    private double cenaZaJednostke;
 
 }
