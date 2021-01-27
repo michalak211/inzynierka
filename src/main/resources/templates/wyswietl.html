@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!--<html lang="en">-->
+<head>
+    <div th:replace="fragments/header :: header-css"></div>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container-fluid">
+    <div class="starter-template">
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <label class="col-md-9 control-label">Przegląd koktajli</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <DIV class="panel-body">
+                        <form class="form-horizontal row-border" action="#"
+                              th:object="${koktailList}" method="post">
+
+                            <table class="table" th:each="koktajl:${koktailList}">
+
+                                <td class="row" style="text-align: center" th:text="koktajl.nazwa"></td>
+
+                                <tr>
+
+
+                                </tr>
+
+
+                            </table>
+
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
