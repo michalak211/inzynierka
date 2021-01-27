@@ -1,9 +1,6 @@
 package pl.mrozek.inzynierka.Dto;
 
 import lombok.*;
-import pl.mrozek.inzynierka.Entity.przepis.SkladnikP;
-import pl.mrozek.inzynierka.Entity.skladniki.Alkohol;
-import pl.mrozek.inzynierka.Entity.skladniki.Skladnik;
 
 import java.util.List;
 @AllArgsConstructor
@@ -24,4 +21,6 @@ public class KoktajlForm {
     private String zdobienie;
 
     private List<SkladnikP> listaSkladnikow;
+
+    private int ocena;
 }

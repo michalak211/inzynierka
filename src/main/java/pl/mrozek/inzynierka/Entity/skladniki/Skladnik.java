@@ -22,7 +22,7 @@ public class Skladnik {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
+    private double ilosc;
     private String nazwa;
 
 

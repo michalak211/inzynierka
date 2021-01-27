@@ -1,4 +1,4 @@
-package pl.mrozek.inzynierka.Entity.przepis;
+package pl.mrozek.inzynierka.Dto;
 
 import com.sun.istack.Nullable;
 import lombok.*;
@@ -12,19 +12,21 @@ import javax.persistence.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-@Entity
+//@Entity
 public class SkladnikP {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Long id;
 
 //    @OneToOne
 //    private Skladnik skladnik;
     private double iloscML;
     private String nazwa;
-    private String rodzaj;
+    private int rodzaj;
     private String typ;
-    @Nullable
+//    @Nullable
     private String opisDodatkowy;
 
 }
+//TODO
+//Dodać pobieranie zjec w gformularzu bedac w pracy

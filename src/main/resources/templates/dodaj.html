@@ -201,22 +201,22 @@
         selectList.appendChild(option);
 
         var option1 = document.createElement("option");
-        option1.value = "alkohol";
+        option1.value = "0";
         option1.text = "Alkohol";
         selectList.appendChild(option1);
 
         var option2 = document.createElement("option");
-        option2.value = "sok";
+        option2.value = "1";
         option2.text = "Sok";
         selectList.appendChild(option2);
 
         var option3 = document.createElement("option");
-        option3.value = "syrop";
+        option3.value = "2";
         option3.text = "Syrop";
         selectList.appendChild(option3);
 
         var option4 = document.createElement("option");
-        option4.value = "inny";
+        option4.value = "3";
         option4.text = "Inny";
         selectList.appendChild(option4);
 
@@ -263,7 +263,7 @@
             }
 
             switch (rodzaj) {
-                case 'alkohol':
+                case '0':
                     addAlkoRow(listName, rowIndex, elementName,row);
                     break;
 
@@ -303,6 +303,18 @@
         col5.appendChild(input2);
         row.appendChild(col5);
 
+        let col6 = document.createElement('td');
+        col6.classList.add('col-sm-2');
+        let input3 = document.createElement('input');
+        input3.type = 'text';
+        input3.classList.add('form-control');
+        input3.id = listName + rowIndex + '.' + 'nazwa';
+        input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+        input3.placeholder="Nazwa";
+        col6.appendChild(input3);
+        row.appendChild(col6);
+
+
         let col3 = document.createElement('td');
         col3.classList.add('col-sm-1');
         var btn = document.createElement("BUTTON");
@@ -334,9 +346,9 @@
         let input2 = document.createElement('input');
         input2.type = 'text';
         input2.classList.add('form-control');
-        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
-        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
-        input2.placeholder="Opis dodatkowy";
+        input2.id = listName + rowIndex + '.' + 'nazwa';
+        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+        input2.placeholder="nazwa";
         col5.appendChild(input2);
         row.appendChild(col5);
 
@@ -394,7 +406,7 @@
 
         for (var i = 0; i < choices.length; i++) {
             var option = document.createElement("option");
-            option.value = choices[i].nazwa;
+            option.value = choices[i].id;
             option.text = choices[i].nazwa;
             selectList.appendChild(option);
         }
@@ -442,7 +454,7 @@
             var parent = selectList.value; //get option value from parent
             var skladniki = [[${skladnikList}]];
             skladniki.forEach((skladnik) => {
-                var bol = skladnik.nazwa.localeCompare(parent);
+                var bol = skladnik.id == parent;
                 if (!bol) {
                     var typLista = skladnik.typList;
                     var x = document.getElementById(selectList2.id);
@@ -454,7 +466,7 @@
 
                     for (var i = 0; i < typLista.length; i++) {
                         var option = document.createElement("option");
-                        option.value = typLista[i].nazwa;
+                        option.value = typLista[i].id;
                         option.text = typLista[i].nazwa;
                         selectList2.appendChild(option);
                     }
