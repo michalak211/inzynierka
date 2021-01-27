@@ -50,6 +50,7 @@ public class Mapper {
         if (koktajlForm.getZdobienie()!=null) {
             koktail.setZdobienie(koktajlForm.getZdobienie());
         }
+        /dsda
 
         if (koktajlForm.getOpisPrzyrzadzenia()!=null) {
             koktail.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
