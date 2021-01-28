@@ -454,8 +454,13 @@
             var parent = selectList.value; //get option value from parent
             var skladniki = [[${skladnikList}]];
             skladniki.forEach((skladnik) => {
+                // console.log("skladnik value: "+skladnik.id);
+                // console.log("wybrane value: "+parent);
+
                 var bol = skladnik.id == parent;
-                if (!bol) {
+                if (bol) {
+                    // console.log("jest rowne "+bol)
+
                     var typLista = skladnik.typList;
                     var x = document.getElementById(selectList2.id);
                     for (var i = 0; i < typLista.length; i++) {

@@ -16,29 +16,46 @@
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
                             <div class="row">
-                                <label class="col-md-9 control-label">Przegląd koktajli</label>
+                                <label class="col-md-9 control-label" style="text-align: center">Przegląd
+                                    koktajli</label>
                             </div>
                         </div>
                     </div>
 
                     <DIV class="panel-body">
-                        <form class="form-horizontal row-border" action="#"
-                              th:object="${koktailList}" method="post">
+                        <!--                        <form class="form-horizontal row-border" action="#"-->
+                        <!--                              th:object="${koktajlList}" method="post">-->
 
-                            <table class="table" th:each="koktajl:${koktailList}">
+                        <table class="table" th:each="koktajl:${koktajlList}">
+                            <label class="col-md-9 control-label" style="text-align: center"
+                                   th:text="*{koktajl.nazwa}"></label>
 
-                                <td class="row" style="text-align: center" th:text="koktajl.nazwa"></td>
+                            <!--                                <tr class="row" style="text-align: center" th:text="*{koktajl.nazwa}"></tr>-->
 
-                                <tr>
+                            <tr>
+                                <td th:text="'Klasa: '+*{koktajl.klasa}"></td>
+                                <td th:text="'Podawane w: '+*{koktajl.szklo}"></td>
+                                <td th:text="Wegański  + ' '+ *{koktajl.vegan}"></td>
+                                <td th:text="'Zdobienie: '+*{koktajl.zdobienie}"></td>
+                                <td th:text="'Ocena: '+*{koktajl.ocena}"></td>
+                            </tr>
 
+                            <tr>
+                                <td>Składniki</td>
+                            </tr>
+                            <table class="ListaSkladnikow+*{koktajl.index}"
+                                   th:each="skladnik : ${koktajl.listaSkladnikow}" >
+                                <td></td>
 
-                                </tr>
 
 
                             </table>
 
 
-                        </form>
+                        </table>
+
+
+                        <!--                        </form>-->
 
                     </div>
                 </div>
@@ -48,6 +65,31 @@
 </div>
 
 
-    <div th:replace="fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer"></div>
+
+
+<script th:inline="javascript">
+
+    var alkoList = [[${alkoholList}]];
+
+    let addSkladnikRow = function (skladnik, table) {
+        let rowIndex = document.querySelectorAll(table).length;
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-2');
+        let text = document.createElement('textarea')
+        text.value = skladnik.nazwa;
+        col.appendChild(text);
+        row.appendChild(col);
+
+        document.getElementById(table).appendChild(row);
+
+    }
+
+
+</script>
+
 </body>
 </html>

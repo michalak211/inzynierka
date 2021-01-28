@@ -27,3 +27,4 @@ public class SkladnikP {
 //TODO skończyć wyswietlanie
 //TODO mapper toForm
 //todo syropy i soki z bazy + dodawanie nowych w formularzu
+//todo granice wyswietlanie

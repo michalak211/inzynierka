@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 
 @Entity
-public class Koktail {
+public class Koktajl {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,7 +37,7 @@ public class Koktail {
 //    @OneToOne
 //    private Skladnik skladnikGlowny;
     @Nullable
-    private int ocena;
+    private long ocena;
     @Nullable
     private String szklo;
 
