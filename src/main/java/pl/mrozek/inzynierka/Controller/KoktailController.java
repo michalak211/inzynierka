@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
-import pl.mrozek.inzynierka.Entity.przepis.Koktail;
+import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.mapper.Mapper;
@@ -27,12 +27,14 @@ public class KoktailController {
     final
     TypRepo typRepo;
     private final Mapper mapper;
+    private final KoktailRepo koktailRepo;
 
-    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper) {
+    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo) {
         this.skladnikRepo = skladnikRepo;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
         this.mapper = mapper;
+        this.koktailRepo = koktailRepo;
     }
 
     @Transactional
@@ -46,6 +48,7 @@ public class KoktailController {
         KoktajlForm koktajlForm=new KoktajlForm();
         koktajlForm.setZdobienie("Dowolne");
 
+//        System.out.println(alkoholRepo.findAll());
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("koktajlForm",koktajlForm);
 
@@ -59,13 +62,17 @@ public class KoktailController {
         System.out.println("odbieram koktajl form");
         System.out.println(koktajlForm);
 
-        Koktail koktail= new Koktail();
-        koktail=mapper.toKoktajl(koktail,koktajlForm);
-//        System.out.println(koktail);
+        Koktajl koktajl = new Koktajl();
+        koktajl =mapper.toKoktajl(koktajl,koktajlForm);
+        koktailRepo.save(koktajl);
+
+//        System.out.println("zapisany koktajl "+ koktajl);
 
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("koktajlForm",new KoktajlForm());
 
+
+        //planowane przeniesienie do edycji,a w edycjki dodwanie zdjecia
         return  "/dodaj";
     }
 

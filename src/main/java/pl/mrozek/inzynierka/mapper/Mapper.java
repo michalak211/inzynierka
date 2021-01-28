@@ -3,7 +3,8 @@ package pl.mrozek.inzynierka.mapper;
 import org.springframework.stereotype.Component;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
-import pl.mrozek.inzynierka.Entity.przepis.Koktail;
+import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
+import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Entity.przepis.SkladnikB;
 import pl.mrozek.inzynierka.Entity.skladniki.Inny;
 import pl.mrozek.inzynierka.Entity.skladniki.Sok;
@@ -12,6 +13,7 @@ import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Mapper {
@@ -38,37 +40,37 @@ public class Mapper {
     }
 
 
-    public Koktail toKoktajl(Koktail koktail, KoktajlForm koktajlForm) {
+    public Koktajl toKoktajl(Koktajl koktajl, KoktajlForm koktajlForm) {
 
-        koktail.setNazwa(koktajlForm.getNazwa());
+        koktajl.setNazwa(koktajlForm.getNazwa());
         if (koktajlForm.getKlasa() != null) {
-            koktail.setKlasa(koktajlForm.getKlasa());
+            koktajl.setKlasa(koktajlForm.getKlasa());
         }
         if (koktajlForm.getKlasa() != null) {
-            koktail.setKlasa(koktajlForm.getKlasa());
+            koktajl.setKlasa(koktajlForm.getKlasa());
         }
         if (koktajlForm.getSzklo() != null) {
-            koktail.setSzklo(koktajlForm.getSzklo());
+            koktajl.setSzklo(koktajlForm.getSzklo());
         }
 
-        koktail.setVegan(koktajlForm.getVegan().equals("tak"));
+        koktajl.setVegan(koktajlForm.getVegan().equals("tak"));
 
         if (koktajlForm.getZdobienie() != null) {
-            koktail.setZdobienie(koktajlForm.getZdobienie());
+            koktajl.setZdobienie(koktajlForm.getZdobienie());
         }
 
 
         if (koktajlForm.getOpisPrzyrzadzenia() != null) {
-            koktail.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
+            koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
         }
         if (koktajlForm.getOcena() != null) {
-            koktail.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
+            koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
         }
 
 
 
 
-        koktail.setSkladnikBList(new ArrayList<>());
+        koktajl.setSkladnikBList(new ArrayList<>());
         for (SkladnikP skladnikP : koktajlForm.getListaSkladnikow()) {
 
             if (skladnikP.getRodzaj()>0) {
@@ -102,15 +104,72 @@ public class Mapper {
                         break;
                 }
                 skladnikBRepo.save(skladnikB);
-                koktail.getSkladnikBList().add(skladnikB);
+                koktajl.getSkladnikBList().add(skladnikB);
             }
 
         }
 
 
-        System.out.println(koktail);
-        return koktail;
+        System.out.println(koktajl);
+        return koktajl;
     }
 
+    public KoktajlForm toKoktajlForm (Koktajl koktajl){
+        KoktajlForm koktajlForm=new KoktajlForm();
+
+        koktajlForm.setNazwa(koktajl.getNazwa());
+
+        if (koktajl.getKlasa()!=null){
+            koktajlForm.setKlasa(koktajl.getKlasa());
+        }
+        if (koktajl.getSzklo()!=null){
+            koktajlForm.setSzklo(koktajl.getSzklo());
+        }
+        if (koktajl.getOpisPrzyzadzenia()!=null){
+            koktajlForm.setOpisPrzyrzadzenia(koktajl.getOpisPrzyzadzenia());
+        }
+        if (koktajl.getZdobienie()!=null){
+            koktajlForm.setZdobienie(koktajl.getZdobienie());
+        }
+            koktajlForm.setOcena(koktajl.getOcena());
+
+        if (koktajl.isVegan()){
+            koktajlForm.setVegan("tak");
+        } else {
+            koktajlForm.setVegan("nie");
+        }
+
+        List<SkladnikP> skladnikPList= new ArrayList<>();
+
+        for (SkladnikB skladnikB:koktajl.getSkladnikBList()){
+            SkladnikP skladnikP= new SkladnikP();
+            skladnikP.setIloscML(skladnikB.getIlosc());
+            skladnikP.setOpisDodatkowy(skladnikB.getOpisDodatkowy());
+
+            if (skladnikB.getSkladnik() instanceof Typ){
+                skladnikP.setRodzaj(1);
+                skladnikP.setTyp(skladnikB.getSkladnik().getId());
+                skladnikP.setNazwa(((Typ) skladnikB.getSkladnik()).getAlkoholID().toString());
+            }else if (skladnikB.getSkladnik() instanceof Sok){
+                skladnikP.setRodzaj(2);
+                skladnikP.setNazwa(skladnikB.getSkladnik().getNazwa());
+            }else if (skladnikB.getSkladnik() instanceof Syrop){
+                skladnikP.setRodzaj(3);
+                skladnikP.setNazwa(skladnikB.getSkladnik().getNazwa());
+            }else if (skladnikB.getSkladnik() instanceof Inny){
+                skladnikP.setRodzaj(4);
+                skladnikP.setNazwa(skladnikB.getSkladnik().getNazwa());
+            }else {
+                continue;
+            }
+
+            skladnikPList.add(skladnikP);
+        }
+
+
+
+
+        return koktajlForm;
+    }
 
 }
