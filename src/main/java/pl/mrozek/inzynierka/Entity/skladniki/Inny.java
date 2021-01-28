@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @EqualsAndHashCode
 @ToString
 @Entity
-public class Inne extends Skladnik{
+public class Inny extends Skladnik{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

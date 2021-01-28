@@ -5,8 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
+import pl.mrozek.inzynierka.Entity.przepis.Koktail;
 import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
+import pl.mrozek.inzynierka.mapper.Mapper;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -24,11 +26,13 @@ public class KoktailController {
     AlkoholRepo alkoholRepo;
     final
     TypRepo typRepo;
+    private final Mapper mapper;
 
-    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo) {
+    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper) {
         this.skladnikRepo = skladnikRepo;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
+        this.mapper = mapper;
     }
 
     @Transactional
@@ -37,6 +41,7 @@ public class KoktailController {
 
 //        System.out.println(alkoholRepo.findAll());
 //        System.out.println(skladnikRepo.findAll());
+
 
         KoktajlForm koktajlForm=new KoktajlForm();
         koktajlForm.setZdobienie("Dowolne");
@@ -53,6 +58,11 @@ public class KoktailController {
 
         System.out.println("odbieram koktajl form");
         System.out.println(koktajlForm);
+
+        Koktail koktail= new Koktail();
+        koktail=mapper.toKoktajl(koktail,koktajlForm);
+//        System.out.println(koktail);
+
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("koktajlForm",new KoktajlForm());
 
@@ -74,19 +84,35 @@ public class KoktailController {
     @GetMapping("/init")
     public String init(){
 
+        Alkohol alkohol= new Alkohol();
+        alkohol.setNazwa("whyskey");
+
+        alkoholRepo.save(alkohol);
+
+        Alkohol alkohol1= new Alkohol();
+        alkohol1.setNazwa("rum");
+        alkoholRepo.save(alkohol1);
+
+
+
         Typ typ= new Typ();
         typ.setNazwa("Burbon");
+        typ.setAlkoholID(alkohol.getId());
         typRepo.save(typ);
+
 
         Typ typ1= new Typ();
         typ1.setNazwa("Szkocka");
+        typ1.setAlkoholID(alkohol.getId());
         typRepo.save(typ1);
 
         Typ typ2= new Typ();
+        typ2.setAlkoholID(alkohol1.getId());
         typ2.setNazwa("czarny");
         typRepo.save(typ2);
 
         Typ typ3= new Typ();
+        typ3.setAlkoholID(alkohol1.getId());
         typ3.setNazwa("jasny");
         typRepo.save(typ3);
 
@@ -98,11 +124,6 @@ public class KoktailController {
         typLista1.add(typ2);
         typLista1.add(typ3);
 
-        Alkohol alkohol= new Alkohol();
-        alkohol.setNazwa("whyskey");
-
-        Alkohol alkohol1= new Alkohol();
-        alkohol1.setNazwa("rum");
 
         alkohol.setTypList(typLista);
         alkoholRepo.save(alkohol);

@@ -2,6 +2,7 @@ package pl.mrozek.inzynierka.Dto;
 
 import lombok.*;
 
+import java.io.File;
 import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +23,8 @@ public class KoktajlForm {
 
     private List<SkladnikP> listaSkladnikow;
 
-    private int ocena;
+    private Long ocena;
+//    private File zdjecie;
+//    private byte[] zdjecie;
+
 }

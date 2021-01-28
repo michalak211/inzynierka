@@ -16,13 +16,13 @@ import javax.persistence.Id;
 @ToString
 
 @Entity
-public class Sok {
+public class Sok extends Skladnik{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Nullable
-    private String opisDodatkowy;
+//    @Nullable
+//    private String opisDodatkowy;
     @Nullable
     private double cenaZaLitr;
 

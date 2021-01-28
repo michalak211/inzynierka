@@ -24,5 +24,6 @@ public class SkladnikP {
     private String opisDodatkowy;
 
 }
-//TODO
-//Dodać pobieranie zjec w gformularzu bedac w pracy
+//TODO skończyć wyswietlanie
+//TODO mapper toForm
+//todo syropy i soki z bazy + dodawanie nowych w formularzu
