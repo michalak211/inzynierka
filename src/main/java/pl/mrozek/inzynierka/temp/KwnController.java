@@ -190,7 +190,6 @@
 //
 //}
 
-//TODO
 //tu jest kontroller do pobierania plkikow
 
 //@GetMapping(path = "/upload/{id}")
@@ -209,7 +208,6 @@
 //        }
 
 
-//TODO
 //html do pobierania plikow
 
 //<div>
