@@ -63,10 +63,11 @@ public class KoktailController {
         System.out.println(koktajlForm);
 
         Koktajl koktajl = new Koktajl();
+        koktailRepo.save(koktajl);
         koktajl =mapper.toKoktajl(koktajl,koktajlForm);
         koktailRepo.save(koktajl);
 
-//        System.out.println("zapisany koktajl "+ koktajl);
+        System.out.println("zapisany koktajl "+ koktajl);
 
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("koktajlForm",new KoktajlForm());
