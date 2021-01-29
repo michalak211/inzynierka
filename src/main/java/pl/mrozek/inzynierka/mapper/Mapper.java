@@ -67,46 +67,49 @@ public class Mapper {
             koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
         }
 
+        koktajlForm.setId(koktajl.getId());
 
 
 
         koktajl.setSkladnikBList(new ArrayList<>());
-        for (SkladnikP skladnikP : koktajlForm.getListaSkladnikow()) {
+        if (koktajlForm.getListaSkladnikow()!= null) {
+            for (SkladnikP skladnikP : koktajlForm.getListaSkladnikow()) {
 
-            if (skladnikP.getRodzaj()>0) {
-                SkladnikB skladnikB = new SkladnikB();
-                skladnikB.setIlosc(skladnikP.getIloscML());
-                skladnikB.setOpisDodatkowy(skladnikP.getOpisDodatkowy());
+                if (skladnikP.getRodzaj()>0) {
+                    SkladnikB skladnikB = new SkladnikB();
+                    skladnikB.setIlosc(skladnikP.getIloscML());
+                    skladnikB.setOpisDodatkowy(skladnikP.getOpisDodatkowy());
 
-                switch (skladnikP.getRodzaj()) {
-                    case 1:
-                        if (typRepo.findById(skladnikP.getTyp()).isPresent()) {
-                            Typ typ = typRepo.findById(skladnikP.getTyp()).get();
-                            System.out.println("TYP: "+typ);
-                            skladnikB.setSkladnik(typ);
-                        }
-                        break;
-                    case 2:
-                        Sok sok = new Sok();
-                        sok.setNazwa(skladnikP.getNazwa());
-                        sokRepo.save(sok);
-                        skladnikB.setSkladnik(sok);
-                        break;
-                    case 3:
-                        Syrop syrop = new Syrop();
-                        syrop.setNazwa(skladnikP.getNazwa());
-                        syropRepo.save(syrop);
-                        break;
-                    case 4:
-                        Inny inny = new Inny();
-                        inny.setNazwa(skladnikP.getNazwa());
-                        innyRepo.save(inny);
-                        break;
+                    switch (skladnikP.getRodzaj()) {
+                        case 1:
+                            if (typRepo.findById(skladnikP.getTyp()).isPresent()) {
+                                Typ typ = typRepo.findById(skladnikP.getTyp()).get();
+                                System.out.println("TYP: "+typ);
+                                skladnikB.setSkladnik(typ);
+                            }
+                            break;
+                        case 2:
+                            Sok sok = new Sok();
+                            sok.setNazwa(skladnikP.getNazwa());
+                            sokRepo.save(sok);
+                            skladnikB.setSkladnik(sok);
+                            break;
+                        case 3:
+                            Syrop syrop = new Syrop();
+                            syrop.setNazwa(skladnikP.getNazwa());
+                            syropRepo.save(syrop);
+                            break;
+                        case 4:
+                            Inny inny = new Inny();
+                            inny.setNazwa(skladnikP.getNazwa());
+                            innyRepo.save(inny);
+                            break;
+                    }
+                    skladnikBRepo.save(skladnikB);
+                    koktajl.getSkladnikBList().add(skladnikB);
                 }
-                skladnikBRepo.save(skladnikB);
-                koktajl.getSkladnikBList().add(skladnikB);
-            }
 
+            }
         }
 
 
@@ -166,6 +169,7 @@ public class Mapper {
             skladnikPList.add(skladnikP);
         }
 
+        koktajlForm.setListaSkladnikow(skladnikPList);
 
 
 

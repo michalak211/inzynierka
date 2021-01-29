@@ -40,6 +40,8 @@ public class KoktailService {
         for (Koktajl koktajl:list){
             koktajlFormList.add(mapper.toKoktajlForm(koktajl));
         }
+        System.out.println("koktajl form list");
+        System.out.println(koktajlFormList);
 
         return koktajlFormList;
     }

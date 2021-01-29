@@ -13,6 +13,7 @@ import java.util.List;
 
 public class KoktajlForm {
 
+    private long id;
     private String nazwa;
     private String klasa;
     private String szklo;

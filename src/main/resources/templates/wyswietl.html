@@ -12,51 +12,81 @@
     <div class="starter-template">
         <div class="container-fluid">
             <div class="container-fluid">
-                <div class="panel panel-default">
+                <div class="panel panel-default" th:each="koktajl:${koktajlList}">
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
+
+
+
                             <div class="row">
-                                <label class="col-md-9 control-label" style="text-align: center">Przegląd
-                                    koktajli</label>
+                                <label class="container-fluid" th:text="*{koktajl.nazwa}" style="text-align: center"></label>
                             </div>
+
+
+
                         </div>
                     </div>
 
-                    <DIV class="panel-body">
-                        <!--                        <form class="form-horizontal row-border" action="#"-->
-                        <!--                              th:object="${koktajlList}" method="post">-->
+                    <div class="panel-body">
 
-                        <table class="table" th:each="koktajl:${koktajlList}">
-                            <label class="col-md-9 control-label" style="text-align: center"
-                                   th:text="*{koktajl.nazwa}"></label>
-
-                            <!--                                <tr class="row" style="text-align: center" th:text="*{koktajl.nazwa}"></tr>-->
-
+                        <table class="table table-bordered" >
                             <tr>
                                 <td th:text="'Klasa: '+*{koktajl.klasa}"></td>
                                 <td th:text="'Podawane w: '+*{koktajl.szklo}"></td>
-                                <td th:text="Wegański  + ' '+ *{koktajl.vegan}"></td>
+                                <td th:text="'Wegański: '+ *{koktajl.vegan}"></td>
                                 <td th:text="'Zdobienie: '+*{koktajl.zdobienie}"></td>
                                 <td th:text="'Ocena: '+*{koktajl.ocena}"></td>
                             </tr>
+                            <table class="table table-bordered">
+                                <label>Skladniki</label>
 
-                            <tr>
-                                <td>Składniki</td>
-                            </tr>
-                            <table class="ListaSkladnikow+*{koktajl.index}"
-                                   th:each="skladnik : ${koktajl.listaSkladnikow}" >
-                                <td></td>
+                                <tr style="background: #9d9d9d">
+                                    <td>Rodzaj</td>
+                                    <td>Ilosc</td>
+                                    <td>Opis dodatkowy</td>
+                                    <td>Nazwa</td>
+                                    <td>Typ</td>
+
+                                </tr>
+                                <tr class="ListaSkladnikow+*{koktajl.index} table-bordered"
+                                    th:each="skladnik : ${koktajl.listaSkladnikow}">
+                                    <td th:switch="${skladnik.rodzaj}">
+                                        <span th:case="1">Alkohol</span>
+                                        <span th:case="2">Sok</span>
+                                        <span th:case="3">Syrop</span>
+                                        <span th:case="4">Inne</span>
+                                        <span th:case="*">BLAD!!!!!</span>
+                                    </td>
+
+                                    <td th:text="${skladnik.iloscML}"></td>
+                                    <td th:text="${skladnik.opisDodatkowy}"></td>
 
 
+                                    <td>
+                                    <span th:if="${skladnik.nazwa == '1'}"
+                                          th:text="*{alkoholList[__${skladnik.nazwa}__].nazwa}"></span>
+                                        <span th:unless="${skladnik.nazwa =='1'}" th:text="*{skladnik.nazwa}"></span>
+                                    </td>
+                                    <td th:if="${skladnik.nazwa == '1'}"
+                                        th:text="*{typList[__${skladnik.typ}__].nazwa}"></td>
 
+                                </tr>
                             </table>
 
 
+                            <table class="table">
+                                <label>Opis Przyrządzenia</label>
+                                <div class="col-md-12">
+                                    <td th:text="*{koktajl.opisPrzyrzadzenia}"></td>
+
+                                </div>
+
+
+                            </table>
+                            <td><a th:href="@{/przegladaj/edit/}+${koktajl.id}" class="btn btn-default"
+                                   role="button" th:text="Edytuj">KWN</a></td>
+
                         </table>
-
-
-                        <!--                        </form>-->
-
                     </div>
                 </div>
             </div>
