@@ -8,23 +8,20 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-//@Entity
 public class SkladnikP {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
-
-//    @OneToOne
-//    private Skladnik skladnik;
     private double iloscML;
     private String nazwa;
     private int rodzaj;
     private long typ;
-//    @Nullable
     private String opisDodatkowy;
 
+    private String nowaNazwa;
+    private String nowyTyp;
+    private boolean nowy;
+
 }
-//TODO skończyć wyswietlanie
-//TODO mapper toForm
 //todo syropy i soki z bazy + dodawanie nowych w formularzu
-//todo granice wyswietlanie
+//todo nowe skladniki
+//todo edycja
+//todo dodawanie zdjec
+//todo wyswietlanie zdjec

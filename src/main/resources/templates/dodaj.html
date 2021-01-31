@@ -96,6 +96,8 @@
                                                     <td style="text-align:center">Opis dodatkowy</td>
                                                     <td style="text-align:center">Nazwa</td>
                                                     <td style="text-align:center">Typ</td>
+                                                    <td style="text-align:center">Nowy składnik</td>
+
                                                     <td></td>
                                                 </tr>
                                                 </thead>
@@ -131,7 +133,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
-                                                    <td colspan="5" style="text-align: left;">
+                                                    <td colspan="7" style="text-align: left;">
                                                         <input type="button" class="btn btn-lg btn-block "
                                                                onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
                                                                value="Dodaj kolejny składnik"/>
@@ -188,6 +190,9 @@
     // DODAWANIE WIERSZY
 
     var choices = [[${skladnikList}]];
+    var listaSok = [[${sokList}]];
+    var listaSyrop = [[${syropList}]];
+    var listaInny = [[${innyList}]];
 
 
     let AddMainRow = function (listName, rowIndexSelector, elementName) {
@@ -276,6 +281,7 @@
             }
         }
 
+
         document.getElementById(elementName).appendChild(row);
     };
 
@@ -316,6 +322,22 @@
         input3.placeholder = "Nazwa";
         col6.appendChild(input3);
         row.appendChild(col6);
+
+
+        let col7 = document.createElement('td');
+        col7.classList.add('col-sm-2');
+        row.appendChild(col7);
+
+
+        let colNew = document.createElement('td');
+        // colNew.classList.add('col-sm-2');
+        let checkbox= document.createElement('input');
+        checkbox.type= 'checkbox';
+        checkbox.classList.add('form-control');
+        checkbox.id = listName + rowIndex + '.' + 'nowy';
+        checkbox.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowy');
+        colNew.appendChild(checkbox);
+        row.appendChild(colNew);
 
 
         let col3 = document.createElement('td');
@@ -430,6 +452,18 @@
         selectList2.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
         col2.appendChild(selectList2);
         row.appendChild(col2);
+
+
+        let colNew = document.createElement('td');
+        // colNew.classList.add('col-sm-2');
+        let checkbox= document.createElement('input');
+        checkbox.type= 'checkbox';
+        checkbox.classList.add('form-control');
+        checkbox.id = listName + rowIndex + '.' + 'nowy';
+        checkbox.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowy');
+        colNew.appendChild(checkbox);
+        row.appendChild(colNew);
+
 
 
         let col3 = document.createElement('td');
