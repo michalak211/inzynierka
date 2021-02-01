@@ -6,4 +6,5 @@ import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
 
 @Repository
 public interface SyropRepo extends CrudRepository<Syrop,Long> {
+    Syrop findByNazwaEquals(String nazwa);
 }

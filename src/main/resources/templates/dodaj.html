@@ -396,7 +396,7 @@
 
         for (var i = 0; i < tempList.length; i++) {
             var option2 = document.createElement("option");
-            option2.value = tempList[i].id;
+            option2.value = tempList[i].nazwa;
             option2.text = tempList[i].nazwa;
             input3.appendChild(option2);
         }
@@ -438,43 +438,43 @@
 
     };
 
-    let addSokRow = function (listName, rowIndex, elementName, row) {
-
-        // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
-
-        let col4 = document.createElement('td');
-        col4.classList.add('col-sm-2');
-        let input = document.createElement('input');
-        input.type = 'number';
-        input.step = "0.5";
-        input.value = "0";
-        input.classList.add('form-control');
-        input.id = listName + rowIndex + '.' + 'iloscML';
-        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
-        col4.appendChild(input);
-        row.appendChild(col4);
-
-        let col5 = document.createElement('td');
-        col5.classList.add('col-sm-2');
-        let input2 = document.createElement('input');
-        input2.type = 'text';
-        input2.classList.add('form-control');
-        input2.id = listName + rowIndex + '.' + 'nazwa';
-        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
-        input2.placeholder = "nazwa";
-        col5.appendChild(input2);
-        row.appendChild(col5);
-
-        let col3 = document.createElement('td');
-        col3.classList.add('col-sm-1');
-        var btn = document.createElement("BUTTON");   // Create a <button> element
-        btn.innerHTML = "Usuń";
-        btn.className = "removeRowBtn"
-        col3.appendChild(btn);
-        row.appendChild(col3);
-
-
-    };
+    // let addSokRow = function (listName, rowIndex, elementName, row) {
+    //
+    //     // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
+    //
+    //     let col4 = document.createElement('td');
+    //     col4.classList.add('col-sm-2');
+    //     let input = document.createElement('input');
+    //     input.type = 'number';
+    //     input.step = "0.5";
+    //     input.value = "0";
+    //     input.classList.add('form-control');
+    //     input.id = listName + rowIndex + '.' + 'iloscML';
+    //     input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
+    //     col4.appendChild(input);
+    //     row.appendChild(col4);
+    //
+    //     let col5 = document.createElement('td');
+    //     col5.classList.add('col-sm-2');
+    //     let input2 = document.createElement('input');
+    //     input2.type = 'text';
+    //     input2.classList.add('form-control');
+    //     input2.id = listName + rowIndex + '.' + 'nazwa';
+    //     input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+    //     input2.placeholder = "nazwa";
+    //     col5.appendChild(input2);
+    //     row.appendChild(col5);
+    //
+    //     let col3 = document.createElement('td');
+    //     col3.classList.add('col-sm-1');
+    //     var btn = document.createElement("BUTTON");   // Create a <button> element
+    //     btn.innerHTML = "Usuń";
+    //     btn.className = "removeRowBtn"
+    //     col3.appendChild(btn);
+    //     row.appendChild(col3);
+    //
+    //
+    // };
 
 
     let addAlkoRow = function (listName, rowIndex, elementName, row) {
@@ -519,7 +519,7 @@
 
         for (var i = 0; i < choices.length; i++) {
             var option = document.createElement("option");
-            option.value = choices[i].id;
+            option.value = choices[i].nazwa;
             option.text = choices[i].nazwa;
             selectList.appendChild(option);
         }
@@ -531,6 +531,14 @@
 
         col.appendChild(selectList);
         row.appendChild(col);
+
+        let checkboxAlko= document.createElement('input');
+        checkboxAlko.type= 'checkbox';
+        checkboxAlko.classList.add('form-control');
+        checkboxAlko.id = listName + rowIndex + '.' + 'nowyAlko';
+        checkboxAlko.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowyAlko');
+        col.appendChild(checkboxAlko);
+
 
         let col2 = document.createElement('td');
         col2.classList.add('col-sm-2');
@@ -579,7 +587,7 @@
                 // console.log("skladnik value: "+skladnik.id);
                 // console.log("wybrane value: "+parent);
 
-                var bol = skladnik.id == parent;
+                var bol = skladnik.nazwa == parent;
                 if (bol) {
                     // console.log("jest rowne "+bol)
 
@@ -593,7 +601,7 @@
 
                     for (var i = 0; i < typLista.length; i++) {
                         var option = document.createElement("option");
-                        option.value = typLista[i].id;
+                        option.value = typLista[i].nazwa;
                         option.text = typLista[i].nazwa;
                         selectList2.appendChild(option);
                     }

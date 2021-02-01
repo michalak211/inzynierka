@@ -6,4 +6,5 @@ import pl.mrozek.inzynierka.Entity.skladniki.Sok;
 
 @Repository
 public interface SokRepo extends CrudRepository<Sok,Long> {
+    Sok findByNazwaEquals(String nazwa);
 }

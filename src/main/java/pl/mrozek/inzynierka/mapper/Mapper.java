@@ -14,6 +14,7 @@ import pl.mrozek.inzynierka.Repo.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class Mapper {
@@ -67,42 +68,56 @@ public class Mapper {
             koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
         }
 
-        koktajlForm.setId(koktajl.getId());
-
+//        koktajlForm.setId(koktajl.getId());
 
 
         koktajl.setSkladnikBList(new ArrayList<>());
-        if (koktajlForm.getListaSkladnikow()!= null) {
+        if (koktajlForm.getListaSkladnikow() != null) {
             for (SkladnikP skladnikP : koktajlForm.getListaSkladnikow()) {
 
-                if (skladnikP.getRodzaj()>0) {
+                if (skladnikP.getRodzaj() > 0) {
                     SkladnikB skladnikB = new SkladnikB();
                     skladnikB.setIlosc(skladnikP.getIloscML());
                     skladnikB.setOpisDodatkowy(skladnikP.getOpisDodatkowy());
 
                     switch (skladnikP.getRodzaj()) {
                         case 1:
-                            if (typRepo.findById(skladnikP.getTyp()).isPresent()) {
-                                Typ typ = typRepo.findById(skladnikP.getTyp()).get();
-                                System.out.println("TYP: "+typ);
+                                Typ typ = typRepo.findByNazwaEquals(skladnikP.getTyp());
+
                                 skladnikB.setSkladnik(typ);
-                            }
+
                             break;
                         case 2:
-                            Sok sok = new Sok();
-                            sok.setNazwa(skladnikP.getNazwa());
-                            sokRepo.save(sok);
-                            skladnikB.setSkladnik(sok);
+                            if (skladnikP.isNowy()) {
+                                Sok sok = new Sok();
+                                sok.setNazwa(skladnikP.getNazwa());
+                                sokRepo.save(sok);
+                                skladnikB.setSkladnik(sok);
+                            } else {
+                                skladnikB.setSkladnik(sokRepo.findByNazwaEquals(skladnikP.getNazwa()));
+                            }
                             break;
                         case 3:
-                            Syrop syrop = new Syrop();
-                            syrop.setNazwa(skladnikP.getNazwa());
-                            syropRepo.save(syrop);
+                            if (skladnikP.isNowy()) {
+                                Syrop syrop = new Syrop();
+                                syrop.setNazwa(skladnikP.getNazwa());
+                                syropRepo.save(syrop);
+                                skladnikB.setSkladnik(syrop);
+                            } else {
+                                skladnikB.setSkladnik(syropRepo.findByNazwaEquals(skladnikP.getNazwa()));
+
+                            }
                             break;
                         case 4:
-                            Inny inny = new Inny();
-                            inny.setNazwa(skladnikP.getNazwa());
-                            innyRepo.save(inny);
+                            if (skladnikP.isNowy()) {
+
+                                Inny inny = new Inny();
+                                inny.setNazwa(skladnikP.getNazwa());
+                                innyRepo.save(inny);
+                                skladnikB.setSkladnik(inny);
+                            } else {
+                                skladnikB.setSkladnik(innyRepo.findByNazwaEquals(skladnikP.getNazwa()));
+                            }
                             break;
                     }
                     skladnikBRepo.save(skladnikB);
@@ -113,56 +128,60 @@ public class Mapper {
         }
 
 
+        System.out.println("dodany koktajl");
         System.out.println(koktajl);
         return koktajl;
     }
 
-    public KoktajlForm toKoktajlForm (Koktajl koktajl){
-        KoktajlForm koktajlForm=new KoktajlForm();
+    public KoktajlForm toKoktajlForm(Koktajl koktajl) {
+        KoktajlForm koktajlForm = new KoktajlForm();
 
         koktajlForm.setNazwa(koktajl.getNazwa());
 
-        if (koktajl.getKlasa()!=null){
+        if (koktajl.getKlasa() != null) {
             koktajlForm.setKlasa(koktajl.getKlasa());
         }
-        if (koktajl.getSzklo()!=null){
+        if (koktajl.getSzklo() != null) {
             koktajlForm.setSzklo(koktajl.getSzklo());
         }
-        if (koktajl.getOpisPrzyzadzenia()!=null){
+        if (koktajl.getOpisPrzyzadzenia() != null) {
             koktajlForm.setOpisPrzyrzadzenia(koktajl.getOpisPrzyzadzenia());
         }
-        if (koktajl.getZdobienie()!=null){
+        if (koktajl.getZdobienie() != null) {
             koktajlForm.setZdobienie(koktajl.getZdobienie());
         }
-            koktajlForm.setOcena(koktajl.getOcena());
+        koktajlForm.setOcena(koktajl.getOcena());
 
-        if (koktajl.isVegan()){
+        if (koktajl.isVegan()) {
             koktajlForm.setVegan("tak");
         } else {
             koktajlForm.setVegan("nie");
         }
 
-        List<SkladnikP> skladnikPList= new ArrayList<>();
+        List<SkladnikP> skladnikPList = new ArrayList<>();
 
-        for (SkladnikB skladnikB:koktajl.getSkladnikBList()){
-            SkladnikP skladnikP= new SkladnikP();
+        for (SkladnikB skladnikB : koktajl.getSkladnikBList()) {
+            SkladnikP skladnikP = new SkladnikP();
             skladnikP.setIloscML(skladnikB.getIlosc());
             skladnikP.setOpisDodatkowy(skladnikB.getOpisDodatkowy());
 
-            if (skladnikB.getSkladnik() instanceof Typ){
+            if (skladnikB.getSkladnik() instanceof Typ) {
                 skladnikP.setRodzaj(1);
-                skladnikP.setTyp(skladnikB.getSkladnik().getId());
-                skladnikP.setNazwa(((Typ) skladnikB.getSkladnik()).getAlkoholID().toString());
-            }else if (skladnikB.getSkladnik() instanceof Sok){
+                skladnikP.setTyp(skladnikB.getSkladnik().getNazwa());
+                if (alkoholRepo.findById(((Typ) skladnikB.getSkladnik()).getAlkoholID()).isPresent()) {
+                    Alkohol alkohol= alkoholRepo.findById(((Typ) skladnikB.getSkladnik()).getAlkoholID()).get();
+                    skladnikP.setNazwa(alkohol.getNazwa());
+                }
+            } else if (skladnikB.getSkladnik() instanceof Sok) {
                 skladnikP.setRodzaj(2);
                 skladnikP.setNazwa(skladnikB.getSkladnik().getNazwa());
-            }else if (skladnikB.getSkladnik() instanceof Syrop){
+            } else if (skladnikB.getSkladnik() instanceof Syrop) {
                 skladnikP.setRodzaj(3);
                 skladnikP.setNazwa(skladnikB.getSkladnik().getNazwa());
-            }else if (skladnikB.getSkladnik() instanceof Inny){
+            } else if (skladnikB.getSkladnik() instanceof Inny) {
                 skladnikP.setRodzaj(4);
                 skladnikP.setNazwa(skladnikB.getSkladnik().getNazwa());
-            }else {
+            } else {
                 continue;
             }
 
@@ -170,7 +189,6 @@ public class Mapper {
         }
 
         koktajlForm.setListaSkladnikow(skladnikPList);
-
 
 
         return koktajlForm;

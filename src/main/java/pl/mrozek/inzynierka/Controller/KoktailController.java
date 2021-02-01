@@ -5,6 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
+import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
+import pl.mrozek.inzynierka.Entity.skladniki.Sok;
+import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
 import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.mapper.Mapper;
@@ -46,14 +49,9 @@ public class KoktailController {
     @GetMapping("/add")
     public String addKoktajl(Model model){
 
-//        System.out.println(alkoholRepo.findAll());
-//        System.out.println(skladnikRepo.findAll());
-
-
         KoktajlForm koktajlForm=new KoktajlForm();
         koktajlForm.setZdobienie("Dowolne");
 
-//        System.out.println(alkoholRepo.findAll());
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("koktajlForm",koktajlForm);
         model.addAttribute("sokList",sokRepo.findAll());
@@ -67,15 +65,12 @@ public class KoktailController {
     @PostMapping("/add")
     public String addKoktajlSubmitt(@ ModelAttribute("koktajlForm") KoktajlForm koktajlForm,Model model){
 
-        System.out.println("odbieram koktajl form");
-        System.out.println(koktajlForm);
 
-//        Koktajl koktajl = new Koktajl();
+        Koktajl koktajl = new Koktajl();
 //        koktailRepo.save(koktajl);
-//        koktajl =mapper.toKoktajl(koktajl,koktajlForm);
-//        koktailRepo.save(koktajl);
+        koktajl =mapper.toKoktajl(koktajl,koktajlForm);
+        koktailRepo.save(koktajl);
 
-//        System.out.println("zapisany koktajl "+ koktajl);
 
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("koktajlForm",new KoktajlForm());
@@ -84,6 +79,21 @@ public class KoktailController {
         //planowane przeniesienie do edycji,a w edycjki dodwanie zdjecia
         return  "/dodaj";
     }
+
+    @GetMapping("/test")
+    public String test(Model model){
+
+
+        KoktajlForm koktajlForm=new KoktajlForm();
+        model.addAttribute("skladnikList", alkoholRepo.findAll());
+        model.addAttribute("koktajlForm",koktajlForm);
+        model.addAttribute("sokList",sokRepo.findAll());
+        model.addAttribute("syropList",syropRepo.findAll());
+        model.addAttribute("innyList",innyRepo.findAll());
+
+        return "/dodaj";
+    }
+
 
 
 
@@ -147,9 +157,13 @@ public class KoktailController {
         alkohol1.setTypList(typLista1);
         alkoholRepo.save(alkohol1);
 
-//        System.out.println("dodano");
-//        System.out.println(alkohol);
-//        System.out.println(alkohol1);
+        Sok sok= new Sok();
+        sok.setNazwa("soczek");
+        sokRepo.save(sok);
+
+        Syrop syrop= new Syrop();
+        syrop.setNazwa("syropek");
+        syropRepo.save(syrop);
 
         return  "redirect:/koktajl/add";
 
