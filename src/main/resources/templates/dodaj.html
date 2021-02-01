@@ -276,7 +276,7 @@
                     break;
 
                 default:
-                    addSyropRow(listName, rowIndex, elementName, row);
+                    addSyropRow(listName, rowIndex, elementName, row,rodzaj);
 
             }
         }
@@ -285,7 +285,66 @@
         document.getElementById(elementName).appendChild(row);
     };
 
-    let addSyropRow = function (listName, rowIndex, elementName, row) {
+    function newSyropChanger(listName,row, rowIndex, column, checkbox,rodzaj) {
+
+
+
+        let childID=listName + rowIndex + '.' + 'nazwa';
+        column.removeChild(document.getElementById(childID));
+
+
+        if (checkbox.checked ===true) {
+
+            let input2 = document.createElement('input');
+            input2.type = 'text';
+            input2.classList.add('form-control');
+            input2.id = listName + rowIndex + '.' + 'nazwa';
+            input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+            input2.placeholder = "Nazwa";
+            column.appendChild(input2);
+
+        }else {
+
+            let input3 = document.createElement('select');
+            var option2 = document.createElement("option");
+            option2.value = "-----";
+            option2.text = "-----";
+            input3.appendChild(option2);
+
+            var tempList;
+            if (rodzaj==2) {
+                console.log("sok");
+                tempList=listaSok;
+            }else if (rodzaj==3){
+                tempList=listaSyrop;
+                console.log("syrop");
+            } else if (rodzaj==4){
+                tempList=listaInny;
+                console.log("inne");
+            } else {
+                console.log("sok");
+            }
+
+            for (var i = 0; i < tempList.length; i++) {
+                var option2 = document.createElement("option");
+                option2.value = tempList[i].id;
+                option2.text = tempList[i].nazwa;
+                input3.appendChild(option2);
+            }
+
+            input3.classList.add('form-control');
+            input3.id = listName + rowIndex + '.' + 'nazwa';
+            input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+
+            column.appendChild(input3);
+
+
+        }
+
+
+    }
+
+    let addSyropRow = function (listName, rowIndex, elementName, row,rodzaj) {
 
         // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
 
@@ -314,12 +373,37 @@
 
         let col6 = document.createElement('td');
         col6.classList.add('col-sm-2');
-        let input3 = document.createElement('input');
-        input3.type = 'text';
+        let input3 = document.createElement('select');
+        var option2 = document.createElement("option");
+        option2.value = "-----";
+        option2.text = "-----";
+        input3.appendChild(option2);
+
+        var tempList;
+        if (rodzaj==2) {
+            console.log("sok");
+            tempList=listaSok;
+        }else if (rodzaj==3){
+            tempList=listaSyrop;
+            console.log("syrop");
+        } else if (rodzaj==4){
+            tempList=listaInny;
+            console.log("inne");
+        } else {
+            console.log("sok");
+        }
+
+
+        for (var i = 0; i < tempList.length; i++) {
+            var option2 = document.createElement("option");
+            option2.value = tempList[i].id;
+            option2.text = tempList[i].nazwa;
+            input3.appendChild(option2);
+        }
+
         input3.classList.add('form-control');
         input3.id = listName + rowIndex + '.' + 'nazwa';
         input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
-        input3.placeholder = "Nazwa";
         col6.appendChild(input3);
         row.appendChild(col6);
 
@@ -340,15 +424,19 @@
         row.appendChild(colNew);
 
 
+        colNew.addEventListener("change", function () {
+            newSyropChanger(listName,row, rowIndex, col6, checkbox,rodzaj)
+        }, true);
+
         let col3 = document.createElement('td');
         col3.classList.add('col-sm-1');
         var btn = document.createElement("BUTTON");
         btn.innerHTML = "Usuń";
-        btn.className = "removeRowBtn"
+        btn.className = "removeRowBtn";
         col3.appendChild(btn);
         row.appendChild(col3);
 
-    }
+    };
 
     let addSokRow = function (listName, rowIndex, elementName, row) {
 

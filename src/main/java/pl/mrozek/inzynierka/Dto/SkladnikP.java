@@ -21,6 +21,7 @@ public class SkladnikP {
 
 }
 //todo syropy i soki z bazy + dodawanie nowych w formularzu
+// nowy skladnik mapper
 //todo nowe skladniki
 //todo edycja
 //todo dodawanie zdjec
