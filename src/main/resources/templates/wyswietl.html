@@ -60,15 +60,19 @@
 
                                     <td th:text="${skladnik.iloscML}"></td>
                                     <td th:text="${skladnik.opisDodatkowy}"></td>
+                                    <td th:text="${skladnik.nazwa}"></td>
 
 
-                                    <td>
-                                    <span th:if="${skladnik.nazwa == '1'}"
-                                          th:text="*{alkoholList[__${skladnik.nazwa}__].nazwa}"></span>
-                                        <span th:unless="${skladnik.nazwa =='1'}" th:text="*{skladnik.nazwa}"></span>
+
+<!--                                    <td>-->
+<!--                                    <span th:if="${skladnik.rodzaj == '1'}"-->
+<!--                                          th:text="*{alkoholList[__${skladnik.nazwa}__].nazwa}"></span>-->
+<!--                                        <span th:unless="${skladnik.rodzaj =='1'}" th:text="*{skladnik.nazwa}"></span>-->
+<!--                                    </td>-->
+                                    <td th:if="${skladnik.rodzaj == 1}"
+                                        th:text="*{skladnik.typ}">
+<!--                                        th:text="*{typList[__${skladnik.typ}__].nazwa}"-->
                                     </td>
-                                    <td th:if="${skladnik.nazwa == '1'}"
-                                        th:text="*{typList[__${skladnik.typ}__].nazwa}"></td>
 
                                 </tr>
                             </table>

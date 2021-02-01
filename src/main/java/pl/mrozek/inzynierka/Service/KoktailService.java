@@ -24,9 +24,7 @@ public class KoktailService {
     public void addKoktajl(){
         Koktajl koktajl =new Koktajl();
         koktajl.setNazwa("nowy");
-        System.out.println("utworzono nowy koktajl "+ koktajl);
         koktailRepo.save(koktajl);
-        System.out.println("dodano koktail "+ koktajl);
     }
     public List<Koktajl> getAllUserKoktajls(){
 
@@ -40,8 +38,6 @@ public class KoktailService {
         for (Koktajl koktajl:list){
             koktajlFormList.add(mapper.toKoktajlForm(koktajl));
         }
-        System.out.println("koktajl form list");
-        System.out.println(koktajlFormList);
 
         return koktajlFormList;
     }

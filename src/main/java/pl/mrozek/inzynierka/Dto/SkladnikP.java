@@ -12,17 +12,12 @@ public class SkladnikP {
     private double iloscML;
     private String nazwa;
     private int rodzaj;
-    private long typ;
+    private String typ;
     private String opisDodatkowy;
-
-    private String nowaNazwa;
-    private String nowyTyp;
     private boolean nowy;
 
 }
-//todo syropy i soki z bazy + dodawanie nowych w formularzu
-// nowy skladnik mapper
-//todo nowe skladniki
+//todo nowe alkohole
 //todo edycja
 //todo dodawanie zdjec
 //todo wyswietlanie zdjec

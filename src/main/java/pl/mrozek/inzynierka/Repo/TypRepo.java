@@ -6,4 +6,5 @@ import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 
 @Repository
 public interface TypRepo extends CrudRepository<Typ,Long> {
+    Typ findByNazwaEquals(String nazwa);
 }
