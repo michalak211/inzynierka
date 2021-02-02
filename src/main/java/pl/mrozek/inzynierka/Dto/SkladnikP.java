@@ -15,10 +15,11 @@ public class SkladnikP {
     private String typ;
     private String opisDodatkowy;
     private boolean nowy;
+    private boolean nowyAlko;
+
 
 }
-//todo nowe alkohole
-// nowa nazawa lakoholi
+//todo
 // mapper po dodawaniu alkoholi
 // edycja
 // dodawanie zdjec
