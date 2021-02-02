@@ -18,6 +18,8 @@ public class SkladnikP {
 
 }
 //todo nowe alkohole
-//todo edycja
-//todo dodawanie zdjec
-//todo wyswietlanie zdjec
+// nowa nazawa lakoholi
+// mapper po dodawaniu alkoholi
+// edycja
+// dodawanie zdjec
+// wyswietlanie zdjec
