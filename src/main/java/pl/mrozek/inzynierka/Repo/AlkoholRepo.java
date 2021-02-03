@@ -6,4 +6,5 @@ import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 
 @Repository
 public interface AlkoholRepo extends CrudRepository<Alkohol, Long> {
+    Alkohol findByNazwaEquals(String nazwa);
 }

@@ -103,34 +103,34 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr class="skladnikTable"
-                                                    th:each="status : ${koktajlForm.listaSkladnikow}">
+<!--                                                <tr class="skladnikTable"-->
+<!--                                                    th:each="status : ${koktajlForm.listaSkladnikow}">-->
 
-                                                    <td class="col-sm-4">
-                                                        <select th:field="*{listaSkladnikow[__${status.index}__].nazwa}"
-                                                                data-show-subtext="true" data-live-search="true"
-                                                                class="form-control">
-                                                            <th:block th:each="skladnik : ${skladnikList}">
-                                                                <option th:value="${skladnik.id}"
-                                                                        th:text="${skladnik.getNazwa()}"></option>
-                                                            </th:block>
-                                                        </select>
-                                                    </td>
+<!--                                                    <td class="col-sm-4">-->
+<!--                                                        <select th:field="*{listaSkladnikow[__${status.index}__].nazwa}"-->
+<!--                                                                data-show-subtext="true" data-live-search="true"-->
+<!--                                                                class="form-control">-->
+<!--                                                            <th:block th:each="skladnik : ${skladnikList}">-->
+<!--                                                                <option th:value="${skladnik.id}"-->
+<!--                                                                        th:text="${skladnik.getNazwa()}"></option>-->
+<!--                                                            </th:block>-->
+<!--                                                        </select>-->
+<!--                                                    </td>-->
 
-                                                    <td class="col-sm-4">
-                                                        <input th:field="*{listaSkladnikow[__${status.index}__].opisDodatkowy}"
-                                                               type="text" class="form-control"/>
-                                                    </td>
-                                                    <td class="col-sm-1">
-                                                        <input th:field="*{listaSkladnikow[__${status.index}__].typ}"
-                                                               type="date" class="form-control" placeholder="">
-                                                    </td>
-                                                    <td class="col-sm-1">
-                                                        <button class="removeRowBtn">
-                                                            Usuń
-                                                        </button>
-                                                    </td>
-                                                </tr>
+<!--                                                    <td class="col-sm-4">-->
+<!--                                                        <input th:field="*{listaSkladnikow[__${status.index}__].opisDodatkowy}"-->
+<!--                                                               type="text" class="form-control"/>-->
+<!--                                                    </td>-->
+<!--                                                    <td class="col-sm-1">-->
+<!--                                                        <input th:field="*{listaSkladnikow[__${status.index}__].typ}"-->
+<!--                                                               type="date" class="form-control" placeholder="">-->
+<!--                                                    </td>-->
+<!--                                                    <td class="col-sm-1">-->
+<!--                                                        <button class="removeRowBtn">-->
+<!--                                                            Usuń-->
+<!--                                                        </button>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
@@ -256,15 +256,6 @@
         function mainChanger(row, listName, rowIndex, selectList) {
 
             var rodzaj = selectList.value;
-            // console.log(row.cells);
-            //
-            // console.log(row.lastChild);
-
-
-            // while (!row.lastChild)) {
-            //     console.log(row.lastChild);
-            // }
-            // https://stackoverflow.com/questions/3072233/getting-value-from-table-cell-in-javascript-not-jquery
             var temp = row.cells.length - 1;
             for (var i = 0; i < (temp); i++) {
                 var usuwany = row.cells.length - 1;
@@ -409,9 +400,9 @@
         row.appendChild(col6);
 
 
-        let col7 = document.createElement('td');
-        col7.classList.add('col-sm-2');
-        row.appendChild(col7);
+        // let col7 = document.createElement('td');
+        // col7.classList.add('col-sm-2');
+        // row.appendChild(col7);
 
 
         let colNew = document.createElement('td');
@@ -708,32 +699,34 @@
 
         function alkoChanger(row, listName, rowIndex, selectList) {
 
-            var parent = selectList.value;
-            // console.log(parent);
+            let checkId = listName + rowIndex + '.' + 'nowy';
+            let checkObj= document.getElementById(checkId);
 
-            var skladniki = [[${skladnikList}]];
-            let bool=parent==="-----";
+            if (checkObj.checked===false){
+                var parent = selectList.value;
+                var skladniki = [[${skladnikList}]];
+                let bool = parent === "-----";
+                let childID = listName + rowIndex + '.' + 'typ';
+                var x = document.getElementById(childID);
+                do {
+                    x.remove(x.length - 1);
 
-            let childID = listName + rowIndex + '.' + 'typ';
-            var x = document.getElementById(childID);
-            do {
-                x.remove(x.length - 1);
+                } while (x.length > 0)
 
-            }while (x.length > 0)
-
-            if (!bool) {
-                skladniki.forEach((skladnik) => {
-                    var bol = skladnik.nazwa == parent;
-                    if (bol) {
-                        var typLista = skladnik.typList;
-                        for (var i = 0; i < typLista.length; i++) {
-                            var option = document.createElement("option");
-                            option.value = typLista[i].nazwa;
-                            option.text = typLista[i].nazwa;
-                            x.appendChild(option);
+                if (!bool) {
+                    skladniki.forEach((skladnik) => {
+                        var bol = skladnik.nazwa == parent;
+                        if (bol) {
+                            var typLista = skladnik.typList;
+                            for (var i = 0; i < typLista.length; i++) {
+                                var option = document.createElement("option");
+                                option.value = typLista[i].nazwa;
+                                option.text = typLista[i].nazwa;
+                                x.appendChild(option);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
     };

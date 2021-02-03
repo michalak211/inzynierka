@@ -4,12 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
+import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Entity.skladniki.Sok;
 import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
 import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
+import pl.mrozek.inzynierka.Service.KoktailService;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
 import javax.transaction.Transactional;
@@ -22,19 +24,20 @@ import java.util.List;
 public class KoktailController {
 
 
-    final
+    private final
     SkladnikRepo skladnikRepo;
-    final
+    private final
     AlkoholRepo alkoholRepo;
-    final
+    private final
     TypRepo typRepo;
     private final Mapper mapper;
     private final KoktailRepo koktailRepo;
     private final SokRepo sokRepo;
     private final SyropRepo syropRepo;
     private final InnyRepo innyRepo;
+    private final KoktailService koktailService;
 
-    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo) {
+    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService) {
         this.skladnikRepo = skladnikRepo;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -43,6 +46,7 @@ public class KoktailController {
         this.sokRepo = sokRepo;
         this.syropRepo = syropRepo;
         this.innyRepo = innyRepo;
+        this.koktailService = koktailService;
     }
 
     @Transactional
@@ -66,23 +70,41 @@ public class KoktailController {
     public String addKoktajlSubmitt(@ ModelAttribute("koktajlForm") KoktajlForm koktajlForm,Model model){
 
 
+        System.out.println("koktail form");
+        for (SkladnikP skladnikP: koktajlForm.getListaSkladnikow()){
+            System.out.println(skladnikP);
+
+
+        }
+        System.out.println("post mapping");
+
         Koktajl koktajl = new Koktajl();
-//        koktailRepo.save(koktajl);
         koktajl =mapper.toKoktajl(koktajl,koktajlForm);
         koktailRepo.save(koktajl);
+        System.out.println("zapisano");
+        System.out.println(koktajl);
+
+        model.addAttribute("alkoholList", alkoholRepo.findAll());
+        model.addAttribute("typList", typRepo.findAll());
+        model.addAttribute("koktajlList",koktailService.getAllUserForms());
 
 
-        model.addAttribute("skladnikList", alkoholRepo.findAll());
-        model.addAttribute("koktajlForm",new KoktajlForm());
+//        model.addAttribute("skladnikList", alkoholRepo.findAll());
+//        model.addAttribute("koktajlForm",new KoktajlForm());
 
 
         //planowane przeniesienie do edycji,a w edycjki dodwanie zdjecia
-        return  "/dodaj";
+        return  "redirect:/przegladaj";
+
     }
 
     @GetMapping("/test")
     public String test(Model model){
 
+
+        for (Alkohol alkohol:alkoholRepo.findAll()){
+            System.out.println(alkohol);
+        }
 
         KoktajlForm koktajlForm=new KoktajlForm();
         model.addAttribute("skladnikList", alkoholRepo.findAll());
@@ -91,7 +113,8 @@ public class KoktailController {
         model.addAttribute("syropList",syropRepo.findAll());
         model.addAttribute("innyList",innyRepo.findAll());
 
-        return "/dodaj";
+        return  "redirect:/koktajl/add";
+
     }
 
 
