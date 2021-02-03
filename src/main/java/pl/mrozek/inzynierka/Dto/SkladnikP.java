@@ -19,7 +19,7 @@ public class SkladnikP {
 
 
 }
-//todo
+//todo nowa nazwa nie kasuje aktualnie zaznaczonego typu
 // mapper po dodawaniu alkoholi
 // edycja
 // dodawanie zdjec

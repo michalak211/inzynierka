@@ -82,9 +82,39 @@ public class Mapper {
 
                     switch (skladnikP.getRodzaj()) {
                         case 1:
-                                Typ typ = typRepo.findByNazwaEquals(skladnikP.getTyp());
 
+                            if (skladnikP.isNowy()) {
+                                Alkohol alkohol = alkoholRepo.findByNazwaEquals(skladnikP.getNazwa());
+                                Typ newTyp = new Typ();
+                                newTyp.setNazwa(skladnikP.getTyp());
+                                newTyp.setAlkoholID(alkohol.getId());
+                                typRepo.save(newTyp);
+                                alkohol.getTypList().add(newTyp);
+                                alkoholRepo.save(alkohol);
+
+                                skladnikB.setSkladnik(newTyp);
+
+                            } else if (skladnikP.isNowyAlko()){
+                                Alkohol alkohol= new Alkohol();
+                                alkohol.setNazwa(skladnikP.getNazwa());
+                                Typ newTyp= new Typ();
+                                newTyp.setNazwa(skladnikP.getTyp());
+                                alkoholRepo.save(alkohol);
+                                newTyp.setAlkoholID(alkohol.getId());
+                                typRepo.save(newTyp);
+
+                                List<Typ> alkolist= new ArrayList<>();
+                                alkolist.add(newTyp);
+                                alkohol.setTypList(alkolist);
+                                alkoholRepo.save(alkohol);
+
+
+                                skladnikB.setSkladnik(newTyp);
+
+                            }else {
+                                Typ typ = typRepo.findByNazwaEquals(skladnikP.getTyp());
                                 skladnikB.setSkladnik(typ);
+                            }
 
                             break;
                         case 2:
@@ -169,7 +199,7 @@ public class Mapper {
                 skladnikP.setRodzaj(1);
                 skladnikP.setTyp(skladnikB.getSkladnik().getNazwa());
                 if (alkoholRepo.findById(((Typ) skladnikB.getSkladnik()).getAlkoholID()).isPresent()) {
-                    Alkohol alkohol= alkoholRepo.findById(((Typ) skladnikB.getSkladnik()).getAlkoholID()).get();
+                    Alkohol alkohol = alkoholRepo.findById(((Typ) skladnikB.getSkladnik()).getAlkoholID()).get();
                     skladnikP.setNazwa(alkohol.getNazwa());
                 }
             } else if (skladnikB.getSkladnik() instanceof Sok) {
