@@ -28,6 +28,7 @@ public class SkladnikP {
 
 }
 //todo nowa nazwa nie kasuje aktualnie zaznaczonego typu
+// displayflex do zdjecia (css triks) flexbox grid
 // edycja
 // wybor miejsca na zdjecie i obrobka pola
 // wybor miejsca dodawania zdjecia- czy da się z mau głównego
