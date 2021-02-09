@@ -33,6 +33,9 @@ public class SkladnikP {
 // wybor miejsca na zdjecie i obrobka pola
 // wybor miejsca dodawania zdjecia- czy da się z mau głównego
 // dodawanie zdjec
+// obsluga multipartial
+// mapper to file
+// przycisk do zdjecia
 // wyswietlanie zdjec
 
 
