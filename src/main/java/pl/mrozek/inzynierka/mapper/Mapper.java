@@ -68,7 +68,11 @@ public class Mapper {
             koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
         }
 
-//        koktajlForm.setId(koktajl.getId());
+//        if (koktajl.getId()!=null) {
+//            koktajlForm.setId(koktajl.getId());
+//        }else {
+//            koktajlForm.setId(0);
+//        }
 
 
         koktajl.setSkladnikBList(new ArrayList<>());
@@ -187,6 +191,13 @@ public class Mapper {
         } else {
             koktajlForm.setVegan("nie");
         }
+
+        if (koktajl.getId()!=null) {
+            koktajlForm.setId(koktajl.getId());
+        }else {
+            koktajlForm.setId(0);
+        }
+
 
         List<SkladnikP> skladnikPList = new ArrayList<>();
 
