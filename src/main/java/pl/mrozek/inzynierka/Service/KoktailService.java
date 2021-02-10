@@ -1,11 +1,13 @@
 package pl.mrozek.inzynierka.Service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Repo.KoktailRepo;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,32 @@ public class KoktailService {
         }
 
         return koktajlFormList;
+    }
+
+    public void addPictureToKoktajl(MultipartFile file, long id){
+
+        try {
+            byte[] bytes = file.getBytes();
+            if (koktailRepo.findById(id).isPresent()){
+                Koktajl koktajl= koktailRepo.findById(id).get();
+                koktajl.setZdjecie(bytes);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public byte[] getPhoto(long id){
+        if (koktailRepo.findById(id).isPresent()){
+            Koktajl koktajl= koktailRepo.findById(id).get();
+            return koktajl.getZdjecie();
+        }else {
+            return null;
+        }
+
     }
 
 }
