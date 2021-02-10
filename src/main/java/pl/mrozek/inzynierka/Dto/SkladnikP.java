@@ -42,6 +42,9 @@ public class SkladnikP {
 // dodawanie
 // aktualizacja
 
+//todo refactor
+// js!
+
 
 //    @GetMapping("/image/display/{id}")
 //    @ResponseBody
