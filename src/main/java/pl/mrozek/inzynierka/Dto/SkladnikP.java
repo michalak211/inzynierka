@@ -28,18 +28,23 @@ public class SkladnikP {
 
 }
 //todo nowa nazwa nie kasuje aktualnie zaznaczonego typu
-// displayflex do zdjecia (css triks) flexbox grid
 // edycja
-// wybor miejsca na zdjecie i obrobka pola
-// wybor miejsca dodawania zdjecia- czy da się z mau głównego
-// dodawanie zdjec
-// obsluga multipartial
-// mapper to file
-// przycisk do zdjecia
-// wyswietlanie zdjec
+// riff
 
+//todo dodawanie zdjec
+// wyswietlanie zdjec jesli jest to wysyła, jeśli nie to jakieś inne śmiszne zdjecie
+// wysyłąnie zdjęć na stronę
 
-// wklejanie zdjecia
+//todo logowanie
+// dodawanie zapoytań
+// dodwanie własnych zdjęć
+
+//todo filtry
+// wyswietlanie barkujących skałdników
+
+//todo zasoby barku
+// dodawanie
+// aktualizacja
 
 
 //    @GetMapping("/image/display/{id}")
