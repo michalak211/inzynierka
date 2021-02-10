@@ -1,12 +1,10 @@
 package pl.mrozek.inzynierka.Controller;
 
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Repo.AlkoholRepo;
 import pl.mrozek.inzynierka.Repo.TypRepo;
 import pl.mrozek.inzynierka.Service.KoktailService;
@@ -16,21 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ClassPathResource;
-
-
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping("")
@@ -84,12 +73,12 @@ public class MainController {
         }
 
         for (Map.Entry<String, MultipartFile> entry: fileMap.entrySet()){
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue().getOriginalFilename());
+//            System.out.println(entry.getKey());
+//            System.out.println(entry.getValue().getOriginalFilename());
 
             if (id==Integer.parseInt(entry.getKey())){
                 System.out.println("dziala kuffa!");
-//                koktailService.addPictureToKoktajl(entry.getValue(),id);
+                koktailService.addPictureToKoktajl(entry.getValue(),id);
                 break;
             }
         }
@@ -107,8 +96,8 @@ public class MainController {
     @ResponseBody
     void showImage(@PathVariable("id") Long id, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("test");
-        System.out.println(id);
+//        System.out.println("test");
+//        System.out.println(id);
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 
 
@@ -122,7 +111,7 @@ public class MainController {
 //            response.getOutputStream().write();
 
             try {
-                byte[] bytes = Files.readAllBytes(Paths.get(this.getClass().getClassLoader().getResource("res/fotka.jpg").toURI()));
+                byte[] bytes = Files.readAllBytes(Paths.get(this.getClass().getClassLoader().getResource("static/img/fotka.jpg").toURI()));
                 response.getOutputStream().write(bytes);
 
             } catch (URISyntaxException e) {

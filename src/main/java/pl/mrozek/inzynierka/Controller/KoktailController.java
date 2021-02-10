@@ -126,7 +126,23 @@ public class KoktailController {
 
     @GetMapping("/edit/{id}")
     public String editKoktajl(@PathVariable Long id, Model model){
-        return "test";
+
+        KoktajlForm koktajlForm= new KoktajlForm();
+        if (koktailRepo.findById(id).isPresent()){
+            Koktajl koktajl= koktailRepo.findById(id).get();
+            koktajlForm= mapper.toKoktajlForm(koktajl);
+        }
+
+
+
+        model.addAttribute("skladnikList", alkoholRepo.findAll());
+        model.addAttribute("koktajlForm",koktajlForm);
+        model.addAttribute("sokList",sokRepo.findAll());
+        model.addAttribute("syropList",syropRepo.findAll());
+        model.addAttribute("innyList",innyRepo.findAll());
+
+
+        return "/edit";
     }
 
     @Transactional

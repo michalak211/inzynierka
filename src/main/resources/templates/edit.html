@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!--<html lang="en">-->
+<head>
+    <div th:replace="fragments/header :: header-css"></div>
+    <title>Edycja</title>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="container-fluid">
+    <div class="starter-template">
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <label class="col-md-9 control-label">Dodaj koktajl</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal row-border" action="#"
+                              th:object="${koktajlForm}" method="post">
+
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <div class="row">
+
+                                        <div class="container-fluid">
+                                            <table class=" table order-list">
+                                                <thead>
+                                                <tr>
+                                                    <td style="text-align:center">Nazwa</td>
+                                                    <td style="text-align:center">Klasa</td>
+                                                    <td style="text-align:center">Podawane w:</td>
+                                                    <td style="text-align:center">Zdobienie:</td>
+                                                    <td style="text-align:center">Wegański:</td>
+                                                    <!--                                                    <td style="text-align:center">Dodaj zdjecie</td>-->
+
+                                                    <td></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="col-sm-2">
+                                                        <input th:field="*{nazwa}" type="text" class="form-control"
+                                                               placeholder="Nazwa" required>
+                                                    </td>
+                                                    <td class="col-sm-2">
+                                                        <input th:field="*{klasa}" type="text" class="form-control"
+                                                               placeholder="Klasa">
+                                                    </td>
+                                                    <td class="col-sm-2">
+                                                        <input th:field="*{szklo}" type="text" class="form-control"
+                                                               placeholder="Szklo">
+                                                    </td>
+                                                    <td class="col-sm-2">
+                                                        <input value="Dowolne" th:field="*{zdobienie}" type="text"
+                                                               class="form-control">
+                                                    </td>
+                                                    <td class="col-sm-2">
+                                                        <select th:field="*{vegan}" type="text" class="form-control">
+                                                            <option selected="selected" value="tak">tak</option>
+                                                            <option value="nie">nie</option>
+                                                        </select>
+                                                    </td>
+                                                    <!--                                                    <td class="col-sm-2">-->
+                                                    <!--                                                        <input type="file" name="zdjecie"/>-->
+                                                    <!--                                                    </td>-->
+
+
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <!--                                        <label  style="text-align:center" class="col-md-2 control-label">Skladniki</label>-->
+                                        <div class="container-fluid">
+                                            <table id="SkladTable" class=" table order-list">
+                                                <thead>
+                                                <tr>
+                                                    <td style="text-align:center">Rodzaj</td>
+                                                    <td style="text-align:center">Ilość</td>
+                                                    <td style="text-align:center">Opis dodatkowy</td>
+                                                    <td style="text-align:center">Nazwa</td>
+                                                    <td></td>
+                                                    <td style="text-align:center">Typ</td>
+                                                    <td style="text-align:center">Nowy składnik</td>
+
+                                                    <td></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <!--                                                <tr class="skladnikTable"-->
+                                                <!--                                                    th:each="status : ${koktajlForm.listaSkladnikow}">-->
+
+                                                <!--                                                    <td class="col-sm-4">-->
+                                                <!--                                                        <select th:field="*{listaSkladnikow[__${status.index}__].nazwa}"-->
+                                                <!--                                                                data-show-subtext="true" data-live-search="true"-->
+                                                <!--                                                                class="form-control">-->
+                                                <!--                                                            <th:block th:each="skladnik : ${skladnikList}">-->
+                                                <!--                                                                <option th:value="${skladnik.id}"-->
+                                                <!--                                                                        th:text="${skladnik.getNazwa()}"></option>-->
+                                                <!--                                                            </th:block>-->
+                                                <!--                                                        </select>-->
+                                                <!--                                                    </td>-->
+
+                                                <!--                                                    <td class="col-sm-4">-->
+                                                <!--                                                        <input th:field="*{listaSkladnikow[__${status.index}__].opisDodatkowy}"-->
+                                                <!--                                                               type="text" class="form-control"/>-->
+                                                <!--                                                    </td>-->
+                                                <!--                                                    <td class="col-sm-1">-->
+                                                <!--                                                        <input th:field="*{listaSkladnikow[__${status.index}__].typ}"-->
+                                                <!--                                                               type="date" class="form-control" placeholder="">-->
+                                                <!--                                                    </td>-->
+                                                <!--                                                    <td class="col-sm-1">-->
+                                                <!--                                                        <button class="removeRowBtn">-->
+                                                <!--                                                            Usuń-->
+                                                <!--                                                        </button>-->
+                                                <!--                                                    </td>-->
+                                                <!--                                                </tr>-->
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="7" style="text-align: left;">
+                                                        <input type="button" class="btn btn-lg btn-block "
+                                                               onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                               value="Dodaj kolejny składnik"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <label class="container-fluid">Opis przyrządzenia</label>
+                                    <textarea th:field="*{opisPrzyrzadzenia}" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary" name="zapisz">Zapisz</button>
+
+
+                        </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script th:inline="javascript">
+
+
+    // usuwanie rzedu
+
+    $('body').on('click', '.removeRowBtn', function () {
+        // to make sure at least one row remains
+        if ($('.removeRowBtn').length > 0) {
+            $(this).parents('tr').remove();
+        }
+    });
+
+    // DODAWANIE WIERSZY
+
+    var choices = [[${skladnikList}]];
+    var listaSok = [[${sokList}]];
+    var listaSyrop = [[${syropList}]];
+    var listaInny = [[${innyList}]];
+
+
+    let AddMainRow = function (listName, rowIndexSelector, elementName) {
+        let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-2');
+        let selectList = document.createElement('select');
+
+        var option = document.createElement("option");
+        option.value = "-----";
+        option.text = "Wybierz typ";
+        selectList.appendChild(option);
+
+        var option1 = document.createElement("option");
+        option1.value = "1";
+        option1.text = "Alkohol";
+        selectList.appendChild(option1);
+
+        var option2 = document.createElement("option");
+        option2.value = "2";
+        option2.text = "Sok";
+        selectList.appendChild(option2);
+
+        var option3 = document.createElement("option");
+        option3.value = "3";
+        option3.text = "Syrop";
+        selectList.appendChild(option3);
+
+        var option4 = document.createElement("option");
+        option4.value = "4";
+        option4.text = "Inny";
+        selectList.appendChild(option4);
+
+        selectList.classList.add('form-control');
+        selectList.id = listName + rowIndex + '.' + 'rodzaj';
+        selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'rodzaj');
+
+
+        col.appendChild(selectList);
+        row.appendChild(col);
+
+
+        let colusun = document.createElement('td');
+        colusun.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");   // Create a <button> element
+        btn.id = listName + rowIndex + '.' + 'remove';
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        colusun.appendChild(btn);
+        row.appendChild(colusun);
+
+        selectList.addEventListener("change", function () {
+            mainChanger(row, listName, rowIndex, selectList, elementName)
+        }, true);
+
+
+        document.getElementById(elementName).appendChild(row);
+    };
+
+    function mainChanger(row, listName, rowIndex, selectList, elementName) {
+
+        var rodzaj = selectList.value;
+        var temp = row.cells.length - 1;
+        for (var i = 0; i < (temp); i++) {
+            var usuwany = row.cells.length - 1;
+            row.removeChild(row.cells[usuwany]);
+        }
+
+        switch (rodzaj) {
+            case '1':
+                addAlkoRow(listName, rowIndex, elementName, row);
+                break;
+
+            default:
+                addSyropRow(listName, rowIndex, elementName, row, rodzaj);
+
+        }
+    }
+
+
+    function newSyropChanger(listName, row, rowIndex, column, checkbox, rodzaj) {
+
+
+        let childID = listName + rowIndex + '.' + 'nazwa';
+        column.removeChild(document.getElementById(childID));
+
+
+        if (checkbox.checked === true) {
+
+            let input2 = document.createElement('input');
+            input2.type = 'text';
+            input2.classList.add('form-control');
+            input2.id = listName + rowIndex + '.' + 'nazwa';
+            input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+            input2.placeholder = "Nazwa";
+            column.appendChild(input2);
+
+        } else {
+
+            let input3 = document.createElement('select');
+            var option2 = document.createElement("option");
+            option2.value = "-----";
+            option2.text = "-----";
+            input3.appendChild(option2);
+
+            var tempList;
+            if (rodzaj == 2) {
+                tempList = listaSok;
+            } else if (rodzaj == 3) {
+                tempList = listaSyrop;
+            } else if (rodzaj == 4) {
+                tempList = listaInny;
+            }
+
+            for (var i = 0; i < tempList.length; i++) {
+                var option2 = document.createElement("option");
+                option2.value = tempList[i].nazwa;
+                option2.text = tempList[i].nazwa;
+                input3.appendChild(option2);
+            }
+
+            input3.classList.add('form-control');
+            input3.id = listName + rowIndex + '.' + 'nazwa';
+            input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+
+            column.appendChild(input3);
+
+
+        }
+
+
+    }
+
+    let addSyropRow = function (listName, rowIndex, elementName, row, rodzaj) {
+
+        // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
+
+        let col4 = document.createElement('td');
+        col4.classList.add('col-sm-2');
+        let input = document.createElement('input');
+        input.type = 'number';
+        input.step = "0.5";
+        input.value = "0";
+        input.classList.add('form-control');
+        input.id = listName + rowIndex + '.' + 'iloscML';
+        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
+        col4.appendChild(input);
+        row.appendChild(col4);
+
+        let col5 = document.createElement('td');
+        col5.classList.add('col-sm-2');
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.classList.add('form-control');
+        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
+        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
+        input2.placeholder = "Opis dodatkowy";
+        col5.appendChild(input2);
+        row.appendChild(col5);
+
+        let col6 = document.createElement('td');
+        col6.classList.add('col-sm-2');
+        let input3 = document.createElement('select');
+        var option2 = document.createElement("option");
+        option2.value = "-----";
+        option2.text = "-----";
+        input3.appendChild(option2);
+
+        var tempList;
+        if (rodzaj == 2) {
+            tempList = listaSok;
+        } else if (rodzaj == 3) {
+            tempList = listaSyrop;
+        } else if (rodzaj == 4) {
+            tempList = listaInny;
+        }
+
+        for (var i = 0; i < tempList.length; i++) {
+            var option2 = document.createElement("option");
+            option2.value = tempList[i].nazwa;
+            option2.text = tempList[i].nazwa;
+            input3.appendChild(option2);
+        }
+
+        input3.classList.add('form-control');
+        input3.id = listName + rowIndex + '.' + 'nazwa';
+        input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+        col6.appendChild(input3);
+        row.appendChild(col6);
+
+
+        // let col7 = document.createElement('td');
+        // col7.classList.add('col-sm-2');
+        // row.appendChild(col7);
+
+
+        let colNew = document.createElement('td');
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.classList.add('form-control');
+        checkbox.id = listName + rowIndex + '.' + 'nowy';
+        checkbox.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowy');
+        colNew.appendChild(checkbox);
+        row.appendChild(colNew);
+
+
+        colNew.addEventListener("change", function () {
+            newSyropChanger(listName, row, rowIndex, col6, checkbox, rodzaj)
+        }, true);
+
+        let col3 = document.createElement('td');
+        col3.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn";
+        col3.appendChild(btn);
+        row.appendChild(col3);
+
+    };
+
+    function alkoChanger(row, listName, rowIndex, selectList) {
+
+        let checkId = listName + rowIndex + '.' + 'nowy';
+        let checkObj = document.getElementById(checkId);
+
+        if (checkObj.checked === false) {
+            var parent = selectList.value;
+            var skladniki = [[${skladnikList}]];
+            let bool = parent === "-----";
+            let childID = listName + rowIndex + '.' + 'typ';
+            var x = document.getElementById(childID);
+            do {
+                x.remove(x.length - 1);
+
+            } while (x.length > 0)
+
+            if (!bool) {
+                skladniki.forEach((skladnik) => {
+                    var bol = skladnik.nazwa == parent;
+                    if (bol) {
+                        var typLista = skladnik.typList;
+                        for (var i = 0; i < typLista.length; i++) {
+                            var option = document.createElement("option");
+                            option.value = typLista[i].nazwa;
+                            option.text = typLista[i].nazwa;
+                            x.appendChild(option);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    function newAlkoChanger(listName, row, rowIndex, column, columnTyp, checkbox, elementName) {
+
+        let listId = listName + rowIndex + '.' + 'nazwa';
+        column.removeChild(document.getElementById(listId));
+        let typListItem = listName + rowIndex + '.' + 'typ';
+        let x = document.getElementById(typListItem);
+
+        let checkboxTypId = listName + rowIndex + '.' + 'nowy';
+        let checkboxTyp = document.getElementById(checkboxTypId);
+
+        if (checkbox.checked) {
+
+            let input2 = document.createElement('input');
+            input2.type = 'text';
+            input2.classList.add('form-control');
+            input2.id = listName + rowIndex + '.' + 'nazwa';
+            input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+            input2.placeholder = "Nowa nazwa";
+            column.appendChild(input2);
+
+            let option2 = document.createElement("option");
+            option2.value = "Dowolny";
+            option2.text = "Dowolny";
+
+
+            if (checkboxTyp.checked) {
+                checkboxTyp.checked = false;
+
+                let childID = listName + rowIndex + '.' + 'typ';
+                columnTyp.removeChild(document.getElementById(childID));
+
+                let input3 = document.createElement('select');
+                input3.classList.add('form-control');
+                input3.id = listName + rowIndex + '.' + 'typ';
+                input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
+                input3.appendChild(option2);
+                columnTyp.appendChild(input3);
+
+            } else {
+                for (var i = 0; i <= x.length; i++) {
+                    if (x.length > 0) {
+                        x.remove(x.length - 1);
+                    }
+                }
+                x.appendChild(option2);
+            }
+
+
+        } else {
+
+            let selectList = document.createElement('select');
+            let option = document.createElement("option");
+            option.value = "-----";
+            option.text = "-----";
+            selectList.appendChild(option);
+
+            for (var i = 0; i < choices.length; i++) {
+                option = document.createElement("option");
+                option.value = choices[i].nazwa;
+                option.text = choices[i].nazwa;
+                selectList.appendChild(option);
+            }
+
+            selectList.classList.add('form-control');
+            selectList.id = listName + rowIndex + '.' + 'nazwa';
+            selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+            column.appendChild(selectList);
+
+            for (var i = 0; i < x.length; i++) {
+                if (x.length > 0) {
+                    x.remove(x.length - 1);
+                }
+            }
+
+            selectList.addEventListener("change", function () {
+                alkoChanger(row, listName, rowIndex, selectList, elementName)
+            }, true);
+        }
+    }
+
+
+    function newTypChanger(listName, row, rowIndex, columnAlko, column, checkbox, elementName) {
+
+        let childID = listName + rowIndex + '.' + 'typ';
+        column.removeChild(document.getElementById(childID));
+
+        let checkboxAlkoId = listName + rowIndex + '.' + 'nowyAlko';
+        let checkboxAlko = document.getElementById(checkboxAlkoId);
+
+        if (checkbox.checked) {
+
+            let input2 = document.createElement('input');
+            input2.type = 'text';
+            input2.classList.add('form-control');
+            input2.id = listName + rowIndex + '.' + 'typ';
+            input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
+            input2.placeholder = "Nowy typ";
+            column.appendChild(input2);
+
+            if (checkboxAlko.checked) {
+                checkboxAlko.checked = false;
+
+                let listId = listName + rowIndex + '.' + 'nazwa';
+                columnAlko.removeChild(document.getElementById(listId));
+
+
+                let selectList = document.createElement('select');
+                let option = document.createElement("option");
+                option.value = "-----";
+                option.text = "-----";
+                selectList.appendChild(option);
+
+                for (var i = 0; i < choices.length; i++) {
+                    option = document.createElement("option");
+                    option.value = choices[i].nazwa;
+                    option.text = choices[i].nazwa;
+                    selectList.appendChild(option);
+                }
+
+                selectList.classList.add('form-control');
+                selectList.id = listName + rowIndex + '.' + 'nazwa';
+                selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+                columnAlko.appendChild(selectList);
+
+                selectList.addEventListener("change", function () {
+                    alkoChanger(row, listName, rowIndex, selectList)
+                }, true);
+            }
+
+
+        } else {
+
+            let input3 = document.createElement('select');
+            var option2 = document.createElement("option");
+            option2.value = "-----";
+            option2.text = "-----";
+            input3.appendChild(option2);
+            input3.classList.add('form-control');
+            input3.id = listName + rowIndex + '.' + 'typ';
+            input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
+
+            let parentID = listName + rowIndex + '.' + 'nazwa';
+            var parentList = document.getElementById(parentID);
+            var parent = parentList.value;
+            var skladniki = [[${skladnikList}]];
+            skladniki.forEach((skladnik) => {
+
+                var typLista = skladnik.typList;
+                var bol = skladnik.nazwa == parent;
+                if (bol) {
+                    for (var i = 0; i < typLista.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = typLista[i].nazwa;
+                        option.text = typLista[i].nazwa;
+                        input3.appendChild(option);
+                    }
+                }
+            });
+
+            column.appendChild(input3);
+
+            parentList.addEventListener("change", function () {
+                alkoChanger(row, listName, rowIndex, parentList, elementName)
+            }, true);
+
+        }
+    }
+
+
+    let addAlkoRow = function (listName, rowIndex, elementName, row) {
+
+        let col4 = document.createElement('td');
+        col4.classList.add('col-sm-2');
+        let input = document.createElement('input');
+        input.type = 'number';
+        input.step = "7.5";
+        input.value = "0";
+        input.classList.add('form-control');
+        input.id = listName + rowIndex + '.' + 'iloscML';
+        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
+        col4.appendChild(input);
+        row.appendChild(col4);
+
+        let col5 = document.createElement('td');
+        col5.classList.add('col-sm-2');
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.classList.add('form-control');
+        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
+        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
+        input2.placeholder = "Opis dodatkowy";
+        col5.appendChild(input2);
+        row.appendChild(col5);
+
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-2');
+        let selectList = document.createElement('select');
+        var option = document.createElement("option");
+        option.value = "-----";
+        option.text = "-----";
+        selectList.appendChild(option);
+
+        for (var i = 0; i < choices.length; i++) {
+            var option = document.createElement("option");
+            option.value = choices[i].nazwa;
+            option.text = choices[i].nazwa;
+            selectList.appendChild(option);
+        }
+
+        selectList.classList.add('form-control');
+        selectList.id = listName + rowIndex + '.' + 'nazwa';
+        selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+        col.appendChild(selectList);
+        row.appendChild(col);
+
+        let colNewAlko = document.createElement('td');
+        let checkboxAlko = document.createElement('input');
+        checkboxAlko.type = 'checkbox';
+        checkboxAlko.classList.add('form-control');
+        checkboxAlko.id = listName + rowIndex + '.' + 'nowyAlko';
+        checkboxAlko.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowyAlko');
+        colNewAlko.appendChild(checkboxAlko);
+        row.appendChild(colNewAlko);
+
+        let col2 = document.createElement('td');
+        col2.classList.add('col-sm-2');
+        let selectList2 = document.createElement('select');
+        selectList2.classList.add('form-control');
+        selectList2.id = listName + rowIndex + '.' + 'typ';
+        selectList2.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
+        col2.appendChild(selectList2);
+        row.appendChild(col2);
+
+
+        let colNew = document.createElement('td');
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.classList.add('form-control');
+        checkbox.id = listName + rowIndex + '.' + 'nowy';
+        checkbox.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowy');
+        colNew.appendChild(checkbox);
+        row.appendChild(colNew);
+
+
+        let col3 = document.createElement('td');
+        col3.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");   // Create a <button> element
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        col3.appendChild(btn);
+        row.appendChild(col3);
+
+        selectList.addEventListener("change", function () {
+            alkoChanger(row, listName, rowIndex, selectList, elementName)
+        }, true);
+
+        checkboxAlko.addEventListener("change", function () {
+            newAlkoChanger(listName, row, rowIndex, col, col2, checkboxAlko, elementName)
+        }, true);
+
+        checkbox.addEventListener("change", function () {
+            newTypChanger(listName, row, rowIndex, col, col2, checkbox, elementName)
+        }, true);
+
+
+    };
+
+
+    // EDIT EDIT
+
+    let addSyropRowEdit = function (listName, rowIndex, elementName, row, rodzaj,starySkladnik) {
+
+        // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
+
+        let col4 = document.createElement('td');
+        col4.classList.add('col-sm-2');
+        let input = document.createElement('input');
+        input.type = 'number';
+        input.step = "0.5";
+        input.value = "0";
+        input.classList.add('form-control');
+        input.id = listName + rowIndex + '.' + 'iloscML';
+        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
+        col4.appendChild(input);
+        row.appendChild(col4);
+
+        let col5 = document.createElement('td');
+        col5.classList.add('col-sm-2');
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.classList.add('form-control');
+        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
+        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
+        input2.placeholder = "Opis dodatkowy";
+        col5.appendChild(input2);
+        row.appendChild(col5);
+
+        let col6 = document.createElement('td');
+        col6.classList.add('col-sm-2');
+        let input3 = document.createElement('select');
+        var option2 = document.createElement("option");
+        option2.value = "-----";
+        option2.text = "-----";
+        input3.appendChild(option2);
+
+        var tempList;
+        if (rodzaj == 2) {
+            tempList = listaSok;
+        } else if (rodzaj == 3) {
+            tempList = listaSyrop;
+        } else if (rodzaj == 4) {
+            tempList = listaInny;
+        }
+
+        for (var i = 0; i < tempList.length; i++) {
+            var option2 = document.createElement("option");
+            option2.value = tempList[i].nazwa;
+            option2.text = tempList[i].nazwa;
+            input3.appendChild(option2);
+        }
+
+        input3.classList.add('form-control');
+        input3.id = listName + rowIndex + '.' + 'nazwa';
+        input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+        col6.appendChild(input3);
+        row.appendChild(col6);
+
+        input3.value= starySkladnik.nazwa;
+
+
+        // let col7 = document.createElement('td');
+        // col7.classList.add('col-sm-2');
+        // row.appendChild(col7);
+
+
+        let colNew = document.createElement('td');
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.classList.add('form-control');
+        checkbox.id = listName + rowIndex + '.' + 'nowy';
+        checkbox.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowy');
+        colNew.appendChild(checkbox);
+        row.appendChild(colNew);
+
+
+        colNew.addEventListener("change", function () {
+            newSyropChanger(listName, row, rowIndex, col6, checkbox, rodzaj)
+        }, true);
+
+        let col3 = document.createElement('td');
+        col3.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn";
+        col3.appendChild(btn);
+        row.appendChild(col3);
+
+    };
+
+
+
+
+
+
+
+
+    function alkoChangerEdit(row, listName, rowIndex, selectList,selectList2, starySkladnik) {
+
+
+        var parent = selectList.value;
+        var skladniki = [[${skladnikList}]];
+        // let childID = listName + rowIndex + '.' + 'typ';
+        // var x = document.getElementById(childID);
+
+        skladniki.forEach((skladnik) => {
+            var bol = skladnik.nazwa == parent;
+            if (bol) {
+                var typLista = skladnik.typList;
+                for (var i = 0; i < typLista.length; i++) {
+                    var option = document.createElement("option");
+                    option.value = typLista[i].nazwa;
+                    option.text = typLista[i].nazwa;
+                    selectList2.appendChild(option);
+                }
+            }
+        });
+
+        selectList2.value=starySkladnik.typ;
+
+
+    }
+
+
+    let addAlkoRowEdit = function (listName, rowIndex, elementName, row, starySkladnik) {
+
+        let col4 = document.createElement('td');
+        col4.classList.add('col-sm-2');
+        let input = document.createElement('input');
+        input.type = 'number';
+        input.step = "7.5";
+        input.value = starySkladnik.iloscML;
+        input.classList.add('form-control');
+        input.id = listName + rowIndex + '.' + 'iloscML';
+        input.setAttribute('name', listName + '[' + rowIndex + '].' + 'iloscML');
+        col4.appendChild(input);
+        row.appendChild(col4);
+
+        let col5 = document.createElement('td');
+        col5.classList.add('col-sm-2');
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.value = starySkladnik.opisDodatkowy;
+        input2.classList.add('form-control');
+        input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
+        input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
+        input2.placeholder = "Opis dodatkowy";
+        col5.appendChild(input2);
+        row.appendChild(col5);
+
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-2');
+        let selectList = document.createElement('select');
+        var option = document.createElement("option");
+        option.value = "-----";
+        option.text = "-----";
+        selectList.appendChild(option);
+
+        for (var i = 0; i < choices.length; i++) {
+            var option = document.createElement("option");
+            option.value = choices[i].nazwa;
+            option.text = choices[i].nazwa;
+            selectList.appendChild(option);
+        }
+
+        selectList.classList.add('form-control');
+        selectList.id = listName + rowIndex + '.' + 'nazwa';
+        selectList.value = starySkladnik.nazwa;
+        selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
+        col.appendChild(selectList);
+        row.appendChild(col);
+
+        let colNewAlko = document.createElement('td');
+        let checkboxAlko = document.createElement('input');
+        checkboxAlko.type = 'checkbox';
+        checkboxAlko.classList.add('form-control');
+        checkboxAlko.id = listName + rowIndex + '.' + 'nowyAlko';
+        checkboxAlko.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowyAlko');
+        colNewAlko.appendChild(checkboxAlko);
+        row.appendChild(colNewAlko);
+
+        let col2 = document.createElement('td');
+        col2.classList.add('col-sm-2');
+        let selectList2 = document.createElement('select');
+        selectList2.classList.add('form-control');
+        selectList2.id = listName + rowIndex + '.' + 'typ';
+        selectList2.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
+        col2.appendChild(selectList2);
+        row.appendChild(col2);
+
+
+        let colNew = document.createElement('td');
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.classList.add('form-control');
+        checkbox.id = listName + rowIndex + '.' + 'nowy';
+        checkbox.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowy');
+        colNew.appendChild(checkbox);
+        row.appendChild(colNew);
+
+
+        let col3 = document.createElement('td');
+        col3.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");   // Create a <button> element
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        col3.appendChild(btn);
+        row.appendChild(col3);
+
+        alkoChangerEdit(row, listName, rowIndex, selectList,selectList2, starySkladnik)
+
+        selectList.addEventListener("change", function () {
+            alkoChanger(row, listName, rowIndex, selectList)
+        }, true);
+
+        checkboxAlko.addEventListener("change", function () {
+            newAlkoChanger(listName, row, rowIndex, col, col2, checkboxAlko, elementName)
+        }, true);
+
+        checkbox.addEventListener("change", function () {
+            newTypChanger(listName, row, rowIndex, col, col2, checkbox, elementName)
+        }, true);
+
+
+    };
+
+    function mainChangerEdit(row, listName, rowIndex, selectList, elementName, starySkladnik) {
+
+        var rodzaj = selectList.value;
+        var temp = row.cells.length - 1;
+        for (var i = 0; i < (temp); i++) {
+            var usuwany = row.cells.length - 1;
+            row.removeChild(row.cells[usuwany]);
+        }
+
+        switch (rodzaj) {
+            case '1':
+                addAlkoRowEdit(listName, rowIndex, elementName, row, starySkladnik);
+                break;
+
+            default:
+                addSyropRowEdit(listName, rowIndex, elementName, row, rodzaj,starySkladnik);
+
+        }
+    }
+
+
+    let AddMainRowEdit = function (listName, rowIndexSelector, elementName, starySkladnik) {
+        let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-2');
+        let selectList = document.createElement('select');
+
+        var option = document.createElement("option");
+        option.value = "-----";
+        option.text = "Wybierz typ";
+        selectList.appendChild(option);
+
+        var option1 = document.createElement("option");
+        option1.value = "1";
+        option1.text = "Alkohol";
+        selectList.appendChild(option1);
+
+        var option2 = document.createElement("option");
+        option2.value = "2";
+        option2.text = "Sok";
+        selectList.appendChild(option2);
+
+        var option3 = document.createElement("option");
+        option3.value = "3";
+        option3.text = "Syrop";
+        selectList.appendChild(option3);
+
+        var option4 = document.createElement("option");
+        option4.value = "4";
+        option4.text = "Inny";
+        selectList.appendChild(option4);
+
+        selectList.classList.add('form-control');
+        selectList.id = listName + rowIndex + '.' + 'rodzaj';
+        selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'rodzaj');
+
+
+        col.appendChild(selectList);
+        row.appendChild(col);
+
+
+        let rodzaj = starySkladnik.rodzaj;
+        switch (rodzaj) {
+            case 1:
+                selectList.value = "1";
+                break;
+            case 2:
+                selectList.value = "2";
+                break;
+            case 3:
+                selectList.value = "3";
+                break;
+            case 4:
+                selectList.value = "4";
+                break;
+        }
+
+
+        let colusun = document.createElement('td');
+        colusun.classList.add('col-sm-1');
+        var btn = document.createElement("BUTTON");   // Create a <button> element
+        btn.id = listName + rowIndex + '.' + 'remove';
+        btn.innerHTML = "Usuń";
+        btn.className = "removeRowBtn"
+        colusun.appendChild(btn);
+        row.appendChild(colusun);
+
+        selectList.addEventListener("change", function () {
+            mainChanger(row, listName, rowIndex, selectList, elementName)
+        }, true);
+
+
+        mainChangerEdit(row, listName, rowIndex, selectList, elementName, starySkladnik);
+
+
+        document.getElementById(elementName).appendChild(row);
+    };
+
+
+    var stareSkladniki = [[${koktajlForm.listaSkladnikow}]];
+
+    stareSkladniki.forEach(function (starySkladnik, index, array) {
+
+        let rowIndexSelector = '.skladnikTable';
+        let listName = 'listaSkladnikow';
+        let elementName = 'SkladTable'
+
+        let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+
+        AddMainRowEdit(listName, rowIndexSelector, elementName, starySkladnik);
+
+    });
+
+
+</script>
+
+</body>
+</html>
