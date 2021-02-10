@@ -27,13 +27,9 @@ public class SkladnikP {
 
 
 }
-//todo nowa nazwa nie kasuje aktualnie zaznaczonego typu
-// edycja
+//todo edycja
+// zapis edycji
 // riff
-
-//todo dodawanie zdjec
-// wyswietlanie zdjec jesli jest to wysyła, jeśli nie to jakieś inne śmiszne zdjecie
-// wysyłąnie zdjęć na stronę
 
 //todo logowanie
 // dodawanie zapoytań
