@@ -25,4 +25,6 @@ public class Skladnik {
     private String nazwa;
 
 
+
+
 }

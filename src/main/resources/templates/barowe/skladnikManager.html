@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" >
+<!--<html lang="en">-->
+<head>
+    <div th:replace="fragments/header :: header-css"></div>
+    <title>Składnik Manager</title>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="container-fluid">
+    <div class="starter-template">
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <label class="col-md-9 control-label">Dodaj koktajl</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body">
+
+
+
+
+
+                        <div class="form-group">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <!--                                        <label  style="text-align:center" class="col-md-2 control-label">Skladniki</label>-->
+                                    <div class="container-fluid">
+                                        <table id="Przyciski" class=" table order-list">
+                                            <tfoot>
+                                            <tr>
+                                                <td colspan="2" style="text-align: center;">
+                                                    <input type="button" class="btn btn-block "
+                                                           onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                           value="Alkohole"/>
+                                                </td>
+                                                <td colspan="2" style="text-align: center;">
+                                                    <input type="button" class="btn btn-block "
+                                                           onclick="sokiTable('Przyciski')"
+                                                           value="Soki"/>
+                                                </td>
+
+                                                <td colspan="2" style="text-align: center;">
+                                                    <input type="button" class="btn btn-block "
+                                                           onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                           value="Syropy"/>
+                                                </td>
+
+                                                <td colspan="2" style="text-align: center;">
+                                                    <input type="button" class="btn btn-block "
+                                                           onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                           value="Inne"/>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+
+
+                                        <table id="SkladTable" class=" table order-list">
+                                            <tfoot>
+
+
+                                            </tfoot>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script th:inline="javascript">
+
+
+    var skladnikList = [[${skladnikList}]];
+    var sokList = [[${sokList}]];
+    var syropList = [[${syropList}]];
+    var innyList = [[${innyList}]];
+
+
+
+
+    let sokiTable= function (elementName) {
+
+        console.log('klik');
+        let rowIndexSelector='.hgw';
+
+
+        sokList.forEach(function (sok,index,array) {
+
+            console.log("iteracja "+index);
+            let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+            let row = document.createElement('tr');
+            row.classList.add(rowIndexSelector.substr(1));
+
+            let colName=document.createElement('td');
+            colName.classList.add('col-sm-2');
+            colName.value=sok.nazwa;
+
+            row.appendChild(colName);
+
+
+
+
+
+            document.getElementById(elementName).appendChild(row);
+        })
+
+    }
+
+
+
+
+
+</script>
+</body>
+</html>

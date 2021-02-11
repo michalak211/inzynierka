@@ -5,8 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import pl.mrozek.inzynierka.Repo.AlkoholRepo;
-import pl.mrozek.inzynierka.Repo.TypRepo;
+import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
 
 import javax.servlet.ServletException;
@@ -29,11 +28,20 @@ public class MainController {
     KoktailService koktailService;
     private final AlkoholRepo alkoholRepo;
     private final TypRepo typRepo;
+    private final KoktailRepo koktailRepo;
+    private final SokRepo sokRepo;
+    private final SyropRepo syropRepo;
+    private final InnyRepo innyRepo;
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo) {
+
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
+        this.koktailRepo = koktailRepo;
+        this.sokRepo = sokRepo;
+        this.syropRepo = syropRepo;
+        this.innyRepo = innyRepo;
     }
 
     @GetMapping("/test")
@@ -96,24 +104,13 @@ public class MainController {
     @ResponseBody
     void showImage(@PathVariable("id") Long id, HttpServletResponse response)
             throws ServletException, IOException {
-//        System.out.println("test");
-//        System.out.println(id);
+
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 
-
-        if (koktailService.getPhoto(id)!=null) {
-            response.getOutputStream().write(koktailService.getPhoto(id));
-        } else {
-
-//            Resource resource= new ClassPathResource("res/fotka.jpg");
-//            InputStream input = resource.getInputStream();
-//            File file = resource.getFile();
-//            response.getOutputStream().write();
-
-            try {
+        if (koktailService.getPhoto(id)!=null) { response.getOutputStream().write(koktailService.getPhoto(id)); }
+        else {try {
                 byte[] bytes = Files.readAllBytes(Paths.get(this.getClass().getClassLoader().getResource("static/img/fotka.jpg").toURI()));
                 response.getOutputStream().write(bytes);
-
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -121,6 +118,19 @@ public class MainController {
         }
         response.getOutputStream().close();
 
+    }
+
+    @GetMapping("/bar")
+    public String barManager(Model model){
+
+
+        model.addAttribute("sokList",sokRepo.findAll());
+        model.addAttribute("syropList",syropRepo.findAll());
+        model.addAttribute("innyList",innyRepo.findAll());
+        model.addAttribute("skladnikList", alkoholRepo.findAll());
+        model.addAttribute("typList", typRepo.findAll());
+
+        return "/barowe/skladnikManager";
     }
 
 }
