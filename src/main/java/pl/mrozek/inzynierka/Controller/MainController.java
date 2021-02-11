@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import pl.mrozek.inzynierka.Dto.SkladnikP;
+import pl.mrozek.inzynierka.Entity.bar.Barek;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
 
@@ -32,9 +34,10 @@ public class MainController {
     private final SokRepo sokRepo;
     private final SyropRepo syropRepo;
     private final InnyRepo innyRepo;
+    private final BarekRepo barekRepo;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, BarekRepo barekRepo) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -42,6 +45,7 @@ public class MainController {
         this.sokRepo = sokRepo;
         this.syropRepo = syropRepo;
         this.innyRepo = innyRepo;
+        this.barekRepo = barekRepo;
     }
 
     @GetMapping("/test")
@@ -56,8 +60,6 @@ public class MainController {
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
         model.addAttribute("koktajlList", koktailService.getAllUserForms());
-//        System.out.println("controller");
-//        System.out.println(koktailService.getAllUserForms());
         return "/wyswietl";
     }
 
@@ -65,15 +67,11 @@ public class MainController {
     @Transactional
     @PostMapping(value = "/dodZdj" ,consumes = {"multipart/form-data"})
     public String addPicture(Model model, @RequestParam String zdjecie,
-//                             @RequestParam(value = "uploadFile",required=false) MultipartFile file,
                              @RequestParam(required=false) Map<String, String> allParams,
                              HttpServletRequest request
-//                             @PathVariable Long id
     ) {
 
-        System.out.println(zdjecie);
         long id=Integer.parseInt(zdjecie);
-
         Map<String, MultipartFile> fileMap = new HashMap<String, MultipartFile>();
         if (request instanceof MultipartHttpServletRequest) {
             MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
@@ -81,11 +79,7 @@ public class MainController {
         }
 
         for (Map.Entry<String, MultipartFile> entry: fileMap.entrySet()){
-//            System.out.println(entry.getKey());
-//            System.out.println(entry.getValue().getOriginalFilename());
-
             if (id==Integer.parseInt(entry.getKey())){
-                System.out.println("dziala kuffa!");
                 koktailService.addPictureToKoktajl(entry.getValue(),id);
                 break;
             }
@@ -124,6 +118,12 @@ public class MainController {
     public String barManager(Model model){
 
 
+        if (barekRepo.findById((long)37).isPresent()){
+            Barek barek=barekRepo.findById((long)37).get();
+            model.addAttribute("barek",barek);
+        }
+
+        model.addAttribute("skladnikP",new SkladnikP());
         model.addAttribute("sokList",sokRepo.findAll());
         model.addAttribute("syropList",syropRepo.findAll());
         model.addAttribute("innyList",innyRepo.findAll());
@@ -131,6 +131,20 @@ public class MainController {
         model.addAttribute("typList", typRepo.findAll());
 
         return "/barowe/skladnikManager";
+    }
+
+    @PostMapping("/bar")
+    public String barDodaj(@ModelAttribute ("skladnikP")SkladnikP skladnikP){
+
+        System.out.println(skladnikP);
+        if (barekRepo.findById((long)37).isPresent()){
+            Barek barek=barekRepo.findById((long)37).get();
+
+        }
+
+
+
+        return "redirect:/bar";
     }
 
 }

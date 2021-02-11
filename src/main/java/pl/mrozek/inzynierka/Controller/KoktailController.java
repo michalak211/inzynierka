@@ -4,9 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
-import pl.mrozek.inzynierka.Dto.SkladnikP;
+import pl.mrozek.inzynierka.Entity.bar.Barek;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
+import pl.mrozek.inzynierka.Entity.skladniki.Inny;
 import pl.mrozek.inzynierka.Entity.skladniki.Sok;
 import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
 import pl.mrozek.inzynierka.Entity.skladniki.Typ;
@@ -36,8 +37,9 @@ public class KoktailController {
     private final SyropRepo syropRepo;
     private final InnyRepo innyRepo;
     private final KoktailService koktailService;
+    private final BarekRepo barekRepo;
 
-    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService) {
+    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService, BarekRepo barekRepo) {
         this.skladnikRepo = skladnikRepo;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -47,6 +49,7 @@ public class KoktailController {
         this.syropRepo = syropRepo;
         this.innyRepo = innyRepo;
         this.koktailService = koktailService;
+        this.barekRepo = barekRepo;
     }
 
     @Transactional
@@ -86,10 +89,6 @@ public class KoktailController {
     public String test(Model model){
 
 
-        for (Alkohol alkohol:alkoholRepo.findAll()){
-            System.out.println(alkohol);
-        }
-
         KoktajlForm koktajlForm=new KoktajlForm();
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("koktajlForm",koktajlForm);
@@ -100,9 +99,6 @@ public class KoktailController {
         return  "redirect:/koktajl/add";
 
     }
-
-
-
 
 
 
@@ -205,6 +201,20 @@ public class KoktailController {
         Syrop syrop= new Syrop();
         syrop.setNazwa("syropek");
         syropRepo.save(syrop);
+
+        Barek barek= new Barek();
+        List<Typ> typList=new ArrayList<>();
+        List<Sok> sokList=new ArrayList<>();
+        List<Syrop> syropList=new ArrayList<>();
+        List<Inny> innyList=new ArrayList<>();
+
+        barek.setListalkohol(typList);
+        barek.setListInny(innyList);
+        barek.setListSyrop(syropList);
+        barek.setListSok(sokList);
+        barek.setNazwa("barek mieszkanie");
+
+barekRepo.save(barek);
 
         return  "redirect:/koktajl/add";
 
