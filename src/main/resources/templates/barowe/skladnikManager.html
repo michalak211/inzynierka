@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http//www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" >
+<html xmlns:th="http//www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <!--<html lang="en">-->
 <head>
     <div th:replace="fragments/header :: header-css"></div>
@@ -24,9 +24,8 @@
 
                     </div>
                     <div class="panel-body">
-
-
-
+                        <form class="form-horizontal row-border" action=""
+                              th:object="${skladnikP}" method="post">
 
 
                         <div class="form-group">
@@ -44,7 +43,7 @@
                                                 </td>
                                                 <td colspan="2" style="text-align: center;">
                                                     <input type="button" class="btn btn-block "
-                                                           onclick="sokiTable('Przyciski')"
+                                                           onclick="sokiTable('SkladTable')"
                                                            value="Soki"/>
                                                 </td>
 
@@ -67,7 +66,7 @@
                                         </table>
 
 
-                                        <table id="SkladTable" class=" table order-list">
+                                        <table id="SkladTable" class=" table order-list table-bordered">
                                             <tfoot>
 
 
@@ -79,14 +78,7 @@
                             </div>
                         </div>
 
-
-
-
-
-
-
-
-
+                        </form>
                     </div>
                 </div>
             </div>
@@ -95,53 +87,145 @@
 </div>
 
 
-
-
-
-
 <div th:replace="fragments/footer :: footer"></div>
 
 <script th:inline="javascript">
 
 
+    var barek=[[${barek}]];
     var skladnikList = [[${skladnikList}]];
     var sokList = [[${sokList}]];
     var syropList = [[${syropList}]];
     var innyList = [[${innyList}]];
 
 
+    let sokiTable = function (elementName) {
+
+        let rowIndexSelector = '.hgw';
+
+        let headRow = document.createElement('tr');
+        headRow.classList.add(rowIndexSelector.substr(1));
+        let head1 = document.createElement('td');
+        head1.classList.add('col-sm-2');
+        let head2 = document.createElement('td');
+        head2.classList.add('col-sm-2');
+
+        let head1text = document.createElement('output');
+        head1text.value = "nazwa";
+        let head2text = document.createElement('output');
+        head2text.value = "Cena za litr";
+
+        let hidden=document.createElement('input');
+        hidden.setAttribute('name','rodzaj');
+        hidden.value="2";
+        hidden.disabled=true;
+        hidden.hidden=true;
 
 
-    let sokiTable= function (elementName) {
+        head2.appendChild(head2text);
+        head1.appendChild(head1text);
+        headRow.appendChild(head1);
+        headRow.appendChild(head2);
+        headRow.appendChild(hidden);
 
-        console.log('klik');
-        let rowIndexSelector='.hgw';
+        document.getElementById(elementName).appendChild(headRow);
 
+        barek.listSok.forEach(function (sok, index, array) {
 
-        sokList.forEach(function (sok,index,array) {
-
-            console.log("iteracja "+index);
             let rowIndex = document.querySelectorAll(rowIndexSelector).length;
             let row = document.createElement('tr');
             row.classList.add(rowIndexSelector.substr(1));
+            row.classList.add('table-bordered');
 
-            let colName=document.createElement('td');
+            let colName = document.createElement('td');
             colName.classList.add('col-sm-2');
-            colName.value=sok.nazwa;
-
+            let nameText = document.createElement("output");
+            nameText.value = sok.nazwa;
+            colName.appendChild(nameText);
             row.appendChild(colName);
 
+            let colPrice = document.createElement('td');
+            colPrice.classList.add('col-sm-2');
+            let priceField = document.createElement("output");
+            priceField.value = sok.cenaZaLitr;
+            colPrice.appendChild(priceField);
+            row.appendChild(colPrice);
+
+            let colEdit = document.createElement('td');
+            colEdit.classList.add('col-sm-2');
+            let editbutton = document.createElement("BUTTON");
+            editbutton.innerHTML="edytuj";
+            editbutton.classList.add("btn");
+            editbutton.classList.add("btn-default");
 
 
+            // let href='/sok/edit/'+sok.id.stringValue;
+
+            editbutton.addEventListener("click", function (){
+                toEditSok();
+            },true);
+
+            function toEditSok(){
+                window.location.href='/sok/edit/'+sok.id;
+            }
+
+            colEdit.appendChild(editbutton);
+            row.appendChild(colEdit);
 
 
             document.getElementById(elementName).appendChild(row);
         })
 
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+        let colName = document.createElement('td');
+        colName.classList.add('col-sm-2');
+        let nameText = document.createElement("output");
+        nameText.value = "Dodaj sok do barku";
+        colName.appendChild(nameText);
+        row.appendChild(colName);
+
+        let col6 = document.createElement('td');
+        col6.classList.add('col-sm-2');
+        let input3 = document.createElement('select');
+        var option2 = document.createElement("option");
+        option2.value = "-----";
+        option2.text = "-----";
+        input3.appendChild(option2);
+
+        for (var i = 0; i < sokList.length; i++) {
+            var option2 = document.createElement("option");
+            option2.value = sokList[i].nazwa;
+            option2.text = sokList[i].nazwa;
+            input3.appendChild(option2);
+        }
+        input3.classList.add('form-control');
+
+        input3.setAttribute('name','nazwa');
+
+        col6.appendChild(input3);
+        row.appendChild(col6);
+
+
+
+        let colPost = document.createElement('td');
+        colPost.classList.add('col-sm-2');
+        let postbutton = document.createElement("BUTTON");
+        postbutton.innerHTML="edytuj";
+        postbutton.classList.add("btn");
+        postbutton.classList.add("btn-default");
+        postbutton.type="submit";
+        postbutton.innerHTML="Dodaj"
+
+        colPost.appendChild(postbutton);
+        row.appendChild(colPost);
+
+
+        document.getElementById(elementName).appendChild(row);
+
+
+
     }
-
-
-
 
 
 </script>

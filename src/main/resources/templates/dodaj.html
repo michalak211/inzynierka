@@ -41,7 +41,7 @@
                                                     <td style="text-align:center">Podawane w:</td>
                                                     <td style="text-align:center">Zdobienie:</td>
                                                     <td style="text-align:center">Wegański:</td>
-<!--                                                    <td style="text-align:center">Dodaj zdjecie</td>-->
+                                                    <!--                                                    <td style="text-align:center">Dodaj zdjecie</td>-->
 
                                                     <td></td>
                                                 </tr>
@@ -61,7 +61,8 @@
                                                                placeholder="Szklo">
                                                     </td>
                                                     <td class="col-sm-2">
-                                                        <input value="Dowolne" th:field="*{zdobienie}" type="text" class="form-control">
+                                                        <input value="Dowolne" th:field="*{zdobienie}" type="text"
+                                                               class="form-control">
                                                     </td>
                                                     <td class="col-sm-2">
                                                         <select th:field="*{vegan}" type="text" class="form-control">
@@ -69,9 +70,9 @@
                                                             <option value="nie">nie</option>
                                                         </select>
                                                     </td>
-<!--                                                    <td class="col-sm-2">-->
-<!--                                                        <input type="file" name="zdjecie"/>-->
-<!--                                                    </td>-->
+                                                    <!--                                                    <td class="col-sm-2">-->
+                                                    <!--                                                        <input type="file" name="zdjecie"/>-->
+                                                    <!--                                                    </td>-->
 
 
                                                 </tr>
@@ -104,34 +105,6 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-<!--                                                <tr class="skladnikTable"-->
-<!--                                                    th:each="status : ${koktajlForm.listaSkladnikow}">-->
-
-<!--                                                    <td class="col-sm-4">-->
-<!--                                                        <select th:field="*{listaSkladnikow[__${status.index}__].nazwa}"-->
-<!--                                                                data-show-subtext="true" data-live-search="true"-->
-<!--                                                                class="form-control">-->
-<!--                                                            <th:block th:each="skladnik : ${skladnikList}">-->
-<!--                                                                <option th:value="${skladnik.id}"-->
-<!--                                                                        th:text="${skladnik.getNazwa()}"></option>-->
-<!--                                                            </th:block>-->
-<!--                                                        </select>-->
-<!--                                                    </td>-->
-
-<!--                                                    <td class="col-sm-4">-->
-<!--                                                        <input th:field="*{listaSkladnikow[__${status.index}__].opisDodatkowy}"-->
-<!--                                                               type="text" class="form-control"/>-->
-<!--                                                    </td>-->
-<!--                                                    <td class="col-sm-1">-->
-<!--                                                        <input th:field="*{listaSkladnikow[__${status.index}__].typ}"-->
-<!--                                                               type="date" class="form-control" placeholder="">-->
-<!--                                                    </td>-->
-<!--                                                    <td class="col-sm-1">-->
-<!--                                                        <button class="removeRowBtn">-->
-<!--                                                            Usuń-->
-<!--                                                        </button>-->
-<!--                                                    </td>-->
-<!--                                                </tr>-->
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
@@ -269,7 +242,7 @@
                     break;
 
                 default:
-                    addSyropRow(listName, rowIndex, elementName, row,rodzaj);
+                    addSyropRow(listName, rowIndex, elementName, row, rodzaj);
 
             }
         }
@@ -278,15 +251,14 @@
         document.getElementById(elementName).appendChild(row);
     };
 
-    function newSyropChanger(listName,row, rowIndex, column, checkbox,rodzaj) {
+    function newSyropChanger(listName, row, rowIndex, column, checkbox, rodzaj) {
 
 
-
-        let childID=listName + rowIndex + '.' + 'nazwa';
+        let childID = listName + rowIndex + '.' + 'nazwa';
         column.removeChild(document.getElementById(childID));
 
 
-        if (checkbox.checked ===true) {
+        if (checkbox.checked === true) {
 
             let input2 = document.createElement('input');
             input2.type = 'text';
@@ -296,7 +268,7 @@
             input2.placeholder = "Nazwa";
             column.appendChild(input2);
 
-        }else {
+        } else {
 
             let input3 = document.createElement('select');
             var option2 = document.createElement("option");
@@ -305,14 +277,14 @@
             input3.appendChild(option2);
 
             var tempList;
-            if (rodzaj==2) {
+            if (rodzaj == 2) {
                 console.log("sok");
-                tempList=listaSok;
-            }else if (rodzaj==3){
-                tempList=listaSyrop;
+                tempList = listaSok;
+            } else if (rodzaj == 3) {
+                tempList = listaSyrop;
                 console.log("syrop");
-            } else if (rodzaj==4){
-                tempList=listaInny;
+            } else if (rodzaj == 4) {
+                tempList = listaInny;
                 console.log("inne");
             } else {
                 console.log("sok");
@@ -337,7 +309,7 @@
 
     }
 
-    let addSyropRow = function (listName, rowIndex, elementName, row,rodzaj) {
+    let addSyropRow = function (listName, rowIndex, elementName, row, rodzaj) {
 
         // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
 
@@ -373,14 +345,14 @@
         input3.appendChild(option2);
 
         var tempList;
-        if (rodzaj==2) {
+        if (rodzaj == 2) {
             console.log("sok");
-            tempList=listaSok;
-        }else if (rodzaj==3){
-            tempList=listaSyrop;
+            tempList = listaSok;
+        } else if (rodzaj == 3) {
+            tempList = listaSyrop;
             console.log("syrop");
-        } else if (rodzaj==4){
-            tempList=listaInny;
+        } else if (rodzaj == 4) {
+            tempList = listaInny;
             console.log("inne");
         } else {
             console.log("sok");
@@ -407,8 +379,8 @@
 
 
         let colNew = document.createElement('td');
-        let checkbox= document.createElement('input');
-        checkbox.type= 'checkbox';
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
         checkbox.classList.add('form-control');
         checkbox.id = listName + rowIndex + '.' + 'nowy';
         checkbox.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowy');
@@ -417,7 +389,7 @@
 
 
         colNew.addEventListener("change", function () {
-            newSyropChanger(listName,row, rowIndex, col6, checkbox,rodzaj)
+            newSyropChanger(listName, row, rowIndex, col6, checkbox, rodzaj)
         }, true);
 
         let col3 = document.createElement('td');
@@ -429,7 +401,6 @@
         row.appendChild(col3);
 
     };
-
 
 
     let addAlkoRow = function (listName, rowIndex, elementName, row) {
@@ -479,9 +450,9 @@
         col.appendChild(selectList);
         row.appendChild(col);
 
-        let colNewAlko=document.createElement('td');
-        let checkboxAlko= document.createElement('input');
-        checkboxAlko.type= 'checkbox';
+        let colNewAlko = document.createElement('td');
+        let checkboxAlko = document.createElement('input');
+        checkboxAlko.type = 'checkbox';
         checkboxAlko.classList.add('form-control');
         checkboxAlko.id = listName + rowIndex + '.' + 'nowyAlko';
         checkboxAlko.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowyAlko');
@@ -499,8 +470,8 @@
 
 
         let colNew = document.createElement('td');
-        let checkbox= document.createElement('input');
-        checkbox.type= 'checkbox';
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
         checkbox.classList.add('form-control');
         checkbox.id = listName + rowIndex + '.' + 'nowy';
         checkbox.setAttribute('name', listName + '[' + rowIndex + '].' + 'nowy');
@@ -521,21 +492,21 @@
         }, true);
 
         checkboxAlko.addEventListener("change", function () {
-            newAlkoChanger(listName,row, rowIndex, col,col2, checkboxAlko)
+            newAlkoChanger(listName, row, rowIndex, col, col2, checkboxAlko)
         }, true);
 
         checkbox.addEventListener("change", function () {
-            newTypChanger(listName,row, rowIndex,col, col2, checkbox)
+            newTypChanger(listName, row, rowIndex, col, col2, checkbox)
         }, true);
 
 
-        function newTypChanger(listName,row, rowIndex, columnAlko, column, checkbox) {
+        function newTypChanger(listName, row, rowIndex, columnAlko, column, checkbox) {
 
-            let childID=listName + rowIndex + '.' + 'typ';
+            let childID = listName + rowIndex + '.' + 'typ';
             column.removeChild(document.getElementById(childID));
 
-            let checkboxAlkoId= listName + rowIndex + '.' + 'nowyAlko';
-            let checkboxAlko=  document.getElementById(checkboxAlkoId);
+            let checkboxAlkoId = listName + rowIndex + '.' + 'nowyAlko';
+            let checkboxAlko = document.getElementById(checkboxAlkoId);
 
             if (checkbox.checked) {
 
@@ -547,10 +518,10 @@
                 input2.placeholder = "Nowy typ";
                 column.appendChild(input2);
 
-                if (checkboxAlko.checked){
-                    checkboxAlko.checked=false;
+                if (checkboxAlko.checked) {
+                    checkboxAlko.checked = false;
 
-                    let listId=listName + rowIndex + '.' + 'nazwa';
+                    let listId = listName + rowIndex + '.' + 'nazwa';
                     columnAlko.removeChild(document.getElementById(listId));
 
 
@@ -578,7 +549,7 @@
                 }
 
 
-            }else {
+            } else {
 
                 let input3 = document.createElement('select');
                 var option2 = document.createElement("option");
@@ -589,7 +560,7 @@
                 input3.id = listName + rowIndex + '.' + 'typ';
                 input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
 
-                let parentID=listName + rowIndex + '.' + 'nazwa';
+                let parentID = listName + rowIndex + '.' + 'nazwa';
                 var parentList = document.getElementById(parentID);
                 var parent = parentList.value;
                 var skladniki = [[${skladnikList}]];
@@ -617,15 +588,15 @@
         }
 
 
-        function newAlkoChanger(listName,row, rowIndex, column, columnTyp , checkbox){
+        function newAlkoChanger(listName, row, rowIndex, column, columnTyp, checkbox) {
 
-            let listId=listName + rowIndex + '.' + 'nazwa';
+            let listId = listName + rowIndex + '.' + 'nazwa';
             column.removeChild(document.getElementById(listId));
             let typListItem = listName + rowIndex + '.' + 'typ';
             let x = document.getElementById(typListItem);
 
-            let checkboxTypId= listName + rowIndex + '.' + 'nowy';
-            let checkboxTyp=  document.getElementById(checkboxTypId);
+            let checkboxTypId = listName + rowIndex + '.' + 'nowy';
+            let checkboxTyp = document.getElementById(checkboxTypId);
 
             if (checkbox.checked) {
 
@@ -642,10 +613,10 @@
                 option2.text = "Dowolny";
 
 
-                if (checkboxTyp.checked){
-                    checkboxTyp.checked=false;
+                if (checkboxTyp.checked) {
+                    checkboxTyp.checked = false;
 
-                    let childID=listName + rowIndex + '.' + 'typ';
+                    let childID = listName + rowIndex + '.' + 'typ';
                     columnTyp.removeChild(document.getElementById(childID));
 
                     let input3 = document.createElement('select');
@@ -655,7 +626,7 @@
                     input3.appendChild(option2);
                     columnTyp.appendChild(input3);
 
-                }else {
+                } else {
                     for (var i = 0; i <= x.length; i++) {
                         if (x.length > 0) {
                             x.remove(x.length - 1);
@@ -665,7 +636,7 @@
                 }
 
 
-            }else {
+            } else {
 
                 let selectList = document.createElement('select');
                 let option = document.createElement("option");
@@ -701,9 +672,9 @@
         function alkoChanger(row, listName, rowIndex, selectList) {
 
             let checkId = listName + rowIndex + '.' + 'nowy';
-            let checkObj= document.getElementById(checkId);
+            let checkObj = document.getElementById(checkId);
 
-            if (checkObj.checked===false){
+            if (checkObj.checked === false) {
                 var parent = selectList.value;
                 var skladniki = [[${skladnikList}]];
                 let bool = parent === "-----";

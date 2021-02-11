@@ -40,6 +40,8 @@ public class SkladnikP {
 
 
 //todo zasoby barku
+// form w barekManager
+// dodaj do barku
 // wyświetlanie w kategoriach
 // odkilwanie obecny, czy nie + uzupełnianie szczegółów
 // edycja odzielnie
