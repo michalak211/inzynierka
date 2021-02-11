@@ -28,19 +28,25 @@ public class SkladnikP {
 
 }
 //todo edycja
-// zapis edycji
 // riff
 
 //todo logowanie
-// dodawanie zapoytań
+// dodawanie zapytań
 // dodwanie własnych zdjęć
 
 //todo filtry
 // wyswietlanie barkujących skałdników
+// jezeli aklkohol o typie barku ispresent to jest obecny i tyle
+
 
 //todo zasoby barku
-// dodawanie
+// wyświetlanie w kategoriach
+// odkilwanie obecny, czy nie + uzupełnianie szczegółów
+// edycja odzielnie
+// workhorse dla
+// dodaj nową flaszkę
 // aktualizacja
+// obliczanie ceny
 
 //todo refactor
 // js!

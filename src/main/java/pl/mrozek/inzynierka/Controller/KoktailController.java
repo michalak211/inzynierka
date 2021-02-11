@@ -67,33 +67,17 @@ public class KoktailController {
 
     @Transactional
     @PostMapping("/add")
-    public String addKoktajlSubmitt(@ ModelAttribute("koktajlForm") KoktajlForm koktajlForm,Model model){
+    public String addKoktajlSubmitt(@ModelAttribute("koktajlForm") KoktajlForm koktajlForm,Model model){
 
 
-        System.out.println("koktail form");
-        for (SkladnikP skladnikP: koktajlForm.getListaSkladnikow()){
-            System.out.println(skladnikP);
-
-
-        }
-        System.out.println("post mapping");
 
         Koktajl koktajl = new Koktajl();
         koktajl =mapper.toKoktajl(koktajl,koktajlForm);
         koktailRepo.save(koktajl);
-        System.out.println("zapisano");
-        System.out.println(koktajl);
 
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
         model.addAttribute("koktajlList",koktailService.getAllUserForms());
-
-
-//        model.addAttribute("skladnikList", alkoholRepo.findAll());
-//        model.addAttribute("koktajlForm",new KoktajlForm());
-
-
-        //planowane przeniesienie do edycji,a w edycjki dodwanie zdjecia
         return  "redirect:/przegladaj";
 
     }
@@ -143,6 +127,24 @@ public class KoktailController {
 
 
         return "/edit";
+    }
+
+    @Transactional
+    @PostMapping ("/edit/{id}")
+    public String editKoktajlPost(@PathVariable Long id, @ModelAttribute("koktajlForm") KoktajlForm koktajlForm,Model model){
+
+
+        if (koktailRepo.findById(id).isPresent()){
+            Koktajl koktajl= koktailRepo.findById(id).get();
+            koktajl=mapper.toKoktajl(koktajl,koktajlForm);
+            koktailRepo.save(koktajl);
+        }
+
+        model.addAttribute("alkoholList", alkoholRepo.findAll());
+        model.addAttribute("typList", typRepo.findAll());
+        model.addAttribute("koktajlList", koktailService.getAllUserForms());
+        return  "redirect:/przegladaj";
+
     }
 
     @Transactional

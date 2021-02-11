@@ -161,9 +161,6 @@ public class Mapper {
             }
         }
 
-
-        System.out.println("dodany koktajl");
-        System.out.println(koktajl);
         return koktajl;
     }
 
