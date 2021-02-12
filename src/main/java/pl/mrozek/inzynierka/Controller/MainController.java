@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
+import pl.mrozek.inzynierka.Entity.skladniki.Sok;
+import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
 
@@ -118,8 +120,8 @@ public class MainController {
     public String barManager(Model model){
 
 
-        if (barekRepo.findById((long)37).isPresent()){
-            Barek barek=barekRepo.findById((long)37).get();
+        if (barekRepo.findById((long)1).isPresent()){
+            Barek barek=barekRepo.findById((long)1).get();
             model.addAttribute("barek",barek);
         }
 
@@ -133,18 +135,65 @@ public class MainController {
         return "/barowe/skladnikManager";
     }
 
-    @PostMapping("/bar")
+    @PostMapping(value ="/bar", params = "dodaj")
     public String barDodaj(@ModelAttribute ("skladnikP")SkladnikP skladnikP){
 
-        System.out.println(skladnikP);
-        if (barekRepo.findById((long)37).isPresent()){
-            Barek barek=barekRepo.findById((long)37).get();
+        if (barekRepo.findById((long)1).isPresent()){
+            Barek barek=barekRepo.findById((long)1).get();
 
+            switch (skladnikP.getRodzaj()){
+                case 1:
+                    break;
+                case 2:
+
+                    Sok sok=sokRepo.findByNazwaEquals(skladnikP.getNazwa());
+                    if (!barek.getListSok().contains(sok)) {
+                        barek.getListSok().add(sok);
+                        barekRepo.save(barek);
+                    }
+                    break;
+                case 3:
+
+                    Syrop syrop =syropRepo.findByNazwaEquals(skladnikP.getNazwa());
+                    if (!barek.getListSyrop().contains(syrop)) {
+                        barek.getListSyrop().add(syrop);
+                        barekRepo.save(barek);
+                    }
+
+
+                    break;
+                case 4:
+                    break;
+            }
         }
-
-
-
         return "redirect:/bar";
     }
+
+
+    @GetMapping(value = "/sok/delete/{id}")
+    public String sokDelete(@PathVariable("id") Long id){
+
+        if (barekRepo.findById((long)1).isPresent()){
+            Barek barek=barekRepo.findById((long)1).get();
+            int inte= (int) (id-1);
+            barek.getListSok().remove(inte);
+            barekRepo.save(barek);
+            }
+        return "redirect:/bar";
+    }
+
+    @GetMapping(value = "/syrop/delete/{id}")
+    public String syropDelete(@PathVariable("id") Long id){
+
+        if (barekRepo.findById((long)1).isPresent()){
+            Barek barek=barekRepo.findById((long)1).get();
+            int inte= (int) (id-1);
+            barek.getListSyrop().remove(inte);
+            barekRepo.save(barek);
+        }
+        return "redirect:/bar";
+    }
+
+
 
 }
