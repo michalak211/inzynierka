@@ -28,55 +28,55 @@
                               th:object="${skladnikP}" method="post">
 
 
-                        <div class="form-group">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <!--                                        <label  style="text-align:center" class="col-md-2 control-label">Skladniki</label>-->
-                                    <div class="container-fluid">
-                                        <table id="Przyciski" class=" table order-list">
-                                            <tfoot>
-                                            <tr>
-                                                <td colspan="2" style="text-align: center;">
-                                                    <input type="button" class="btn btn-block "
-                                                           onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
-                                                           value="Alkohole"/>
-                                                </td>
-                                                <td colspan="2" style="text-align: center;">
-                                                    <input type="button" class="btn btn-block "
-                                                           onclick="sokiTable('SkladTable')"
-                                                           value="Soki"/>
-                                                </td>
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <!--                                        <label  style="text-align:center" class="col-md-2 control-label">Skladniki</label>-->
+                                        <div class="container-fluid">
+                                            <table id="Przyciski" class=" table order-list">
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="2" style="text-align: center;">
+                                                        <input type="button" class="btn btn-block "
+                                                               onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                               value="Alkohole"/>
+                                                    </td>
+                                                    <td colspan="2" style="text-align: center;">
+                                                        <input type="button" class="btn btn-block "
+                                                               onclick="sokiTable('SkladTable')"
+                                                               value="Soki"/>
+                                                    </td>
 
-                                                <td colspan="2" style="text-align: center;">
-                                                    <input type="button" class="btn btn-block "
-                                                           onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
-                                                           value="Syropy"/>
-                                                </td>
+                                                    <td colspan="2" style="text-align: center;">
+                                                        <input type="button" class="btn btn-block "
+                                                               onclick="syropTable('SkladTable')"
+                                                               value="Syropy"/>
+                                                    </td>
 
-                                                <td colspan="2" style="text-align: center;">
-                                                    <input type="button" class="btn btn-block "
-                                                           onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
-                                                           value="Inne"/>
-                                                </td>
+                                                    <td colspan="2" style="text-align: center;">
+                                                        <input type="button" class="btn btn-block "
+                                                               onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                               value="Inne"/>
+                                                    </td>
 
-                                            </tr>
-                                            <tr>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
-
-
-                                        <table id="SkladTable" class=" table order-list table-bordered">
-                                            <tfoot>
+                                                </tr>
+                                                <tr>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
 
 
-                                            </tfoot>
-                                        </table>
+                                            <table id="SkladTable" class=" table order-list table-bordered">
+                                                <tfoot>
 
+
+                                                </tfoot>
+                                            </table>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
                         </form>
                     </div>
@@ -92,7 +92,7 @@
 <script th:inline="javascript">
 
 
-    var barek=[[${barek}]];
+    var barek = [[${barek}]];
     var skladnikList = [[${skladnikList}]];
     var sokList = [[${sokList}]];
     var syropList = [[${syropList}]];
@@ -100,6 +100,10 @@
 
 
     let sokiTable = function (elementName) {
+
+        let clearTable=document.getElementById(elementName);
+        clearTable.innerHTML="";
+
 
         let rowIndexSelector = '.hgw';
 
@@ -115,18 +119,11 @@
         let head2text = document.createElement('output');
         head2text.value = "Cena za litr";
 
-        let hidden=document.createElement('input');
-        hidden.setAttribute('name','rodzaj');
-        hidden.value="2";
-        hidden.disabled=true;
-        hidden.hidden=true;
-
 
         head2.appendChild(head2text);
         head1.appendChild(head1text);
         headRow.appendChild(head1);
         headRow.appendChild(head2);
-        headRow.appendChild(hidden);
 
         document.getElementById(elementName).appendChild(headRow);
 
@@ -154,27 +151,46 @@
             let colEdit = document.createElement('td');
             colEdit.classList.add('col-sm-2');
             let editbutton = document.createElement("BUTTON");
-            editbutton.innerHTML="edytuj";
+            editbutton.innerHTML = "edytuj";
             editbutton.classList.add("btn");
             editbutton.classList.add("btn-default");
-
+            editbutton.type = "button";
 
             // let href='/sok/edit/'+sok.id.stringValue;
 
-            editbutton.addEventListener("click", function (){
+            editbutton.addEventListener("click", function () {
                 toEditSok();
-            },true);
+            }, true);
 
-            function toEditSok(){
-                window.location.href='/sok/edit/'+sok.id;
+            function toEditSok() {
+                window.location.href = '/sok/edit/' + sok.id;
             }
-
             colEdit.appendChild(editbutton);
             row.appendChild(colEdit);
 
 
+            let colUsun = document.createElement('td');
+            colUsun.classList.add('col-sm-2');
+            let usunbutton = document.createElement("BUTTON");
+            usunbutton.innerHTML = "usun";
+            usunbutton.classList.add("btn");
+            usunbutton.classList.add("btn-default");
+            usunbutton.type = "button";
+
+            usunbutton.addEventListener("click", function () {
+                usunSokskladnik();
+            }, true);
+
+            function usunSokskladnik() {
+                window.location.href = '/syrop/delete/' + rowIndex;
+            }
+
+            colUsun.appendChild(usunbutton);
+            row.appendChild(colUsun);
+
+
             document.getElementById(elementName).appendChild(row);
-        })
+        });
 
         let row = document.createElement('tr');
         row.classList.add(rowIndexSelector.substr(1));
@@ -194,36 +210,214 @@
         input3.appendChild(option2);
 
         for (var i = 0; i < sokList.length; i++) {
-            var option2 = document.createElement("option");
+            option2 = document.createElement("option");
             option2.value = sokList[i].nazwa;
             option2.text = sokList[i].nazwa;
             input3.appendChild(option2);
         }
         input3.classList.add('form-control');
 
-        input3.setAttribute('name','nazwa');
+        input3.setAttribute('name', 'nazwa');
 
         col6.appendChild(input3);
         row.appendChild(col6);
 
 
-
         let colPost = document.createElement('td');
         colPost.classList.add('col-sm-2');
         let postbutton = document.createElement("BUTTON");
-        postbutton.innerHTML="edytuj";
         postbutton.classList.add("btn");
         postbutton.classList.add("btn-default");
-        postbutton.type="submit";
-        postbutton.innerHTML="Dodaj"
+        postbutton.type = "submit";
+        postbutton.innerHTML = "Dodaj";
+        postbutton.name = "dodaj";
 
         colPost.appendChild(postbutton);
         row.appendChild(colPost);
 
+        let hidden = document.createElement('input');
+        hidden.setAttribute('name', 'rodzaj');
+        hidden.value = "2";
+        hidden.hidden = true;
+        headRow.appendChild(hidden);
 
         document.getElementById(elementName).appendChild(row);
 
+    };
 
+
+
+
+    let syropTable = function (elementName) {
+
+        let clearTable=document.getElementById(elementName);
+        clearTable.innerHTML="";
+
+
+        let rowIndexSelector = '.hgw';
+
+        let headRow = document.createElement('tr');
+        headRow.classList.add(rowIndexSelector.substr(1));
+        let head1 = document.createElement('td');
+        head1.classList.add('col-sm-2');
+        let head2 = document.createElement('td');
+        head2.classList.add('col-sm-2');
+        let head3 = document.createElement('td');
+        head3.classList.add('col-sm-2');
+
+
+        let head1text = document.createElement('output');
+        head1text.value = "nazwa";
+        let head2text = document.createElement('output');
+        head2text.value = "Cena za litr";
+        let head3text = document.createElement('output');
+        head3text.value = "Przepis";
+
+
+        head3.appendChild(head3text);
+        head2.appendChild(head2text);
+        head1.appendChild(head1text);
+        headRow.appendChild(head1);
+        headRow.appendChild(head2);
+        headRow.appendChild(head3);
+
+        document.getElementById(elementName).appendChild(headRow);
+
+        barek.listSyrop.forEach(function (syrop, index, array) {
+
+            let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+            let row = document.createElement('tr');
+            row.classList.add(rowIndexSelector.substr(1));
+            row.classList.add('table-bordered');
+
+            let colName = document.createElement('td');
+            colName.classList.add('col-sm-2');
+            let nameText = document.createElement("output");
+            nameText.value = syrop.nazwa;
+            colName.appendChild(nameText);
+            row.appendChild(colName);
+
+            let colPrice = document.createElement('td');
+            colPrice.classList.add('col-sm-2');
+            let priceField = document.createElement("output");
+            priceField.value = syrop.cenaZaLitr;
+            colPrice.appendChild(priceField);
+            row.appendChild(colPrice);
+
+            let colRecipe = document.createElement('td');
+            colRecipe.classList.add('col-sm-2');
+            let recipeField = document.createElement("output");
+
+
+            if (syrop.przepis==null) {
+                recipeField.value = "brak przepisu";
+            }else {
+                recipeField.value = syrop.przepis;
+            }
+
+            colRecipe.appendChild(recipeField);
+            row.appendChild(colRecipe);
+
+            colRecipe.addEventListener("click", function () {
+                toEditSyrop();
+            }, true);
+
+
+
+            let colEdit = document.createElement('td');
+            colEdit.classList.add('col-sm-2');
+            let editbutton = document.createElement("BUTTON");
+            editbutton.innerHTML = "edytuj";
+            editbutton.classList.add("btn");
+            editbutton.classList.add("btn-default");
+            editbutton.type = "button";
+
+            // let href='/sok/edit/'+sok.id.stringValue;
+
+            editbutton.addEventListener("click", function () {
+                toEditSyrop();
+            }, true);
+
+            function toEditSyrop() {
+                window.location.href = '/syrop/edit/' + syrop.id;
+            }
+            colEdit.appendChild(editbutton);
+            row.appendChild(colEdit);
+
+
+            let colUsun = document.createElement('td');
+            colUsun.classList.add('col-sm-2');
+            let usunbutton = document.createElement("BUTTON");
+            usunbutton.innerHTML = "usun";
+            usunbutton.classList.add("btn");
+            usunbutton.classList.add("btn-default");
+            usunbutton.type = "button";
+
+            usunbutton.addEventListener("click", function () {
+                usunSokskladnik();
+            }, true);
+
+            function usunSokskladnik() {
+                window.location.href = '/syrop/delete/' + rowIndex;
+            }
+
+            colUsun.appendChild(usunbutton);
+            row.appendChild(colUsun);
+
+
+            document.getElementById(elementName).appendChild(row);
+        });
+
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+        let colName = document.createElement('td');
+        colName.classList.add('col-sm-2');
+        let nameText = document.createElement("output");
+        nameText.value = "Dodaj syrop do barku";
+        colName.appendChild(nameText);
+        row.appendChild(colName);
+
+        let col6 = document.createElement('td');
+        col6.classList.add('col-sm-2');
+        let input3 = document.createElement('select');
+        var option2 = document.createElement("option");
+        option2.value = "-----";
+        option2.text = "-----";
+        input3.appendChild(option2);
+
+        for (var i = 0; i < syropList.length; i++) {
+            option2 = document.createElement("option");
+            option2.value = syropList[i].nazwa;
+            option2.text = syropList[i].nazwa;
+            input3.appendChild(option2);
+        }
+        input3.classList.add('form-control');
+
+        input3.setAttribute('name', 'nazwa');
+
+        col6.appendChild(input3);
+        row.appendChild(col6);
+
+
+        let colPost = document.createElement('td');
+        colPost.classList.add('col-sm-2');
+        let postbutton = document.createElement("BUTTON");
+        postbutton.classList.add("btn");
+        postbutton.classList.add("btn-default");
+        postbutton.type = "submit";
+        postbutton.innerHTML = "Dodaj";
+        postbutton.name = "dodaj";
+
+        colPost.appendChild(postbutton);
+        row.appendChild(colPost);
+
+        let hidden = document.createElement('input');
+        hidden.setAttribute('name', 'rodzaj');
+        hidden.value = "3";
+        hidden.hidden = true;
+        headRow.appendChild(hidden);
+
+        document.getElementById(elementName).appendChild(row);
 
     }
 

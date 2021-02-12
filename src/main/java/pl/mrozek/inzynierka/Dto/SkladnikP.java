@@ -40,15 +40,15 @@ public class SkladnikP {
 
 
 //todo zasoby barku
-// form w barekManager
 // dodaj do barku
+// bary id
 // wyświetlanie w kategoriach
-// odkilwanie obecny, czy nie + uzupełnianie szczegółów
 // edycja odzielnie
 // workhorse dla
 // dodaj nową flaszkę
 // aktualizacja
-// obliczanie ceny
+// obliczanie ceny koktajlu
+// duplikaty kominukat (narazie nie dodaje)
 
 //todo refactor
 // js!
