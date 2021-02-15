@@ -120,11 +120,12 @@ public class MainController {
     public String barManager(Model model){
 
 
-        if (barekRepo.findById((long)1).isPresent()){
-            Barek barek=barekRepo.findById((long)1).get();
+        if (barekRepo.findById((long)54).isPresent()){
+            Barek barek=barekRepo.findById((long)54).get();
             model.addAttribute("barek",barek);
         }
 
+        // zmiana z find all na serwice nid all nie w barklu
         model.addAttribute("skladnikP",new SkladnikP());
         model.addAttribute("sokList",sokRepo.findAll());
         model.addAttribute("syropList",syropRepo.findAll());
@@ -132,32 +133,37 @@ public class MainController {
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
 
-        return "/barowe/skladnikManager";
+        return "/barowe/barManager";
     }
 
     @PostMapping(value ="/bar", params = "dodaj")
     public String barDodaj(@ModelAttribute ("skladnikP")SkladnikP skladnikP){
 
-        if (barekRepo.findById((long)1).isPresent()){
-            Barek barek=barekRepo.findById((long)1).get();
+        System.out.println(skladnikP);
+        if (barekRepo.findById((long)54).isPresent()){
+            Barek barek=barekRepo.findById((long)54).get();
 
             switch (skladnikP.getRodzaj()){
                 case 1:
                     break;
                 case 2:
+                    if (sokRepo.findById(skladnikP.getId()).isPresent()) {
+                        Sok sok=sokRepo.findById(skladnikP.getId()).get();
 
-                    Sok sok=sokRepo.findByNazwaEquals(skladnikP.getNazwa());
-                    if (!barek.getListSok().contains(sok)) {
-                        barek.getListSok().add(sok);
-                        barekRepo.save(barek);
+                        if (!barek.getListSok().contains(sok)) {
+                            barek.getListSok().add(sok);
+                            barekRepo.save(barek);
+                        }
                     }
                     break;
                 case 3:
 
-                    Syrop syrop =syropRepo.findByNazwaEquals(skladnikP.getNazwa());
-                    if (!barek.getListSyrop().contains(syrop)) {
-                        barek.getListSyrop().add(syrop);
-                        barekRepo.save(barek);
+                    if (syropRepo.findById(skladnikP.getId()).isPresent()) {
+                        Syrop syrop =syropRepo.findById(skladnikP.getId()).get();
+                        if (!barek.getListSyrop().contains(syrop)) {
+                            barek.getListSyrop().add(syrop);
+                            barekRepo.save(barek);
+                        }
                     }
 
 
@@ -173,8 +179,8 @@ public class MainController {
     @GetMapping(value = "/sok/delete/{id}")
     public String sokDelete(@PathVariable("id") Long id){
 
-        if (barekRepo.findById((long)1).isPresent()){
-            Barek barek=barekRepo.findById((long)1).get();
+        if (barekRepo.findById((long)54).isPresent()){
+            Barek barek=barekRepo.findById((long)54).get();
             int inte= (int) (id-1);
             barek.getListSok().remove(inte);
             barekRepo.save(barek);
@@ -185,8 +191,8 @@ public class MainController {
     @GetMapping(value = "/syrop/delete/{id}")
     public String syropDelete(@PathVariable("id") Long id){
 
-        if (barekRepo.findById((long)1).isPresent()){
-            Barek barek=barekRepo.findById((long)1).get();
+        if (barekRepo.findById((long)54).isPresent()){
+            Barek barek=barekRepo.findById((long)54).get();
             int inte= (int) (id-1);
             barek.getListSyrop().remove(inte);
             barekRepo.save(barek);
@@ -195,5 +201,58 @@ public class MainController {
     }
 
 
+    @GetMapping(value ="/skladniki")
+    public String skladnikManager(Model model){
+
+
+
+
+        model.addAttribute("skladnikP",new SkladnikP());
+        model.addAttribute("sokList",sokRepo.findAll());
+        model.addAttribute("syropList",syropRepo.findAll());
+        model.addAttribute("innyList",innyRepo.findAll());
+        model.addAttribute("skladnikList", alkoholRepo.findAll());
+        model.addAttribute("typList", typRepo.findAll());
+        return "/barowe/skladnikManager";
+    }
+
+    @PostMapping(value ="/skladniki", params = "dodaj")
+    public String skladnikDodaj(@ModelAttribute ("skladnikP")SkladnikP skladnikP){
+
+        System.out.println(skladnikP);
+            switch (skladnikP.getRodzaj()){
+                case 1:
+                    break;
+                case 2:
+                    if (sokRepo.findByNazwaEquals(skladnikP.getNazwa())==null) {
+                        //else strona bledu?
+                        Sok sok= new Sok();
+                        sok.setNazwa(skladnikP.getNazwa());
+                        sok.setCenaZaLitr(skladnikP.getIloscML());
+                        sokRepo.save(sok);
+
+                    }
+                    break;
+                case 3:
+
+                    if (syropRepo.findByNazwaEquals(skladnikP.getNazwa())==null) {
+
+                        Syrop syrop= new Syrop();
+                        syrop.setNazwa(skladnikP.getNazwa());
+                        syrop.setCenaZaLitr(skladnikP.getIloscML());
+                        if (skladnikP.getOpisDodatkowy()!=null) {syrop.setPrzepis(skladnikP.getOpisDodatkowy());}
+                        syropRepo.save(syrop);
+
+
+                    }
+
+
+                    break;
+                case 4:
+                    break;
+            }
+
+        return "redirect:/bar";
+    }
 
 }

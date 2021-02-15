@@ -3,7 +3,7 @@
 <!--<html lang="en">-->
 <head>
     <div th:replace="fragments/header :: header-css"></div>
-    <title>Składnik Manager</title>
+    <title>Bar Manager</title>
 
 </head>
 <body>
@@ -18,7 +18,7 @@
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
                             <div class="row">
-                                <label class="col-md-9 control-label">Przegląd składników</label>
+                                <label class="col-md-9 control-label" th:text="${barek.nazwa}"></label>
                             </div>
                         </div>
 
@@ -27,11 +27,9 @@
                         <form class="form-horizontal row-border" action=""
                               th:object="${skladnikP}" method="post">
 
-
                             <div class="form-group">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <!--                                        <label  style="text-align:center" class="col-md-2 control-label">Skladniki</label>-->
                                         <div class="container-fluid">
                                             <table id="Przyciski" class=" table order-list">
                                                 <tfoot>
@@ -92,6 +90,7 @@
 <script th:inline="javascript">
 
 
+    var barek = [[${barek}]];
     var skladnikList = [[${skladnikList}]];
     var sokList = [[${sokList}]];
     var syropList = [[${syropList}]];
@@ -248,49 +247,50 @@
     let addEndRow = function (elementName, rodzaj) {
         let rowIndexSelector = '.hgw';
 
-        let rowHead = document.createElement('tr');
-        rowHead.classList.add(rowIndexSelector.substr(1));
-        rowHead.textContent = "Dodaj nowy składnik";
-        rowHead.style.textAlign = "center";
-
-        document.getElementById(elementName).appendChild(rowHead);
-
         let row = document.createElement('tr');
         row.classList.add(rowIndexSelector.substr(1));
+        let colName = document.createElement('td');
+        colName.classList.add('col-sm-2');
+        let nameText = document.createElement("output");
+        nameText.value = "Dodaj do barku";
+        colName.appendChild(nameText);
+        row.appendChild(colName);
 
-        let colNewName = document.createElement('td');
-        colNewName.classList.add('col-sm-2');
-        let inputNewName = document.createElement('input');
-        inputNewName.type = 'text';
-        inputNewName.classList.add('form-control');
-        inputNewName.setAttribute('name','nazwa');
-        inputNewName.placeholder = "Nowa nazwa";
-        inputNewName.required=true;
-        colNewName.appendChild(inputNewName);
-        row.appendChild(colNewName);
+        let col6 = document.createElement('td');
+        col6.classList.add('col-sm-2');
+        let input3 = document.createElement('select');
+        var option2 = document.createElement("option");
+        option2.value = "-----";
+        option2.text = "-----";
+        input3.appendChild(option2);
 
-        let colNewprice = document.createElement('td');
-        colNewprice.classList.add('col-sm-2');
-        let inputNewPrice = document.createElement('input');
-        inputNewPrice.type = 'number';
-        // inputNewPrice.step = "0.5";
-        inputNewPrice.value = "0";
-        inputNewPrice.classList.add('form-control');
-        inputNewPrice.setAttribute('name','iloscML');
-        colNewprice.appendChild(inputNewPrice);
-        row.appendChild(colNewprice);
+        let inputList;
 
-        if (rodzaj==3){
-            let colNewName = document.createElement('td');
-            colNewName.classList.add('col-sm-2');
-            let inputNewName = document.createElement('input');
-            inputNewName.type = 'text';
-            inputNewName.classList.add('form-control');
-            inputNewName.setAttribute('name','opisDodatkowy');
-            inputNewName.placeholder = "Przepis";
-            colNewName.appendChild(inputNewName);
-            row.appendChild(colNewName);
+        switch (rodzaj) {
+            case 2:
+                inputList = sokList;
+                break;
+            case 3:
+                inputList = syropList;
+                break;
+            case 4:
+                inputList = innyList;
+                break;
         }
+
+
+        for (var i = 0; i < inputList.length; i++) {
+            option2 = document.createElement("option");
+            option2.value = inputList[i].id;
+            option2.text = inputList[i].nazwa;
+            input3.appendChild(option2);
+        }
+        input3.classList.add('form-control');
+
+        input3.setAttribute('name', 'id');
+
+        col6.appendChild(input3);
+        row.appendChild(col6);
 
 
         let colPost = document.createElement('td');
@@ -304,35 +304,37 @@
 
         colPost.appendChild(postbutton);
         row.appendChild(colPost);
+
+
         document.getElementById(elementName).appendChild(row);
+
 
     }
 
 
     let sokiTable = function (elementName) {
         starter(elementName, 2);
-        sokList.forEach(function (sok) {
+        barek.listSok.forEach(function (sok) {
             inRowIteration(elementName, 2, sok);
         });
-        addEndRow(elementName, 2);
+        addEndRow(elementName,2);
     };
+
 
     let syropTable = function (elementName) {
-
         starter(elementName, 3);
-        syropList.forEach(function (syrop) {
+        barek.listSyrop.forEach(function (syrop) {
             inRowIteration(elementName, 3, syrop);
         });
-        addEndRow(elementName, 3);
-    };
+        addEndRow(elementName,3);
+    }
 
     let inneTable = function (elementName) {
-
         starter(elementName, 4);
-        innyList.forEach(function (inny) {
+        barek.listInny.forEach(function (inny) {
             inRowIteration(elementName, 4, inny);
         });
-        addEndRow(elementName, 4);
+        addEndRow(elementName,4);
     };
 
 

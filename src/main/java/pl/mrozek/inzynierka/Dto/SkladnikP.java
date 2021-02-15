@@ -17,6 +17,7 @@ import java.util.Optional;
 @EqualsAndHashCode
 @ToString
 public class SkladnikP {
+    private long id;
     private double iloscML;
     private String nazwa;
     private int rodzaj;
@@ -29,6 +30,8 @@ public class SkladnikP {
 }
 //todo edycja
 // riff
+// sprawdzanie powtorzen
+
 
 //todo logowanie
 // dodawanie zapytań
@@ -40,15 +43,17 @@ public class SkladnikP {
 
 
 //todo zasoby barku
+// skladniki manager
+// lista zawiera tylko te soki etc, których nie ma jeszcze w barku - przekazywanie listy w mapperze
+// barek repo findby name
 // dodaj do barku
+// syrop obsługa
+// syrop przepis
 // bary id
-// wyświetlanie w kategoriach
-// edycja odzielnie
 // workhorse dla
 // dodaj nową flaszkę
 // aktualizacja
 // obliczanie ceny koktajlu
-// duplikaty kominukat (narazie nie dodaje)
 
 //todo refactor
 // js!
