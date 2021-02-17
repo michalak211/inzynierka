@@ -2,14 +2,18 @@ package pl.mrozek.inzynierka.Service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Repo.KoktailRepo;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class KoktailService {
@@ -67,7 +71,27 @@ public class KoktailService {
         }else {
             return null;
         }
+    }
+
+    public void addPhoto(String zdjecie, HttpServletRequest request){
+
+        long id=Integer.parseInt(zdjecie);
+        Map<String, MultipartFile> fileMap = new HashMap<String, MultipartFile>();
+        if (request instanceof MultipartHttpServletRequest) {
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            fileMap = multiRequest.getFileMap();
+        }
+
+        for (Map.Entry<String, MultipartFile> entry: fileMap.entrySet()){
+            if (id==Integer.parseInt(entry.getKey())){
+                addPictureToKoktajl(entry.getValue(),id);
+                break;
+            }
+        }
+
 
     }
+
+
 
 }

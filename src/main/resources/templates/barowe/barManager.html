@@ -177,25 +177,25 @@
             colRecipe.appendChild(recipeField);
             row.appendChild(colRecipe);
 
-            colRecipe.addEventListener("click", function () {
-                toEdit(rodzaj, obj);
-            }, true);
+            // colRecipe.addEventListener("click", function () {
+            //     toEdit(rodzaj, obj);
+            // }, true);
 
         }
-        let colEdit = document.createElement('td');
-        colEdit.classList.add('col-sm-2');
-        let editbutton = document.createElement("BUTTON");
-        editbutton.innerHTML = "edytuj";
-        editbutton.classList.add("btn");
-        editbutton.classList.add("btn-default");
-        editbutton.type = "button";
+        // let colEdit = document.createElement('td');
+        // colEdit.classList.add('col-sm-2');
+        // let editbutton = document.createElement("BUTTON");
+        // editbutton.innerHTML = "edytuj";
+        // editbutton.classList.add("btn");
+        // editbutton.classList.add("btn-default");
+        // editbutton.type = "button";
 
-        editbutton.addEventListener("click", function () {
-            toEdit(rodzaj, obj);
-        }, true);
+        // editbutton.addEventListener("click", function () {
+        //     toEdit(rodzaj, obj);
+        // }, true);
 
-        colEdit.appendChild(editbutton);
-        row.appendChild(colEdit);
+        // colEdit.appendChild(editbutton);
+        // row.appendChild(colEdit);
 
         let colUsun = document.createElement('td');
         colUsun.classList.add('col-sm-2');
@@ -218,13 +218,13 @@
 
             switch (rodzaj) {
                 case 2:
-                    window.location.href = '/sok/delete/' + rowIndex;
+                    window.location.href ='/'+ barek.id+ '/sok/delete/' + rowIndex;
                     break;
                 case 3:
-                    window.location.href = '/syrop/delete/' + rowIndex;
+                    window.location.href = '/'+ barek.id+'/syrop/delete/' + rowIndex;
                     break;
                 case 4:
-                    window.location.href = '/inny/delete/' + rowIndex;
+                    window.location.href = '/'+ barek.id+'/inny/delete/' + rowIndex;
                     break;
             }
         }

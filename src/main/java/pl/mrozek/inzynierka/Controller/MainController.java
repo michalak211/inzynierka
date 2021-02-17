@@ -7,10 +7,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
+import pl.mrozek.inzynierka.Entity.skladniki.Inny;
 import pl.mrozek.inzynierka.Entity.skladniki.Sok;
 import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
+import pl.mrozek.inzynierka.Service.SkladnikService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("")
@@ -37,9 +40,10 @@ public class MainController {
     private final SyropRepo syropRepo;
     private final InnyRepo innyRepo;
     private final BarekRepo barekRepo;
+    private final SkladnikService skladnikService;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, BarekRepo barekRepo) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, BarekRepo barekRepo, SkladnikService skladnikService) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -48,6 +52,7 @@ public class MainController {
         this.syropRepo = syropRepo;
         this.innyRepo = innyRepo;
         this.barekRepo = barekRepo;
+        this.skladnikService = skladnikService;
     }
 
     @GetMapping("/test")
@@ -68,32 +73,11 @@ public class MainController {
 
     @Transactional
     @PostMapping(value = "/dodZdj" ,consumes = {"multipart/form-data"})
-    public String addPicture(Model model, @RequestParam String zdjecie,
-                             @RequestParam(required=false) Map<String, String> allParams,
+    public String addPicture(@RequestParam String zdjecie,
                              HttpServletRequest request
     ) {
-
-        long id=Integer.parseInt(zdjecie);
-        Map<String, MultipartFile> fileMap = new HashMap<String, MultipartFile>();
-        if (request instanceof MultipartHttpServletRequest) {
-            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-            fileMap = multiRequest.getFileMap();
-        }
-
-        for (Map.Entry<String, MultipartFile> entry: fileMap.entrySet()){
-            if (id==Integer.parseInt(entry.getKey())){
-                koktailService.addPictureToKoktajl(entry.getValue(),id);
-                break;
-            }
-        }
-
-
-
-        model.addAttribute("alkoholList", alkoholRepo.findAll());
-        model.addAttribute("typList", typRepo.findAll());
-        model.addAttribute("koktajlList", koktailService.getAllUserForms());
+        koktailService.addPhoto(zdjecie,request);
         return "redirect:/przegladaj";
-
     }
 
     @GetMapping("/image/{id}")
@@ -105,107 +89,67 @@ public class MainController {
 
         if (koktailService.getPhoto(id)!=null) { response.getOutputStream().write(koktailService.getPhoto(id)); }
         else {try {
-                byte[] bytes = Files.readAllBytes(Paths.get(this.getClass().getClassLoader().getResource("static/img/fotka.jpg").toURI()));
+                byte[] bytes = Files.readAllBytes(Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource("static/img/fotka.jpg")).toURI()));
                 response.getOutputStream().write(bytes);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-
         }
         response.getOutputStream().close();
 
     }
 
-    @GetMapping("/bar")
-    public String barManager(Model model){
+    @GetMapping("/bar/{id}")
+    public String barManager(Model model,@PathVariable("id") long id){
 
 
-        if (barekRepo.findById((long)54).isPresent()){
-            Barek barek=barekRepo.findById((long)54).get();
+        if (barekRepo.findById(id).isPresent()){
+            Barek barek=barekRepo.findById(id).get();
+
+            model.addAttribute("skladnikP",new SkladnikP());
             model.addAttribute("barek",barek);
+            model.addAttribute("sokList",skladnikService.getSoksToAdd(barek));
+            model.addAttribute("syropList",skladnikService.getSyropsToAdd(barek));
+            model.addAttribute("innyList",skladnikService.getInnyToAdd(barek));
+
+
+            model.addAttribute("skladnikList", alkoholRepo.findAll());
+            model.addAttribute("typList", typRepo.findAll());
+            return "/barowe/barManager";
         }
 
-        // zmiana z find all na serwice nid all nie w barklu
-        model.addAttribute("skladnikP",new SkladnikP());
-        model.addAttribute("sokList",sokRepo.findAll());
-        model.addAttribute("syropList",syropRepo.findAll());
-        model.addAttribute("innyList",innyRepo.findAll());
-        model.addAttribute("skladnikList", alkoholRepo.findAll());
-        model.addAttribute("typList", typRepo.findAll());
-
-        return "/barowe/barManager";
+        return "redirect:/przegladaj";
     }
 
-    @PostMapping(value ="/bar", params = "dodaj")
-    public String barDodaj(@ModelAttribute ("skladnikP")SkladnikP skladnikP){
+    @PostMapping(value ="/bar/{id}", params = "dodaj")
+    public String barDodaj(@ModelAttribute ("skladnikP")SkladnikP skladnikP,@PathVariable("id") long id){
 
-        System.out.println(skladnikP);
-        if (barekRepo.findById((long)54).isPresent()){
-            Barek barek=barekRepo.findById((long)54).get();
-
-            switch (skladnikP.getRodzaj()){
-                case 1:
-                    break;
-                case 2:
-                    if (sokRepo.findById(skladnikP.getId()).isPresent()) {
-                        Sok sok=sokRepo.findById(skladnikP.getId()).get();
-
-                        if (!barek.getListSok().contains(sok)) {
-                            barek.getListSok().add(sok);
-                            barekRepo.save(barek);
-                        }
-                    }
-                    break;
-                case 3:
-
-                    if (syropRepo.findById(skladnikP.getId()).isPresent()) {
-                        Syrop syrop =syropRepo.findById(skladnikP.getId()).get();
-                        if (!barek.getListSyrop().contains(syrop)) {
-                            barek.getListSyrop().add(syrop);
-                            barekRepo.save(barek);
-                        }
-                    }
-
-
-                    break;
-                case 4:
-                    break;
-            }
-        }
-        return "redirect:/bar";
+        skladnikService.addToBar(skladnikP,id);
+        return "redirect:/bar/"+id;
     }
 
 
-    @GetMapping(value = "/sok/delete/{id}")
-    public String sokDelete(@PathVariable("id") Long id){
-
-        if (barekRepo.findById((long)54).isPresent()){
-            Barek barek=barekRepo.findById((long)54).get();
-            int inte= (int) (id-1);
-            barek.getListSok().remove(inte);
-            barekRepo.save(barek);
-            }
-        return "redirect:/bar";
+    @GetMapping(value = "/{barID}/sok/delete/{id}")
+    public String sokDelete(@PathVariable("id") Long id,@PathVariable("barID") Long barid){
+        skladnikService.deleteSokFromBar(id,barid);
+        return "redirect:/bar/"+barid;
     }
 
-    @GetMapping(value = "/syrop/delete/{id}")
-    public String syropDelete(@PathVariable("id") Long id){
+    @GetMapping(value = "/{barID}/syrop/delete/{id}")
+    public String syropDelete(@PathVariable("id") Long id,@PathVariable("barID") Long barid){
+        skladnikService.deleteSyropFromBar(id,barid);
+        return "redirect:/bar/"+barid;
+    }
 
-        if (barekRepo.findById((long)54).isPresent()){
-            Barek barek=barekRepo.findById((long)54).get();
-            int inte= (int) (id-1);
-            barek.getListSyrop().remove(inte);
-            barekRepo.save(barek);
-        }
-        return "redirect:/bar";
+    @GetMapping(value = "/{barID}/inny/delete/{id}")
+    public String innyDelete(@PathVariable("id") Long id,@PathVariable("barID") Long barid){
+        skladnikService.deleteInnyFromBar(id,barid);
+        return "redirect:/bar/"+barid;
     }
 
 
     @GetMapping(value ="/skladniki")
     public String skladnikManager(Model model){
-
-
-
 
         model.addAttribute("skladnikP",new SkladnikP());
         model.addAttribute("sokList",sokRepo.findAll());
@@ -219,40 +163,10 @@ public class MainController {
     @PostMapping(value ="/skladniki", params = "dodaj")
     public String skladnikDodaj(@ModelAttribute ("skladnikP")SkladnikP skladnikP){
 
-        System.out.println(skladnikP);
-            switch (skladnikP.getRodzaj()){
-                case 1:
-                    break;
-                case 2:
-                    if (sokRepo.findByNazwaEquals(skladnikP.getNazwa())==null) {
-                        //else strona bledu?
-                        Sok sok= new Sok();
-                        sok.setNazwa(skladnikP.getNazwa());
-                        sok.setCenaZaLitr(skladnikP.getIloscML());
-                        sokRepo.save(sok);
-
-                    }
-                    break;
-                case 3:
-
-                    if (syropRepo.findByNazwaEquals(skladnikP.getNazwa())==null) {
-
-                        Syrop syrop= new Syrop();
-                        syrop.setNazwa(skladnikP.getNazwa());
-                        syrop.setCenaZaLitr(skladnikP.getIloscML());
-                        if (skladnikP.getOpisDodatkowy()!=null) {syrop.setPrzepis(skladnikP.getOpisDodatkowy());}
-                        syropRepo.save(syrop);
+        skladnikService.saveSkladnik(skladnikP);
 
 
-                    }
-
-
-                    break;
-                case 4:
-                    break;
-            }
-
-        return "redirect:/bar";
+        return "redirect:/skladniki";
     }
 
 }
