@@ -89,16 +89,22 @@ public class Mapper {
 
                             if (skladnikP.isNowy()) {
                                 Alkohol alkohol = alkoholRepo.findByNazwaEquals(skladnikP.getNazwa());
-                                Typ newTyp = new Typ();
-                                newTyp.setNazwa(skladnikP.getTyp());
-                                newTyp.setAlkoholID(alkohol.getId());
-                                typRepo.save(newTyp);
-                                alkohol.getTypList().add(newTyp);
-                                alkoholRepo.save(alkohol);
+                                Typ newTyp;
 
+                                if (typRepo.findByNazwaEquals(skladnikP.getTyp())==null) {
+                                    newTyp = new Typ();
+                                    newTyp.setNazwa(skladnikP.getTyp());
+                                    newTyp.setAlkoholID(alkohol.getId());
+                                    typRepo.save(newTyp);
+                                    alkohol.getTypList().add(newTyp);
+                                    alkoholRepo.save(alkohol);
+                                } else {
+                                    newTyp=typRepo.findByNazwaEquals(skladnikP.getTyp());
+                                }
                                 skladnikB.setSkladnik(newTyp);
 
-                            } else if (skladnikP.isNowyAlko()){
+                            } else if (skladnikP.isNowyAlko()&&alkoholRepo.findByNazwaEquals(skladnikP.getNazwa())==null){
+
                                 Alkohol alkohol= new Alkohol();
                                 alkohol.setNazwa(skladnikP.getNazwa());
                                 Typ newTyp= new Typ();

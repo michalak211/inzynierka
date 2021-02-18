@@ -39,7 +39,7 @@ public class KoktailService {
 
     public List<KoktajlForm> getAllUserForms(){
 
-        List<Koktajl> list = (List<Koktajl>) koktailRepo.findAll();
+        ArrayList<Koktajl> list = (ArrayList<Koktajl>) koktailRepo.findAll();
         List<KoktajlForm> koktajlFormList= new ArrayList<>();
         for (Koktajl koktajl:list){
             koktajlFormList.add(mapper.toKoktajlForm(koktajl));

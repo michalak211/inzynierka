@@ -45,7 +45,6 @@ public class SkladnikService {
                     sok.setCenaZaLitr(skladnikP.getIloscML());
                     sokRepo.save(sok);
                     return true;
-
                 }
                 break;
             case 3:
