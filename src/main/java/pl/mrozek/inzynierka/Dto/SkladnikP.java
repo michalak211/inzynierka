@@ -30,9 +30,8 @@ public class SkladnikP {
 }
 //todo edycja
 // riff
-// sprawdzanie powtorzen
-// zapis edycji błąd w mapper - są powtórzenia w bazie powtórzeniu
 
+// todo multireposervice??
 
 //todo logowanie
 // dodawanie zapytań
@@ -46,6 +45,7 @@ public class SkladnikP {
 //todo zasoby barku
 // delete from bar rodzaj przekazywany?
 // edit skladnik
+// konkretny skłądink dla przepisów?
 // workhorse dla
 // dodaj nową flaszkę
 // aktualizacja
@@ -61,30 +61,10 @@ public class SkladnikP {
 // js!
 
 
-//    @GetMapping("/image/display/{id}")
-//    @ResponseBody
-//    void showImage(@PathVariable("id") Long id, HttpServletResponse response, Optional<ImageGallery> imageGallery)
-//            throws ServletException, IOException {
-//        log.info("Id :: " + id);
-//        imageGallery = imageGalleryService.getImageById(id);
-//        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-//        response.getOutputStream().write(imageGallery.get().getImage());
-//        response.getOutputStream().close();
-//    }
+//todo validacja
+// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
 
 
-//<tbody th:with="count=0">
-//<tr th:each = "imageGallery, hh : ${images}">
-//<td th:with="count=${count + 1}" th:text="${count}"></td>
-//<td th:text="${imageGallery.name}"></td>
-//<td><img th:src="@{${'/image/display/'+ imageGallery.id}}"
-//class="card img-fluid" style="width:300px" alt=""/></td>
-//<td th:text="${imageGallery.description}"></td>
-//<td th:text="${imageGallery.price}"></td>
-//<td th:text="${#dates.format({imageGallery.createDate}, 'dd-MM-yyyy')}"/></td>
-//<td><a th:href="@{/image/imageDetails(id=${imageGallery.id})}" class="btn btn-info text-right" target="_blank">View</a></td>
-//</tr>
-//</tbody>
 
 
 

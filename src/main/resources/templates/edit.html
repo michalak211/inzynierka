@@ -1063,20 +1063,22 @@
 
     var stareSkladniki = [[${koktajlForm.listaSkladnikow}]];
 
-    stareSkladniki.forEach(function (starySkladnik, index, array) {
+    if (stareSkladniki!=null) {
+        stareSkladniki.forEach(function (starySkladnik, index, array) {
 
-        let rowIndexSelector = '.skladnikTable';
-        let listName = 'listaSkladnikow';
-        let elementName = 'SkladTable'
+            let rowIndexSelector = '.skladnikTable';
+            let listName = 'listaSkladnikow';
+            let elementName = 'SkladTable'
 
-        let rowIndex = document.querySelectorAll(rowIndexSelector).length;
-        let row = document.createElement('tr');
-        row.classList.add(rowIndexSelector.substr(1));
+            let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+            let row = document.createElement('tr');
+            row.classList.add(rowIndexSelector.substr(1));
 
 
-        AddMainRowEdit(listName, rowIndexSelector, elementName, starySkladnik);
+            AddMainRowEdit(listName, rowIndexSelector, elementName, starySkladnik);
 
-    });
+        });
+    }
 
 
 </script>

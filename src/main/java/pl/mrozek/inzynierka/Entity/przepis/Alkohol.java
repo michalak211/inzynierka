@@ -22,6 +22,7 @@ public class Alkohol  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column (unique = true)
     private String nazwa;
 //    private int procenty;
 //    private String marka;

@@ -65,7 +65,7 @@ public class KoktailController {
         model.addAttribute("syropList", syropRepo.findAll());
         model.addAttribute("innyList", innyRepo.findAll());
 
-        return "/dodaj";
+        return "/edit";
     }
 
     @Transactional
@@ -77,9 +77,9 @@ public class KoktailController {
         koktajl = mapper.toKoktajl(koktajl, koktajlForm);
         koktailRepo.save(koktajl);
 
-        model.addAttribute("alkoholList", alkoholRepo.findAll());
-        model.addAttribute("typList", typRepo.findAll());
-        model.addAttribute("koktajlList", koktailService.getAllUserForms());
+//        model.addAttribute("alkoholList", alkoholRepo.findAll());
+//        model.addAttribute("typList", typRepo.findAll());
+//        model.addAttribute("koktajlList", koktailService.getAllUserForms());
         return "redirect:/przegladaj";
 
     }
@@ -189,11 +189,11 @@ public class KoktailController {
         alkoholRepo.save(alkohol1);
 
         Sok sok = new Sok();
-        sok.setNazwa("soczek");
+        sok.setNazwa("sok limonkowy");
         sokRepo.save(sok);
 
         Syrop syrop = new Syrop();
-        syrop.setNazwa("syropek");
+        syrop.setNazwa("syrop cukrowy");
         syropRepo.save(syrop);
 
         Barek barek = new Barek();
@@ -214,26 +214,7 @@ public class KoktailController {
 
     }
 
-//    @Transactional
-//    @GetMapping("/add")
-//    public String kwn(Model model) {
-//        KWNDto formKWN = new KWNDto();
-//        List<Niezgodnosc> niezgodnoscList= (List<Niezgodnosc>) niezgodnoscRepo.findAll();
-//        List<Employee> employees = employeeService.getAllEmployee();
-//        model.addAttribute("kwnForm", formKWN);
-//        model.addAttribute("employees", employees);
-//        model.addAttribute("niezgodnoscList",niezgodnoscList);
-//        model.addAttribute("newKwn", 1);
-//        return "/kwn/kwn";
-//    }
-//
-//
-//    @Transactional
-//    @PostMapping("/add")
-//    public String kwnSubmit(@ModelAttribute("kwnForm") KWNDto formKWN) {
-//        kwnService.addKWN(formKWN);
-//        return  "redirect:/archiwum/kwn";
-//    }
+
 
 
 }
