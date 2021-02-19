@@ -10,7 +10,84 @@
 <div th:replace="fragments/header :: header"></div>
 
 
+<div class="container-fluid">
+    <div class="starter-template">
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <label class="col-md-9 control-label">Utwórz nową butelkę</label>
+                            </div>
+                        </div>
 
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal row-border" action="#"
+                              th:object="${koktajlForm}" method="post">
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <!--                                        <label  style="text-align:center" class="col-md-2 control-label">Skladniki</label>-->
+                                        <div class="container-fluid">
+                                            <table id="SkladTable" class=" table order-list">
+                                                <thead>
+                                                <tr>
+                                                    <td style="text-align:center">Rodzaj</td>
+                                                    <td style="text-align:center">Ilość</td>
+                                                    <td style="text-align:center">Opis dodatkowy</td>
+                                                    <td style="text-align:center">Nazwa</td>
+                                                    <td></td>
+                                                    <td style="text-align:center">Typ</td>
+                                                    <td style="text-align:center">Nowy składnik</td>
+
+                                                    <td></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="7" style="text-align: left;">
+                                                        <input type="button" class="btn btn-lg btn-block "
+                                                               onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                               value="Dodaj kolejny składnik"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <label class="container-fluid">Opis przyrządzenia</label>
+                                    <textarea th:field="*{opisPrzyrzadzenia}" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary" name="zapisz">Zapisz</button>
+
+
+                        </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
 
 
 
