@@ -1,6 +1,7 @@
 package pl.mrozek.inzynierka.Dto;
 
 import lombok.*;
+import org.springframework.data.annotation.Transient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,7 @@ public class SkladnikP {
     private String opisDodatkowy;
     private boolean nowy;
     private boolean nowyAlko;
+
 
 
 }
@@ -58,6 +60,7 @@ public class SkladnikP {
 // set workhorse
 
 //todo refactor
+// mapper skladnik p do b (kolejność w if)
 // js!
 
 

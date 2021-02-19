@@ -91,7 +91,7 @@ public class Mapper {
                                 Alkohol alkohol = alkoholRepo.findByNazwaEquals(skladnikP.getNazwa());
                                 Typ newTyp;
 
-                                if (typRepo.findByNazwaEquals(skladnikP.getTyp())==null) {
+                                if (typRepo.findByNazwaEquals(skladnikP.getTyp()) == null) {
                                     newTyp = new Typ();
                                     newTyp.setNazwa(skladnikP.getTyp());
                                     newTyp.setAlkoholID(alkohol.getId());
@@ -99,29 +99,28 @@ public class Mapper {
                                     alkohol.getTypList().add(newTyp);
                                     alkoholRepo.save(alkohol);
                                 } else {
-                                    newTyp=typRepo.findByNazwaEquals(skladnikP.getTyp());
+                                    newTyp = typRepo.findByNazwaEquals(skladnikP.getTyp());
                                 }
                                 skladnikB.setSkladnik(newTyp);
 
-                            } else if (skladnikP.isNowyAlko()&&alkoholRepo.findByNazwaEquals(skladnikP.getNazwa())==null){
+                            } else if (skladnikP.isNowyAlko() && alkoholRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
 
-                                Alkohol alkohol= new Alkohol();
+                                Alkohol alkohol = new Alkohol();
                                 alkohol.setNazwa(skladnikP.getNazwa());
-                                Typ newTyp= new Typ();
+                                Typ newTyp = new Typ();
                                 newTyp.setNazwa(skladnikP.getTyp());
                                 alkoholRepo.save(alkohol);
                                 newTyp.setAlkoholID(alkohol.getId());
                                 typRepo.save(newTyp);
 
-                                List<Typ> alkolist= new ArrayList<>();
+                                List<Typ> alkolist = new ArrayList<>();
                                 alkolist.add(newTyp);
                                 alkohol.setTypList(alkolist);
                                 alkoholRepo.save(alkohol);
 
-
                                 skladnikB.setSkladnik(newTyp);
 
-                            }else {
+                            } else {
                                 Typ typ = typRepo.findByNazwaEquals(skladnikP.getTyp());
                                 skladnikB.setSkladnik(typ);
                             }
@@ -129,9 +128,14 @@ public class Mapper {
                             break;
                         case 2:
                             if (skladnikP.isNowy()) {
-                                Sok sok = new Sok();
-                                sok.setNazwa(skladnikP.getNazwa());
-                                sokRepo.save(sok);
+                                Sok sok;
+                                if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) != null) {
+                                    sok = new Sok();
+                                    sok.setNazwa(skladnikP.getNazwa());
+                                    sokRepo.save(sok);
+                                } else {
+                                    sok = sokRepo.findByNazwaEquals(skladnikP.getNazwa());
+                                }
                                 skladnikB.setSkladnik(sok);
                             } else {
                                 skladnikB.setSkladnik(sokRepo.findByNazwaEquals(skladnikP.getNazwa()));
@@ -139,9 +143,14 @@ public class Mapper {
                             break;
                         case 3:
                             if (skladnikP.isNowy()) {
-                                Syrop syrop = new Syrop();
-                                syrop.setNazwa(skladnikP.getNazwa());
-                                syropRepo.save(syrop);
+                                Syrop syrop;
+                                if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) != null) {
+                                    syrop = new Syrop();
+                                    syrop.setNazwa(skladnikP.getNazwa());
+                                    syropRepo.save(syrop);
+                                } else {
+                                    syrop = syropRepo.findByNazwaEquals(skladnikP.getNazwa());
+                                }
                                 skladnikB.setSkladnik(syrop);
                             } else {
                                 skladnikB.setSkladnik(syropRepo.findByNazwaEquals(skladnikP.getNazwa()));
@@ -151,9 +160,14 @@ public class Mapper {
                         case 4:
                             if (skladnikP.isNowy()) {
 
-                                Inny inny = new Inny();
-                                inny.setNazwa(skladnikP.getNazwa());
-                                innyRepo.save(inny);
+                                Inny inny;
+                                if (innyRepo.findByNazwaEquals(skladnikP.getNazwa()) != null) {
+                                    inny = new Inny();
+                                    inny.setNazwa(skladnikP.getNazwa());
+                                    innyRepo.save(inny);
+                                } else {
+                                    inny = innyRepo.findByNazwaEquals(skladnikP.getNazwa());
+                                }
                                 skladnikB.setSkladnik(inny);
                             } else {
                                 skladnikB.setSkladnik(innyRepo.findByNazwaEquals(skladnikP.getNazwa()));
@@ -195,9 +209,9 @@ public class Mapper {
             koktajlForm.setVegan("nie");
         }
 
-        if (koktajl.getId()!=null) {
+        if (koktajl.getId() != null) {
             koktajlForm.setId(koktajl.getId());
-        }else {
+        } else {
             koktajlForm.setId(0);
         }
 
