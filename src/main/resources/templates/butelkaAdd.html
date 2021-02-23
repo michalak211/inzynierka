@@ -3,7 +3,7 @@
 <!--<html lang="en">-->
 <head>
     <div th:replace="fragments/header :: header-css"></div>
-    <title>title</title>
+    <title>Dodaj alkohol</title>
 
 </head>
 <body>
@@ -25,23 +25,21 @@
                     </div>
                     <div class="panel-body">
                         <form class="form-horizontal row-border" action="#"
-                              th:object="${koktajlForm}" method="post">
+                              th:object="${butelka}" method="post">
 
                             <div class="form-group">
                                 <div class="container-fluid">
                                     <div class="row">
                                         <!--                                        <label  style="text-align:center" class="col-md-2 control-label">Skladniki</label>-->
                                         <div class="container-fluid">
-                                            <table id="SkladTable" class=" table order-list">
+                                            <table id="addTable" class=" table order-list">
                                                 <thead>
                                                 <tr>
-                                                    <td style="text-align:center">Rodzaj</td>
-                                                    <td style="text-align:center">Ilość</td>
-                                                    <td style="text-align:center">Opis dodatkowy</td>
                                                     <td style="text-align:center">Nazwa</td>
-                                                    <td></td>
+                                                    <td style="text-align:center">Cena za litr</td>
+                                                    <td style="text-align:center">Rodzaj alkoholu</td>
                                                     <td style="text-align:center">Typ</td>
-                                                    <td style="text-align:center">Nowy składnik</td>
+                                                    <td style="text-align:center">Ocena</td>
 
                                                     <td></td>
                                                 </tr>
@@ -50,11 +48,23 @@
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
-                                                    <td colspan="7" style="text-align: left;">
-                                                        <input type="button" class="btn btn-lg btn-block "
-                                                               onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
-                                                               value="Dodaj kolejny składnik"/>
+<!--                                                    <td class="col-sm-2">-->
+<!--                                                        <input th:field="*{nazwa}" type="text" class="form-control"-->
+<!--                                                               placeholder="Nazwa" required>-->
+<!--                                                    </td>-->
+<!--                                                    <td class="col-sm-2">-->
+<!--                                                        <input th:field="*{cenaZaLitr}" type="text" class="form-control"-->
+<!--                                                               placeholder="">-->
+<!--                                                    </td>-->
+<!--                                                    <td class="col-sm-2">-->
+<!--                                                        <input th:field="*{alkoholNazwa}" type="text" class="form-control"-->
+<!--                                                               placeholder="rodzaj alkoholu">-->
+<!--                                                    </td>-->
+<!--                                                    <td class="col-sm-2">-->
+<!--                                                        <input value="Dowolne" th:field="*{typNazwa}" type="text"-->
+<!--                                                               class="form-control">-->
                                                     </td>
+
                                                 </tr>
                                                 <tr>
                                                 </tr>
@@ -67,13 +77,13 @@
 
                             <div class="form-group">
                                 <div class="container-fluid">
-                                    <label class="container-fluid">Opis przyrządzenia</label>
-                                    <textarea th:field="*{opisPrzyrzadzenia}" class="form-control" rows="3"></textarea>
+                                    <label class="container-fluid">Opis</label>
+                                    <textarea th:field="*{opis}" class="form-control" rows="6"></textarea>
                                 </div>
                             </div>
 
 
-                            <button type="submit" class="btn btn-primary" name="zapisz">Zapisz</button>
+                            <button type="submit" class="btn btn-primary" name="dodaj">Zapisz</button>
 
 
                         </form>
@@ -92,7 +102,132 @@
 
 
 
-
 <div th:replace="fragments/footer :: footer"></div>
+
+<script th:inline="javascript">
+
+    let alkoList=[[${alkoList}]];
+
+    function alkoChanger(row, selectList) {
+
+        var parent = selectList.value;
+        var skladniki = [[${alkoList}]];
+        let bool = parent === "-----";
+        let childID = 'typNazwa';
+        var x = document.getElementById(childID);
+        do {
+            x.remove(x.length - 1);
+
+        } while (x.length > 0)
+
+        if (!bool) {
+            skladniki.forEach((skladnik) => {
+                var bol = skladnik.nazwa == parent;
+                if (bol) {
+                    var typLista = skladnik.typList;
+                    for (var i = 0; i < typLista.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = typLista[i].nazwa;
+                        option.text = typLista[i].nazwa;
+                        x.appendChild(option);
+                    }
+                }
+            });
+        }
+
+    }
+
+
+
+    let rowIndexSelector= '.s';
+
+    let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+    let row = document.createElement('tr');
+    row.classList.add(rowIndexSelector.substr(1));
+
+    let colNazwa = document.createElement('td');
+    colNazwa.classList.add('col-sm-2');
+    let inputNazwa = document.createElement('input');
+    inputNazwa.type = 'text';
+    inputNazwa.classList.add('form-control');
+    inputNazwa.id = 'nazwa';
+    inputNazwa.setAttribute('name', 'nazwa');
+    inputNazwa.placeholder = "Nazwa alkoholu";
+    inputNazwa.required=true;
+    colNazwa.appendChild(inputNazwa);
+    row.appendChild(colNazwa);
+
+
+    let col4 = document.createElement('td');
+    col4.classList.add('col-sm-2');
+    let input = document.createElement('input');
+    input.type = 'number';
+    input.step = "1";
+    input.value = "0";
+    input.classList.add('form-control');
+    input.id = 'cenaZaLitr';
+    input.setAttribute('name', 'cenaZaLitr');
+    col4.appendChild(input);
+    row.appendChild(col4);
+
+    let col = document.createElement('td');
+    col.classList.add('col-sm-2');
+    let selectList = document.createElement('select');
+    // var option = document.createElement("option");
+    // option.value = "-----";
+    // option.text = "-----";
+    // selectList.appendChild(option);
+
+    for (var i = 0; i < alkoList.length; i++) {
+        var option = document.createElement("option");
+        option.value = alkoList[i].nazwa;
+        option.text = alkoList[i].nazwa;
+        selectList.appendChild(option);
+    }
+    selectList.selectedIndex=0;
+
+    selectList.classList.add('form-control');
+    selectList.id = 'alkoholNazwa';
+    selectList.setAttribute('name', 'alkoholNazwa');
+    col.appendChild(selectList);
+    row.appendChild(col);
+
+    let col2 = document.createElement('td');
+    col2.classList.add('col-sm-2');
+    let selectList2 = document.createElement('select');
+    selectList2.classList.add('form-control');
+    selectList2.id = 'typNazwa';
+    selectList2.setAttribute('name','typNazwa');
+    col2.appendChild(selectList2);
+    row.appendChild(col2);
+
+
+    // alkoList.forEach((skladnik) => {
+    //     var bol = skladnik.nazwa == selectList.value;
+    //     if (bol) {
+    //         var typLista = skladnik.typList;
+    //         for (var i = 0; i < typLista.length; i++) {
+    //             var option = document.createElement("option");
+    //             option.value = typLista[i].nazwa;
+    //             option.text = typLista[i].nazwa;
+    //             selectList2.appendChild(option);
+    //         }
+    //     }
+    // });
+
+
+
+    selectList.addEventListener("change", function () {
+        alkoChanger(row, selectList)
+    }, true);
+
+    document.getElementById('addTable').appendChild(row);
+
+
+    alkoChanger(row, selectList);
+
+
+</script>
+
 </body>
 </html>

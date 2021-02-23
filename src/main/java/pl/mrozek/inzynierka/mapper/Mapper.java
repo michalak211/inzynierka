@@ -3,6 +3,7 @@ package pl.mrozek.inzynierka.mapper;
 import org.springframework.stereotype.Component;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
+import pl.mrozek.inzynierka.Entity.bar.Butelka;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Entity.przepis.SkladnikB;
@@ -252,4 +253,23 @@ public class Mapper {
         return koktajlForm;
     }
 
+    public Butelka butlaToBase(Butelka butelka){
+
+        butelka.setAlkoholId(alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa()).getId());
+        butelka.setTypId(typRepo.findByNazwaEquals(butelka.getTypNazwa()).getId());
+
+        return butelka;
+    }
+    public Butelka butlaToForm(Butelka butelka){
+
+        if (alkoholRepo.findById(butelka.getAlkoholId()).isPresent()){
+            Alkohol alkohol=alkoholRepo.findById(butelka.getAlkoholId()).get();
+            butelka.setAlkoholNazwa(alkohol.getNazwa());
+        }
+        if (typRepo.findById(butelka.getTypId()).isPresent()){
+            Typ typ=typRepo.findById(butelka.getTypId()).get();
+            butelka.setTypNazwa(typ.getNazwa());
+        }
+        return butelka;
+    }
 }

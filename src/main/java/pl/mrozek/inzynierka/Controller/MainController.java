@@ -3,16 +3,13 @@ package pl.mrozek.inzynierka.Controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
-import pl.mrozek.inzynierka.Entity.skladniki.Inny;
-import pl.mrozek.inzynierka.Entity.skladniki.Sok;
-import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
+import pl.mrozek.inzynierka.Entity.bar.Butelka;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
 import pl.mrozek.inzynierka.Service.SkladnikService;
+import pl.mrozek.inzynierka.mapper.Mapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +20,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -41,9 +36,10 @@ public class MainController {
     private final InnyRepo innyRepo;
     private final BarekRepo barekRepo;
     private final SkladnikService skladnikService;
+    private final Mapper mapper;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, BarekRepo barekRepo, SkladnikService skladnikService) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, BarekRepo barekRepo, SkladnikService skladnikService, Mapper mapper) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -53,6 +49,7 @@ public class MainController {
         this.innyRepo = innyRepo;
         this.barekRepo = barekRepo;
         this.skladnikService = skladnikService;
+        this.mapper = mapper;
     }
 
     @GetMapping("/test")
@@ -168,5 +165,26 @@ public class MainController {
 
         return "redirect:/skladniki";
     }
+
+    @GetMapping(value ="/skladniki/dodajbutle")
+    public String createBottle(Model model){
+
+        model.addAttribute("alkoList",alkoholRepo.findAll());
+        model.addAttribute("butelka", new Butelka());
+        return "/butelkaAdd";
+    }
+
+    @PostMapping(value ="/skladniki/dodajbutle", params = "dodaj")
+    public String addBottle(@ModelAttribute ("butelka")Butelka butelka){
+
+        System.out.println((butelka));
+
+        System.out.println(mapper.butlaToBase(butelka));
+
+        return "redirect:/skladniki";
+    }
+
+
+
 
 }
