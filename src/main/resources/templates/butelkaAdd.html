@@ -38,7 +38,9 @@
                                                     <td style="text-align:center">Nazwa</td>
                                                     <td style="text-align:center">Cena za litr</td>
                                                     <td style="text-align:center">Rodzaj alkoholu</td>
+                                                    <td style="text-align:center">Nowy alkohol</td>
                                                     <td style="text-align:center">Typ</td>
+                                                    <td style="text-align:center">Nowy typ</td>
                                                     <td style="text-align:center">Ocena</td>
 
                                                     <td></td>
@@ -107,6 +109,7 @@
 <script th:inline="javascript">
 
     let alkoList=[[${alkoList}]];
+    let choices = [[${skladnikList}]];
 
     function alkoChanger(row, selectList) {
 
@@ -118,7 +121,7 @@
         do {
             x.remove(x.length - 1);
 
-        } while (x.length > 0)
+        } while (x.length > 0);
 
         if (!bool) {
             skladniki.forEach((skladnik) => {
@@ -137,6 +140,166 @@
 
     }
 
+    function newTypChanger(row, columnAlko, column, checkbox,checkboxAlko) {
+
+        let childID = 'typNazwa';
+        column.removeChild(document.getElementById(childID));
+
+        // let checkboxAlkoId = 'nowyAlko';
+        // let checkboxAlko = document.getElementById(checkboxAlkoId);
+
+        if (checkbox.checked) {
+
+            let input2 = document.createElement('input');
+            input2.type = 'text';
+            input2.classList.add('form-control');
+            input2.id =  'typNazwa';
+            input2.setAttribute('name', 'typNazwa');
+            input2.placeholder = "Nowy typ";
+            column.appendChild(input2);
+
+            if (checkboxAlko.checked) {
+                checkboxAlko.checked = false;
+
+                let listId = 'alkoholNazwa';
+                columnAlko.removeChild(document.getElementById(listId));
+                let selectList = document.createElement('select');
+
+                for (let i = 0; i < choices.length; i++) {
+                    option = document.createElement("option");
+                    option.value = choices[i].nazwa;
+                    option.text = choices[i].nazwa;
+                    selectList.appendChild(option);
+                }
+
+                selectList.classList.add('form-control');
+                selectList.id =  'alkoholNazwa';
+                selectList.setAttribute('name', 'alkoholNazwa');
+                columnAlko.appendChild(selectList);
+
+                selectList.addEventListener("change", function () {
+                    alkoChanger(row, selectList)
+                }, true);
+            }
+
+        } else {
+
+            let input3 = document.createElement('select');
+            input3.classList.add('form-control');
+            input3.id = 'typNazwa';
+            input3.setAttribute('name',  'typNazwa');
+
+            let parentID =  'alkoholNazwa';
+            let parentList = document.getElementById(parentID);
+            let parent = parentList.value;
+            let skladniki = [[${skladnikList}]];
+            skladniki.forEach((skladnik) => {
+
+                let typLista = skladnik.typList;
+                let bol = skladnik.nazwa == parent;
+                if (bol) {
+                    for (let i = 0; i < typLista.length; i++) {
+                        let option = document.createElement("option");
+                        option.value = typLista[i].nazwa;
+                        option.text = typLista[i].nazwa;
+                        input3.appendChild(option);
+                    }
+                }
+            });
+
+            column.appendChild(input3);
+
+            parentList.addEventListener("change", function () {
+                alkoChanger(row, parentList)
+            }, true);
+
+        }
+    }
+
+    function newAlkoChanger(row, column, columnTyp, checkboxTyp,checkbox) {
+
+        let listId = 'alkoholNazwa';
+        column.removeChild(document.getElementById(listId));
+        let typListItem = 'typNazwa';
+        let x = document.getElementById(typListItem);
+
+        // let checkboxTypId = 'nowy';
+        // let checkboxTyp = document.getElementById(checkboxTypId);
+
+        if (checkbox.checked) {
+
+            let input2 = document.createElement('input');
+            input2.type = 'text';
+            input2.classList.add('form-control');
+            input2.id ='alkoholNazwa';
+            input2.setAttribute('name', 'alkoholNazwa');
+            input2.placeholder = "Nowa nazwa";
+            column.appendChild(input2);
+
+            let option2 = document.createElement("option");
+            option2.value = "Dowolny";
+            option2.text = "Dowolny";
+
+
+            if (checkboxTyp.checked) {
+                checkboxTyp.checked = false;
+
+                let childID ='typNazwa';
+                columnTyp.removeChild(document.getElementById(childID));
+
+                let input3 = document.createElement('select');
+                input3.classList.add('form-control');
+                input3.id = 'typNazwa';
+                input3.setAttribute('name', 'typNazwa');
+                input3.appendChild(option2);
+                columnTyp.appendChild(input3);
+
+            } else {
+                do {
+                    x.remove(x.length - 1);
+
+                } while (x.length > 0)
+
+                x.appendChild(option2);
+            }
+
+
+        } else {
+
+            let i;
+            let selectList = document.createElement('select');
+            // let option = document.createElement("option");
+            // option.value = "-----";
+            // option.text = "-----";
+            // selectList.appendChild(option);
+
+            for (i = 0; i < choices.length; i++) {
+                let option = document.createElement("option");
+                option.value = choices[i].nazwa;
+                option.text = choices[i].nazwa;
+                selectList.appendChild(option);
+            }
+
+            selectList.classList.add('form-control');
+            selectList.id = 'alkoholNazwa';
+            selectList.setAttribute('name', 'alkoholNazwa');
+            column.appendChild(selectList);
+
+            for (i = 0; i < x.length; i++) {
+                if (x.length > 0) {
+                    x.remove(x.length - 1);
+                }
+            }
+
+            selectList.addEventListener("change", function () {
+                alkoChanger(row, selectList)
+            }, true);
+            alkoChanger(row, selectList);
+
+        }
+    }
+
+
 
 
     let rowIndexSelector= '.s';
@@ -152,10 +315,11 @@
     inputNazwa.classList.add('form-control');
     inputNazwa.id = 'nazwa';
     inputNazwa.setAttribute('name', 'nazwa');
-    inputNazwa.placeholder = "Nazwa alkoholu";
+    inputNazwa.placeholder = "Nazwa butelki";
     inputNazwa.required=true;
     colNazwa.appendChild(inputNazwa);
     row.appendChild(colNazwa);
+
 
 
     let col4 = document.createElement('td');
@@ -173,13 +337,9 @@
     let col = document.createElement('td');
     col.classList.add('col-sm-2');
     let selectList = document.createElement('select');
-    // var option = document.createElement("option");
-    // option.value = "-----";
-    // option.text = "-----";
-    // selectList.appendChild(option);
 
-    for (var i = 0; i < alkoList.length; i++) {
-        var option = document.createElement("option");
+    for (let i = 0; i < alkoList.length; i++) {
+        let option = document.createElement("option");
         option.value = alkoList[i].nazwa;
         option.text = alkoList[i].nazwa;
         selectList.appendChild(option);
@@ -192,6 +352,17 @@
     col.appendChild(selectList);
     row.appendChild(col);
 
+
+    let colNewAlko = document.createElement('td');
+    let checkboxAlko = document.createElement('input');
+    checkboxAlko.type = 'checkbox';
+    checkboxAlko.classList.add('form-control');
+    checkboxAlko.id = 'nowyAlko';
+    checkboxAlko.setAttribute('name','nowyAlko');
+    colNewAlko.appendChild(checkboxAlko);
+    row.appendChild(colNewAlko);
+
+
     let col2 = document.createElement('td');
     col2.classList.add('col-sm-2');
     let selectList2 = document.createElement('select');
@@ -200,6 +371,17 @@
     selectList2.setAttribute('name','typNazwa');
     col2.appendChild(selectList2);
     row.appendChild(col2);
+
+    let colNew = document.createElement('td');
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.classList.add('form-control');
+    checkbox.id = 'nowy';
+    checkbox.setAttribute('name', 'nowy');
+    colNew.appendChild(checkbox);
+    row.appendChild(colNew);
+
+
 
 
     // alkoList.forEach((skladnik) => {
@@ -219,6 +401,14 @@
 
     selectList.addEventListener("change", function () {
         alkoChanger(row, selectList)
+    }, true);
+
+    checkboxAlko.addEventListener("change", function () {
+        newAlkoChanger( row, col, col2,checkbox, checkboxAlko)
+    }, true);
+
+    checkbox.addEventListener("change", function () {
+        newTypChanger( row,  col, col2, checkbox,checkboxAlko)
     }, true);
 
     document.getElementById('addTable').appendChild(row);

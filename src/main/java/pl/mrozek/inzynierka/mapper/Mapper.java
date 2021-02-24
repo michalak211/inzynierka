@@ -15,7 +15,6 @@ import pl.mrozek.inzynierka.Repo.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class Mapper {
@@ -30,8 +29,10 @@ public class Mapper {
     private final TypRepo typRepo;
     private final SkladnikBRepo skladnikBRepo;
     private final InnyRepo innyRepo;
+    private final ButelkaRepo butelkaRepo;
 
-    public Mapper(AlkoholRepo alkoholRepo, SkladnikRepo skladnikRepo, SokRepo sokRepo, SyropRepo syropRepo, TypRepo typRepo, SkladnikBRepo skladnikBRepo, InnyRepo innyRepo) {
+
+    public Mapper(AlkoholRepo alkoholRepo, SkladnikRepo skladnikRepo, SokRepo sokRepo, SyropRepo syropRepo, TypRepo typRepo, SkladnikBRepo skladnikBRepo, InnyRepo innyRepo, ButelkaRepo butelkaRepo) {
         this.alkoholRepo = alkoholRepo;
         this.skladnikRepo = skladnikRepo;
         this.sokRepo = sokRepo;
@@ -39,6 +40,7 @@ public class Mapper {
         this.typRepo = typRepo;
         this.skladnikBRepo = skladnikBRepo;
         this.innyRepo = innyRepo;
+        this.butelkaRepo = butelkaRepo;
     }
 
 
@@ -271,5 +273,17 @@ public class Mapper {
             butelka.setTypNazwa(typ.getNazwa());
         }
         return butelka;
+    }
+
+    public ArrayList<Butelka> getAllbutlaForms(){
+        ArrayList<Butelka> butelkaList= new ArrayList<>();
+
+        for (Butelka butelka:butelkaRepo.findAll()){
+            System.out.println(butelka);
+            butelkaList.add(butlaToForm(butelka));
+        }
+        System.out.println(butelkaList);
+        return butelkaList;
+
     }
 }

@@ -408,7 +408,7 @@
         }
     }
 
-    function newAlkoChanger(listName, row, rowIndex, column, columnTyp, checkbox, elementName) {
+    function newAlkoChanger(listName, row, rowIndex, column, columnTyp, checkbox) {
 
         let listId = listName + rowIndex + '.' + 'nazwa';
         column.removeChild(document.getElementById(listId));
@@ -512,7 +512,6 @@
 
                 let listId = listName + rowIndex + '.' + 'nazwa';
                 columnAlko.removeChild(document.getElementById(listId));
-
 
                 let selectList = document.createElement('select');
                 let option = document.createElement("option");
@@ -902,7 +901,7 @@
         }, true);
 
         checkboxAlko.addEventListener("change", function () {
-            newAlkoChanger(listName, row, rowIndex, col, col2, checkboxAlko, elementName)
+            newAlkoChanger(listName, row, rowIndex, col, col2, checkboxAlko)
         }, true);
 
         checkbox.addEventListener("change", function () {

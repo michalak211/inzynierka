@@ -37,9 +37,10 @@ public class MainController {
     private final BarekRepo barekRepo;
     private final SkladnikService skladnikService;
     private final Mapper mapper;
+    private final ButelkaRepo butelkaRepo;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, BarekRepo barekRepo, SkladnikService skladnikService, Mapper mapper) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, BarekRepo barekRepo, SkladnikService skladnikService, Mapper mapper, ButelkaRepo butelkaRepo) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -50,6 +51,7 @@ public class MainController {
         this.barekRepo = barekRepo;
         this.skladnikService = skladnikService;
         this.mapper = mapper;
+        this.butelkaRepo = butelkaRepo;
     }
 
     @GetMapping("/test")
@@ -100,7 +102,9 @@ public class MainController {
     public String barManager(Model model,@PathVariable("id") long id){
 
 
+        System.out.println("sprawdzam barek");
         if (barekRepo.findById(id).isPresent()){
+            System.out.println("jest barek");
             Barek barek=barekRepo.findById(id).get();
 
             model.addAttribute("skladnikP",new SkladnikP());
@@ -154,6 +158,7 @@ public class MainController {
         model.addAttribute("innyList",innyRepo.findAll());
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
+        model.addAttribute("butlaList",mapper.getAllbutlaForms());
         return "/barowe/skladnikManager";
     }
 
@@ -169,6 +174,7 @@ public class MainController {
     @GetMapping(value ="/skladniki/dodajbutle")
     public String createBottle(Model model){
 
+        model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("alkoList",alkoholRepo.findAll());
         model.addAttribute("butelka", new Butelka());
         return "/butelkaAdd";
@@ -177,11 +183,12 @@ public class MainController {
     @PostMapping(value ="/skladniki/dodajbutle", params = "dodaj")
     public String addBottle(@ModelAttribute ("butelka")Butelka butelka){
 
-        System.out.println((butelka));
+//        System.out.println((butelka));
 
         System.out.println(mapper.butlaToBase(butelka));
+        butelkaRepo.save(mapper.butlaToBase(butelka));
 
-        return "redirect:/skladniki";
+        return "redirect:/skladniki/dodajbutle";
     }
 
 

@@ -38,7 +38,7 @@
                                                 <tr>
                                                     <td colspan="2" style="text-align: center;">
                                                         <input type="button" class="btn btn-block "
-                                                               onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                               onclick="bootleTable('SkladTable')"
                                                                value="Alkohole"/>
                                                     </td>
                                                     <td colspan="2" style="text-align: center;">
@@ -92,6 +92,7 @@
 <script th:inline="javascript">
 
 
+    let butlaList=[[${butlaList}]]
     var skladnikList = [[${skladnikList}]];
     var sokList = [[${sokList}]];
     var syropList = [[${syropList}]];
@@ -111,6 +112,22 @@
 
         let head1text = document.createElement('output');
         head1text.value = "nazwa";
+        if (rodzaj == 1) {
+            let head4 = document.createElement('td');
+            head4.classList.add('col-sm-2');
+            let head4text = document.createElement('output');
+            head4text.value = "Alkohol";
+            head4.appendChild(head4text);
+            headRow.appendChild(head4);
+
+            let head3 = document.createElement('td');
+            head3.classList.add('col-sm-2');
+            let head3text = document.createElement('output');
+            head3text.value = "Typ";
+            head3.appendChild(head3text);
+            headRow.appendChild(head3);
+        }
+
         let head2text = document.createElement('output');
         head2text.value = "Cena";
 
@@ -127,7 +144,6 @@
             head3text.value = "Przepis";
             head3.appendChild(head3text);
             headRow.appendChild(head3);
-
         }
 
         let hidden = document.createElement('input');
@@ -138,7 +154,7 @@
 
         document.getElementById(elementName).appendChild(headRow);
 
-    }
+    };
 
     let inRowIteration = function (elementName, rodzaj, obj) {
         let rowIndexSelector = '.hgw';
@@ -153,6 +169,23 @@
         nameText.value = obj.nazwa;
         colName.appendChild(nameText);
         row.appendChild(colName);
+
+        if (rodzaj==1){
+
+            let colAlko= document.createElement('td');
+            colAlko.classList.add('col-sm-2');
+            let aplkoText= document.createElement('output');
+            aplkoText.value=obj.alkoholNazwa;
+            colAlko.appendChild(aplkoText);
+            row.appendChild(colAlko);
+
+            let colTyp= document.createElement('td');
+            colTyp.classList.add('col-sm-2');
+            let typText= document.createElement('output');
+            typText.value=obj.typNazwa;
+            colTyp.appendChild(typText);
+            row.appendChild(colTyp);
+        }
 
         let colPrice = document.createElement('td');
         colPrice.classList.add('col-sm-2');
@@ -215,23 +248,29 @@
         document.getElementById(elementName).appendChild(row);
 
 
-        function usunSkladnik(rodzaj) {
+        function usunSkladnik(rodzaj,obj) {
 
             switch (rodzaj) {
+                case 1:
+                    window.location.href = '/butelka/delete/' + obj.id;
+                    break;
                 case 2:
-                    window.location.href = '/sok/delete/' + rowIndex;
+                    window.location.href = '/sok/delete/' + obj.id;
                     break;
                 case 3:
-                    window.location.href = '/syrop/delete/' + rowIndex;
+                    window.location.href = '/syrop/delete/' + obj.id;
                     break;
                 case 4:
-                    window.location.href = '/inny/delete/' + rowIndex;
+                    window.location.href = '/inny/delete/' + obj.id;
                     break;
             }
         }
 
         function toEdit(rodzaj, obj) {
             switch (rodzaj) {
+                case 1:
+                    window.location.href = '/butelka/edit/' + obj.id;
+                    break;
                 case 2:
                     window.location.href = '/sok/edit/' + obj.id;
                     break;
@@ -243,7 +282,8 @@
                     break;
             }
         }
-    }
+    };
+
 
     let addEndRow = function (elementName, rodzaj) {
         let rowIndexSelector = '.hgw';
@@ -306,8 +346,16 @@
         row.appendChild(colPost);
         document.getElementById(elementName).appendChild(row);
 
-    }
+    };
 
+
+    let bootleTable = function (elementName) {
+        starter(elementName, 1);
+        butlaList.forEach(function (butelka) {
+            inRowIteration(elementName, 1, butelka);
+        });
+        addEndRow(elementName, 1);
+    };
 
     let sokiTable = function (elementName) {
         starter(elementName, 2);
