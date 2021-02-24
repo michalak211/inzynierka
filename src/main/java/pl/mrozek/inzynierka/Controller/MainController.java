@@ -55,8 +55,14 @@ public class MainController {
     }
 
     @GetMapping("/test")
-    public void test() {
-        koktailService.addKoktajl();
+    public String test() {
+
+//        if (butelkaRepo.findById((long)16).isPresent()) {
+//            Butelka butelka= butelkaRepo.findById((long)16).get();
+//            butelkaRepo.delete(butelka);
+//        }
+        return "redirect:/przegladaj";
+
     }
 
     @GetMapping("/przegladaj")
@@ -183,7 +189,7 @@ public class MainController {
     @PostMapping(value ="/skladniki/dodajbutle", params = "dodaj")
     public String addBottle(@ModelAttribute ("butelka")Butelka butelka){
 
-//        System.out.println((butelka));
+        System.out.println((butelka));
 
         System.out.println(mapper.butlaToBase(butelka));
         butelkaRepo.save(mapper.butlaToBase(butelka));
