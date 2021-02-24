@@ -113,6 +113,8 @@
 
     function alkoChanger(row, selectList) {
 
+
+
         var parent = selectList.value;
         var skladniki = [[${alkoList}]];
         let bool = parent === "-----";
@@ -357,8 +359,8 @@
     let checkboxAlko = document.createElement('input');
     checkboxAlko.type = 'checkbox';
     checkboxAlko.classList.add('form-control');
-    checkboxAlko.id = 'nowyAlko';
-    checkboxAlko.setAttribute('name','nowyAlko');
+    checkboxAlko.id = 'newAlko';
+    checkboxAlko.setAttribute('name','newAlko');
     colNewAlko.appendChild(checkboxAlko);
     row.appendChild(colNewAlko);
 
@@ -376,8 +378,8 @@
     let checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.classList.add('form-control');
-    checkbox.id = 'nowy';
-    checkbox.setAttribute('name', 'nowy');
+    checkbox.id = 'newTyp';
+    checkbox.setAttribute('name', 'newTyp');
     colNew.appendChild(checkbox);
     row.appendChild(colNew);
 

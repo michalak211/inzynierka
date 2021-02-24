@@ -32,6 +32,7 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
+// typ si kasuje jesli zmienimy lakohol przy dodawaniu nowego
 // nowa klasa i typ przy dodawaniu backend
 // dodawanie do barku
 // nowy do konkretnego barku barku
