@@ -34,6 +34,10 @@ public class Butelka {
     private String alkoholNazwa;
     @Transient
     private String typNazwa;
+    @Transient
+    private  boolean newAlko;
+    @Transient
+    private boolean newTyp;
 
 
 }

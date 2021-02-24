@@ -30,10 +30,17 @@ public class SkladnikP {
 
 
 }
+
+//todo kolejnosc
+// nowa klasa i typ przy dodawaniu backend
+// dodawanie do barku
+// nowy do konkretnego barku barku
+// heroku
+
+
+
 //todo edycja
 // riff
-
-// todo multireposervice??
 
 //todo logowanie
 // dodawanie zapytań
@@ -47,11 +54,11 @@ public class SkladnikP {
 //todo zasoby barku
 // delete from bar rodzaj przekazywany?
 // edit skladnik
-// konkretny skłądink dla przepisów?
+// konkretny składink dla przepisów?
 // workhorse dla
-// dodaj nową flaszkę
 // aktualizacja
 // obliczanie ceny koktajlu
+// ładne alkohole
 
 //todo flaszki
 // kolejne elementy
