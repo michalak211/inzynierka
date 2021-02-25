@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
+import pl.mrozek.inzynierka.Entity.bar.Butelka;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Entity.skladniki.Inny;
@@ -197,12 +198,12 @@ public class KoktailController {
         syropRepo.save(syrop);
 
         Barek barek = new Barek();
-        List<Typ> typList = new ArrayList<>();
+        List<Butelka> typList = new ArrayList<>();
         List<Sok> sokList = new ArrayList<>();
         List<Syrop> syropList = new ArrayList<>();
         List<Inny> innyList = new ArrayList<>();
 
-        barek.setListalkohol(typList);
+        barek.setButelkaList(typList);
         barek.setListInny(innyList);
         barek.setListSyrop(syropList);
         barek.setListSok(sokList);

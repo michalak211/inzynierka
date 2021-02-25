@@ -3,13 +3,14 @@ package pl.mrozek.inzynierka.Service;
 import org.springframework.stereotype.Service;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
+import pl.mrozek.inzynierka.Entity.bar.Butelka;
 import pl.mrozek.inzynierka.Entity.skladniki.Inny;
 import pl.mrozek.inzynierka.Entity.skladniki.Sok;
 import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
 import pl.mrozek.inzynierka.Repo.*;
+import pl.mrozek.inzynierka.mapper.Mapper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class SkladnikService {
@@ -21,8 +22,11 @@ public class SkladnikService {
     private final SyropRepo syropRepo;
     private final InnyRepo innyRepo;
     private final BarekRepo barekRepo;
+    private final Mapper mapper;
+    private final ButelkaRepo butelkaRepo;
 
-    public SkladnikService(AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, BarekRepo barekRepo) {
+
+    public SkladnikService(AlkoholRepo alkoholRepo, TypRepo typRepo, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, BarekRepo barekRepo, Mapper mapper, ButelkaRepo butelkaRepo) {
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
         this.koktailRepo = koktailRepo;
@@ -30,17 +34,19 @@ public class SkladnikService {
         this.syropRepo = syropRepo;
         this.innyRepo = innyRepo;
         this.barekRepo = barekRepo;
+        this.mapper = mapper;
+        this.butelkaRepo = butelkaRepo;
     }
 
 
-    public boolean saveSkladnik(SkladnikP skladnikP){
-        switch (skladnikP.getRodzaj()){
+    public boolean saveSkladnik(SkladnikP skladnikP) {
+        switch (skladnikP.getRodzaj()) {
             case 1:
                 break;
             case 2:
-                if (sokRepo.findByNazwaEquals(skladnikP.getNazwa())==null) {
+                if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
                     //else strona bledu?
-                    Sok sok= new Sok();
+                    Sok sok = new Sok();
                     sok.setNazwa(skladnikP.getNazwa());
                     sok.setCenaZaLitr(skladnikP.getIloscML());
                     sokRepo.save(sok);
@@ -49,18 +55,20 @@ public class SkladnikService {
                 break;
             case 3:
 
-                if (syropRepo.findByNazwaEquals(skladnikP.getNazwa())==null) {
-                    Syrop syrop= new Syrop();
+                if (syropRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
+                    Syrop syrop = new Syrop();
                     syrop.setNazwa(skladnikP.getNazwa());
                     syrop.setCenaZaLitr(skladnikP.getIloscML());
-                    if (skladnikP.getOpisDodatkowy()!=null) {syrop.setPrzepis(skladnikP.getOpisDodatkowy());}
+                    if (skladnikP.getOpisDodatkowy() != null) {
+                        syrop.setPrzepis(skladnikP.getOpisDodatkowy());
+                    }
                     syropRepo.save(syrop);
                     return true;
                 }
                 break;
             case 4:
-                if (innyRepo.findByNazwaEquals(skladnikP.getNazwa())==null) {
-                    Inny inny= new Inny();
+                if (innyRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
+                    Inny inny = new Inny();
                     inny.setNazwa(skladnikP.getNazwa());
                     inny.setCenaZaJednostke(skladnikP.getIloscML());
                     innyRepo.save(inny);
@@ -72,11 +80,11 @@ public class SkladnikService {
         return false;
     }
 
-    public boolean deleteSokFromBar(long sokId, long barId){
+    public boolean deleteSokFromBar(long sokId, long barId) {
 
-        if (barekRepo.findById(barId).isPresent()){
-            Barek barek=barekRepo.findById(barId).get();
-            int inte= (int) (sokId-1);
+        if (barekRepo.findById(barId).isPresent()) {
+            Barek barek = barekRepo.findById(barId).get();
+            int inte = (int) (sokId - 1);
             barek.getListSok().remove(inte);
             barekRepo.save(barek);
             return true;
@@ -84,11 +92,12 @@ public class SkladnikService {
 
         return false;
     }
-    public boolean deleteSyropFromBar(long syropId, long barId){
 
-        if (barekRepo.findById(barId).isPresent()){
-            Barek barek=barekRepo.findById(barId).get();
-            int inte= (int) (syropId-1);
+    public boolean deleteSyropFromBar(long syropId, long barId) {
+
+        if (barekRepo.findById(barId).isPresent()) {
+            Barek barek = barekRepo.findById(barId).get();
+            int inte = (int) (syropId - 1);
             barek.getListSyrop().remove(inte);
             barekRepo.save(barek);
             return true;
@@ -97,11 +106,11 @@ public class SkladnikService {
         return false;
     }
 
-    public boolean deleteInnyFromBar(long innyId, long barId){
+    public boolean deleteInnyFromBar(long innyId, long barId) {
 
-        if (barekRepo.findById(barId).isPresent()){
-            Barek barek=barekRepo.findById(barId).get();
-            int inte= (int) (innyId-1);
+        if (barekRepo.findById(barId).isPresent()) {
+            Barek barek = barekRepo.findById(barId).get();
+            int inte = (int) (innyId - 1);
             barek.getListInny().remove(inte);
             barekRepo.save(barek);
             return true;
@@ -110,16 +119,16 @@ public class SkladnikService {
         return false;
     }
 
-    public boolean addToBar(SkladnikP skladnikP,Long barId){
-        if (barekRepo.findById(barId).isPresent()){
-            Barek barek=barekRepo.findById(barId).get();
+    public boolean addToBar(SkladnikP skladnikP, Long barId) {
+        if (barekRepo.findById(barId).isPresent()) {
+            Barek barek = barekRepo.findById(barId).get();
 
-            switch (skladnikP.getRodzaj()){
+            switch (skladnikP.getRodzaj()) {
                 case 1:
                     break;
                 case 2:
                     if (sokRepo.findById(skladnikP.getId()).isPresent()) {
-                        Sok sok=sokRepo.findById(skladnikP.getId()).get();
+                        Sok sok = sokRepo.findById(skladnikP.getId()).get();
                         if (!barek.getListSok().contains(sok)) {
                             barek.getListSok().add(sok);
                             barekRepo.save(barek);
@@ -129,7 +138,7 @@ public class SkladnikService {
                 case 3:
 
                     if (syropRepo.findById(skladnikP.getId()).isPresent()) {
-                        Syrop syrop =syropRepo.findById(skladnikP.getId()).get();
+                        Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
                         if (!barek.getListSyrop().contains(syrop)) {
                             barek.getListSyrop().add(syrop);
                             barekRepo.save(barek);
@@ -138,7 +147,7 @@ public class SkladnikService {
                     break;
                 case 4:
                     if (innyRepo.findById(skladnikP.getId()).isPresent()) {
-                        Inny inny =innyRepo.findById(skladnikP.getId()).get();
+                        Inny inny = innyRepo.findById(skladnikP.getId()).get();
                         if (!barek.getListInny().contains(inny)) {
                             barek.getListInny().add(inny);
                             barekRepo.save(barek);
@@ -151,31 +160,55 @@ public class SkladnikService {
         return false;
     }
 
-    public ArrayList<Sok> getSoksToAdd(Barek barek){
-        ArrayList<Sok> arrayList= (ArrayList<Sok>) sokRepo.findAll();
-        for (Sok sok:barek.getListSok()){
+    public ArrayList<Sok> getSoksToAdd(Barek barek) {
+        ArrayList<Sok> arrayList = (ArrayList<Sok>) sokRepo.findAll();
+        for (Sok sok : barek.getListSok()) {
             arrayList.remove(sok);
         }
         return arrayList;
     }
 
-    public ArrayList<Syrop> getSyropsToAdd(Barek barek){
-        ArrayList<Syrop> arrayList= (ArrayList<Syrop>) syropRepo.findAll();
-        for (Syrop syrop:barek.getListSyrop()){
+    public ArrayList<Syrop> getSyropsToAdd(Barek barek) {
+        ArrayList<Syrop> arrayList = (ArrayList<Syrop>) syropRepo.findAll();
+        for (Syrop syrop : barek.getListSyrop()) {
             arrayList.remove(syrop);
         }
         return arrayList;
     }
 
-    public ArrayList<Inny> getInnyToAdd(Barek barek){
-        ArrayList<Inny> arrayList= (ArrayList<Inny>) innyRepo.findAll();
-        for (Inny inny:barek.getListInny()){
+    public ArrayList<Inny> getInnyToAdd(Barek barek) {
+        ArrayList<Inny> arrayList = (ArrayList<Inny>) innyRepo.findAll();
+        for (Inny inny : barek.getListInny()) {
             arrayList.remove(inny);
         }
         return arrayList;
     }
 
-//    public
+    public ArrayList<Butelka> getAllbutlaForms() {
+        ArrayList<Butelka> butelkaList = new ArrayList<>();
+
+        for (Butelka butelka : butelkaRepo.findAll()) {
+            butelkaList.add(mapper.butlaToForm(butelka));
+        }
+        return butelkaList;
+    }
+
+    public ArrayList<Butelka> getAllbutlaFormsNotBarek(long barId) {
+        ArrayList<Butelka> butelkaList = new ArrayList<>();
+
+        if (barekRepo.findById(barId).isPresent()) {
+            Barek barek = barekRepo.findById(barId).get();
+
+
+            for (Butelka butelka : butelkaRepo.findAll()) {
+                if (!barek.getButelkaList().contains(butelka)) {
+                    butelkaList.add(mapper.butlaToForm(butelka));
+                }
+            }
+        }
+        return butelkaList;
+
+    }
 
 
 }
