@@ -50,7 +50,6 @@ public class Koktajl {
     @Nullable
     private String zdobienie;
 
-
     @Lob
     private byte[] zdjecie;
 
@@ -58,7 +57,9 @@ public class Koktajl {
     private User creator;
 
     @Nullable
-    private int cena;
+    private double cena;
+
+    private int origin=0;
 
 
 }

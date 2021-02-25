@@ -29,7 +29,7 @@ public class Barek {
     private String nazwa;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Typ> listalkohol;
+    private List<Butelka> butelkaList;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Sok> listSok;

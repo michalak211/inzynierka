@@ -349,12 +349,52 @@
     };
 
 
+    let addEndRowBottle= function(elementName){
+        let rowIndexSelector = '.hgw';
+
+
+        let rowHead = document.createElement('tr');
+        rowHead.classList.add(rowIndexSelector.substr(1));
+        rowHead.textContent = "Dodaj nową butelkę";
+        rowHead.style.textAlign = "center";
+
+        document.getElementById(elementName).appendChild(rowHead);
+
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+
+        let colPost = document.createElement('td');
+        colPost.classList.add('col-sm-2');
+        let postbutton = document.createElement("BUTTON");
+        postbutton.innerHTML = "Dodaj";
+        postbutton.classList.add("btn");
+        postbutton.classList.add("btn-default");
+        postbutton.type = "button";
+        postbutton.name = "dodaj";
+
+        colPost.appendChild(postbutton);
+        row.appendChild(colPost);
+        document.getElementById(elementName).appendChild(row);
+
+
+        postbutton.addEventListener("click", function () {
+            dodajNowaButla();
+        }, true);
+
+        function dodajNowaButla() {
+                window.location.href = '/skladniki/dodajbutle/' + id;
+        }
+
+    };
+
+
     let bootleTable = function (elementName) {
         starter(elementName, 1);
         butlaList.forEach(function (butelka) {
             inRowIteration(elementName, 1, butelka);
         });
-        addEndRow(elementName, 1);
+        addEndRowBottle(elementName);
     };
 
     let sokiTable = function (elementName) {
