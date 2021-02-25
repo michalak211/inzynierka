@@ -108,9 +108,7 @@ public class MainController {
     public String barManager(Model model,@PathVariable("id") long id){
 
 
-        System.out.println("sprawdzam barek");
         if (barekRepo.findById(id).isPresent()){
-            System.out.println("jest barek");
             Barek barek=barekRepo.findById(id).get();
 
             model.addAttribute("skladnikP",new SkladnikP());
@@ -122,6 +120,8 @@ public class MainController {
 
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("typList", typRepo.findAll());
+            model.addAttribute("butlaList",mapper.getAllbutlaForms());
+
             return "/barowe/barManager";
         }
 
@@ -162,6 +162,7 @@ public class MainController {
         model.addAttribute("sokList",sokRepo.findAll());
         model.addAttribute("syropList",syropRepo.findAll());
         model.addAttribute("innyList",innyRepo.findAll());
+
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
         model.addAttribute("butlaList",mapper.getAllbutlaForms());
@@ -189,9 +190,6 @@ public class MainController {
     @PostMapping(value ="/skladniki/dodajbutle", params = "dodaj")
     public String addBottle(@ModelAttribute ("butelka")Butelka butelka){
 
-        System.out.println((butelka));
-
-        System.out.println(mapper.butlaToBase(butelka));
         butelkaRepo.save(mapper.butlaToBase(butelka));
 
         return "redirect:/skladniki/dodajbutle";

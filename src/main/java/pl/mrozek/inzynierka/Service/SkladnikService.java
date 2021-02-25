@@ -175,5 +175,7 @@ public class SkladnikService {
         return arrayList;
     }
 
+//    public
+
 
 }

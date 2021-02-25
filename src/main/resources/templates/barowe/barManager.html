@@ -36,7 +36,7 @@
                                                 <tr>
                                                     <td colspan="2" style="text-align: center;">
                                                         <input type="button" class="btn btn-block "
-                                                               onclick="AddMainRow('listaSkladnikow', '.skladnikTable', 'SkladTable')"
+                                                               onclick="butlaTable('SkladTable')"
                                                                value="Alkohole"/>
                                                     </td>
                                                     <td colspan="2" style="text-align: center;">
@@ -137,7 +137,7 @@
 
         document.getElementById(elementName).appendChild(headRow);
 
-    }
+    };
 
     let inRowIteration = function (elementName, rodzaj, obj) {
         let rowIndexSelector = '.hgw';
@@ -152,6 +152,23 @@
         nameText.value = obj.nazwa;
         colName.appendChild(nameText);
         row.appendChild(colName);
+
+        if (rodzaj==1){
+
+            let colAlko= document.createElement('td');
+            colAlko.classList.add('col-sm-2');
+            let aplkoText= document.createElement('output');
+            aplkoText.value=obj.alkoholNazwa;
+            colAlko.appendChild(aplkoText);
+            row.appendChild(colAlko);
+
+            let colTyp= document.createElement('td');
+            colTyp.classList.add('col-sm-2');
+            let typText= document.createElement('output');
+            typText.value=obj.typNazwa;
+            colTyp.appendChild(typText);
+            row.appendChild(colTyp);
+        }
 
         let colPrice = document.createElement('td');
         colPrice.classList.add('col-sm-2');
@@ -217,6 +234,9 @@
         function usunSkladnik(rodzaj) {
 
             switch (rodzaj) {
+                case 1:
+                    window.location.href ='/'+ barek.id+ '/butelka/delete/' + rowIndex;
+                    break;
                 case 2:
                     window.location.href ='/'+ barek.id+ '/sok/delete/' + rowIndex;
                     break;
@@ -231,6 +251,9 @@
 
         function toEdit(rodzaj, obj) {
             switch (rodzaj) {
+                case 2:
+                    window.location.href = '/butelka/edit/' + obj.id;
+                    break;
                 case 2:
                     window.location.href = '/sok/edit/' + obj.id;
                     break;
@@ -310,6 +333,14 @@
 
 
     }
+
+    let butlaTable = function (elementName) {
+        starter(elementName, 1);
+        barek.butelkaList.forEach(function (butla) {
+            inRowIteration(elementName, 1, butla);
+        });
+        addEndRow(elementName,1);
+    };
 
 
     let sokiTable = function (elementName) {

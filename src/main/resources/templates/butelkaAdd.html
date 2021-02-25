@@ -114,31 +114,37 @@
     function alkoChanger(row, selectList) {
 
 
+        let checkboxId= 'newTyp';
+        let checkboxNT= document.getElementById(checkboxId);
 
-        var parent = selectList.value;
-        var skladniki = [[${alkoList}]];
-        let bool = parent === "-----";
-        let childID = 'typNazwa';
-        var x = document.getElementById(childID);
-        do {
-            x.remove(x.length - 1);
 
-        } while (x.length > 0);
+        if (!checkboxNT.checked){
+            let parent = selectList.value;
+            let skladniki = [[${alkoList}]];
+            let bool = parent === "-----";
+            let childID = 'typNazwa';
+            let x = document.getElementById(childID);
+            do {
+                x.remove(x.length - 1);
 
-        if (!bool) {
-            skladniki.forEach((skladnik) => {
-                var bol = skladnik.nazwa == parent;
-                if (bol) {
-                    var typLista = skladnik.typList;
-                    for (var i = 0; i < typLista.length; i++) {
-                        var option = document.createElement("option");
-                        option.value = typLista[i].nazwa;
-                        option.text = typLista[i].nazwa;
-                        x.appendChild(option);
+            } while (x.length > 0);
+
+            if (!bool) {
+                skladniki.forEach((skladnik) => {
+                    var bol = skladnik.nazwa == parent;
+                    if (bol) {
+                        var typLista = skladnik.typList;
+                        for (var i = 0; i < typLista.length; i++) {
+                            var option = document.createElement("option");
+                            option.value = typLista[i].nazwa;
+                            option.text = typLista[i].nazwa;
+                            x.appendChild(option);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
+
 
     }
 

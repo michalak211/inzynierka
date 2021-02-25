@@ -32,16 +32,29 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
-// typ si kasuje jesli zmienimy lakohol przy dodawaniu nowego
-// nowa klasa i typ przy dodawaniu backend
+// bar manager butle
 // dodawanie do barku
 // nowy do konkretnego barku barku
+// wybór barku
 // heroku
+// usun skladnik
+// edit skladnik
+// filtry po barze
+// kolorowanie po barze i brakujace skladniki
+// workhorse
+// pozostałe filtry
+// cena
+// riff
+// dodawanie zapytań o drinki
+// dodwanie własnych zdjęć
+// dodawanie zdjec butelek
+// logowanie
 
 
 
 //todo edycja
-// riff
+// riff - jeżeli origin id=0, jeżeli nie, to
+// filrt origin/ riff
 
 //todo logowanie
 // dodawanie zapytań
@@ -61,11 +74,6 @@ public class SkladnikP {
 // obliczanie ceny koktajlu
 // ładne alkohole
 
-//todo flaszki
-// kolejne elementy
-// nowa klasa i typ
-// od razu do barku
-// set workhorse
 
 //todo refactor
 // mapper skladnik p do b (kolejność w if)
