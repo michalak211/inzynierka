@@ -33,9 +33,10 @@ public class SkladnikP {
 
 //todo kolejnosc
 // bar manager butle
-// dodawanie do barku
+// dodawanie do barku - mapowanie po id
 // nowy do konkretnego barku barku
 // wybór barku
+// strona główna
 // heroku
 // usun skladnik
 // edit skladnik

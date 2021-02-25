@@ -91,7 +91,7 @@
 
 
     var barek = [[${barek}]];
-    var skladnikList = [[${skladnikList}]];
+    var alkoList = [[${alkoList}]];
     var sokList = [[${sokList}]];
     var syropList = [[${syropList}]];
     var innyList = [[${innyList}]];
@@ -110,6 +110,23 @@
 
         let head1text = document.createElement('output');
         head1text.value = "nazwa";
+
+        if (rodzaj == 1) {
+            let head4 = document.createElement('td');
+            head4.classList.add('col-sm-2');
+            let head4text = document.createElement('output');
+            head4text.value = "Alkohol";
+            head4.appendChild(head4text);
+            headRow.appendChild(head4);
+
+            let head3 = document.createElement('td');
+            head3.classList.add('col-sm-2');
+            let head3text = document.createElement('output');
+            head3text.value = "Typ";
+            head3.appendChild(head3text);
+            headRow.appendChild(head3);
+        }
+
         let head2text = document.createElement('output');
         head2text.value = "Cena";
 
@@ -267,6 +284,71 @@
         }
     }
 
+    let addEndRowBottle=function (elementName){
+        let rowIndexSelector = '.hgw';
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+        let rowHead = document.createElement('tr');
+        rowHead.classList.add(rowIndexSelector.substr(1));
+        rowHead.textContent = "Dodaj nową butelkę do barku";
+        rowHead.style.textAlign = "center";
+        document.getElementById(elementName).appendChild(rowHead);
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-2');
+        let selectList = document.createElement('select');
+        var option = document.createElement("option");
+        option.value = "-----";
+        option.text = "-----";
+        selectList.appendChild(option);
+
+        for (var i = 0; i < alkoList.length; i++) {
+            var option = document.createElement("option");
+            option.value = alkoList[i].id;
+            option.text = alkoList[i].nazwa;
+            selectList.appendChild(option);
+        }
+        selectList.classList.add('form-control');
+        selectList.id = 'alkoholNazwa';
+        selectList.setAttribute('name', 'alkoholNazwa');
+        col.appendChild(selectList);
+        row.appendChild(col);
+
+
+
+
+        addNewBottleButton(elementName,row);
+    }
+
+
+
+    let addNewBottleButton= function(elementName, row){
+
+        let colPost = document.createElement('td');
+        colPost.classList.add('col-sm-2');
+        let postbutton = document.createElement("BUTTON");
+        postbutton.innerHTML = "Dodaj";
+        postbutton.classList.add("btn");
+        postbutton.classList.add("btn-default");
+        postbutton.type = "button";
+        postbutton.name = "dodaj";
+
+        colPost.appendChild(postbutton);
+        row.appendChild(colPost);
+        document.getElementById(elementName).appendChild(row);
+
+
+        postbutton.addEventListener("click", function () {
+            dodajNowaButla();
+        }, true);
+
+        function dodajNowaButla() {
+            window.location.href = '/skladniki/dodajbutle/'+barek.id;
+        }
+
+    };
+
     let addEndRow = function (elementName, rodzaj) {
         let rowIndexSelector = '.hgw';
 
@@ -339,7 +421,7 @@
         barek.butelkaList.forEach(function (butla) {
             inRowIteration(elementName, 1, butla);
         });
-        addEndRow(elementName,1);
+        addEndRowBottle(elementName);
     };
 
 

@@ -315,15 +315,4 @@ public class Mapper {
         return butelka;
     }
 
-    public ArrayList<Butelka> getAllbutlaForms(){
-        ArrayList<Butelka> butelkaList= new ArrayList<>();
-
-        for (Butelka butelka:butelkaRepo.findAll()){
-            System.out.println(butelka);
-            butelkaList.add(butlaToForm(butelka));
-        }
-        System.out.println(butelkaList);
-        return butelkaList;
-
-    }
 }

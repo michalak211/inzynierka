@@ -77,11 +77,11 @@ public class MainController {
 
 
     @Transactional
-    @PostMapping(value = "/dodZdj" ,consumes = {"multipart/form-data"})
+    @PostMapping(value = "/dodZdj", consumes = {"multipart/form-data"})
     public String addPicture(@RequestParam String zdjecie,
                              HttpServletRequest request
     ) {
-        koktailService.addPhoto(zdjecie,request);
+        koktailService.addPhoto(zdjecie, request);
         return "redirect:/przegladaj";
     }
 
@@ -92,8 +92,10 @@ public class MainController {
 
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 
-        if (koktailService.getPhoto(id)!=null) { response.getOutputStream().write(koktailService.getPhoto(id)); }
-        else {try {
+        if (koktailService.getPhoto(id) != null) {
+            response.getOutputStream().write(koktailService.getPhoto(id));
+        } else {
+            try {
                 byte[] bytes = Files.readAllBytes(Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource("static/img/fotka.jpg")).toURI()));
                 response.getOutputStream().write(bytes);
             } catch (URISyntaxException e) {
@@ -105,22 +107,22 @@ public class MainController {
     }
 
     @GetMapping("/bar/{id}")
-    public String barManager(Model model,@PathVariable("id") long id){
+    public String barManager(Model model, @PathVariable("id") long id) {
 
 
-        if (barekRepo.findById(id).isPresent()){
-            Barek barek=barekRepo.findById(id).get();
+        if (barekRepo.findById(id).isPresent()) {
+            Barek barek = barekRepo.findById(id).get();
 
-            model.addAttribute("skladnikP",new SkladnikP());
-            model.addAttribute("barek",barek);
-            model.addAttribute("sokList",skladnikService.getSoksToAdd(barek));
-            model.addAttribute("syropList",skladnikService.getSyropsToAdd(barek));
-            model.addAttribute("innyList",skladnikService.getInnyToAdd(barek));
+            model.addAttribute("skladnikP", new SkladnikP());
+            model.addAttribute("barek", barek);
+            model.addAttribute("sokList", skladnikService.getSoksToAdd(barek));
+            model.addAttribute("syropList", skladnikService.getSyropsToAdd(barek));
+            model.addAttribute("innyList", skladnikService.getInnyToAdd(barek));
 
-
-            model.addAttribute("skladnikList", alkoholRepo.findAll());
+            //do dodawania
+//            model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("typList", typRepo.findAll());
-            model.addAttribute("butlaList",mapper.getAllbutlaForms());
+            model.addAttribute("butlaList", skladnikService.getAllbutlaFormsNotBarek(id));
 
             return "/barowe/barManager";
         }
@@ -128,49 +130,49 @@ public class MainController {
         return "redirect:/przegladaj";
     }
 
-    @PostMapping(value ="/bar/{id}", params = "dodaj")
-    public String barDodaj(@ModelAttribute ("skladnikP")SkladnikP skladnikP,@PathVariable("id") long id){
+    @PostMapping(value = "/bar/{id}", params = "dodaj")
+    public String barDodaj(@ModelAttribute("skladnikP") SkladnikP skladnikP, @PathVariable("id") long id) {
 
-        skladnikService.addToBar(skladnikP,id);
-        return "redirect:/bar/"+id;
+        skladnikService.addToBar(skladnikP, id);
+        return "redirect:/bar/" + id;
     }
 
 
     @GetMapping(value = "/{barID}/sok/delete/{id}")
-    public String sokDelete(@PathVariable("id") Long id,@PathVariable("barID") Long barid){
-        skladnikService.deleteSokFromBar(id,barid);
-        return "redirect:/bar/"+barid;
+    public String sokDelete(@PathVariable("id") Long id, @PathVariable("barID") Long barid) {
+        skladnikService.deleteSokFromBar(id, barid);
+        return "redirect:/bar/" + barid;
     }
 
     @GetMapping(value = "/{barID}/syrop/delete/{id}")
-    public String syropDelete(@PathVariable("id") Long id,@PathVariable("barID") Long barid){
-        skladnikService.deleteSyropFromBar(id,barid);
-        return "redirect:/bar/"+barid;
+    public String syropDelete(@PathVariable("id") Long id, @PathVariable("barID") Long barid) {
+        skladnikService.deleteSyropFromBar(id, barid);
+        return "redirect:/bar/" + barid;
     }
 
     @GetMapping(value = "/{barID}/inny/delete/{id}")
-    public String innyDelete(@PathVariable("id") Long id,@PathVariable("barID") Long barid){
-        skladnikService.deleteInnyFromBar(id,barid);
-        return "redirect:/bar/"+barid;
+    public String innyDelete(@PathVariable("id") Long id, @PathVariable("barID") Long barid) {
+        skladnikService.deleteInnyFromBar(id, barid);
+        return "redirect:/bar/" + barid;
     }
 
 
-    @GetMapping(value ="/skladniki")
-    public String skladnikManager(Model model){
+    @GetMapping(value = "/skladniki")
+    public String skladnikManager(Model model) {
 
-        model.addAttribute("skladnikP",new SkladnikP());
-        model.addAttribute("sokList",sokRepo.findAll());
-        model.addAttribute("syropList",syropRepo.findAll());
-        model.addAttribute("innyList",innyRepo.findAll());
+        model.addAttribute("skladnikP", new SkladnikP());
+        model.addAttribute("sokList", sokRepo.findAll());
+        model.addAttribute("syropList", syropRepo.findAll());
+        model.addAttribute("innyList", innyRepo.findAll());
 
-        model.addAttribute("skladnikList", alkoholRepo.findAll());
+        model.addAttribute("alkoList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
-        model.addAttribute("butlaList",mapper.getAllbutlaForms());
+        model.addAttribute("butlaList", skladnikService.getAllbutlaForms());
         return "/barowe/skladnikManager";
     }
 
-    @PostMapping(value ="/skladniki", params = "dodaj")
-    public String skladnikDodaj(@ModelAttribute ("skladnikP")SkladnikP skladnikP){
+    @PostMapping(value = "/skladniki", params = "dodaj")
+    public String skladnikDodaj(@ModelAttribute("skladnikP") SkladnikP skladnikP) {
 
         skladnikService.saveSkladnik(skladnikP);
 
@@ -178,24 +180,22 @@ public class MainController {
         return "redirect:/skladniki";
     }
 
-    @GetMapping(value ="/skladniki/dodajbutle")
-    public String createBottle(Model model){
+    @GetMapping(value = "/skladniki/dodajbutle")
+    public String createBottle(Model model) {
 
         model.addAttribute("skladnikList", alkoholRepo.findAll());
-        model.addAttribute("alkoList",alkoholRepo.findAll());
+        model.addAttribute("alkoList", alkoholRepo.findAll());
         model.addAttribute("butelka", new Butelka());
         return "/butelkaAdd";
     }
 
-    @PostMapping(value ="/skladniki/dodajbutle", params = "dodaj")
-    public String addBottle(@ModelAttribute ("butelka")Butelka butelka){
+    @PostMapping(value = "/skladniki/dodajbutle", params = "dodaj")
+    public String addBottle(@ModelAttribute("butelka") Butelka butelka) {
 
         butelkaRepo.save(mapper.butlaToBase(butelka));
 
         return "redirect:/skladniki/dodajbutle";
     }
-
-
 
 
 }
