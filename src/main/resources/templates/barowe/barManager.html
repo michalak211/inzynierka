@@ -90,11 +90,13 @@
 <script th:inline="javascript">
 
 
-    var barek = [[${barek}]];
-    var alkoList = [[${alkoList}]];
-    var sokList = [[${sokList}]];
-    var syropList = [[${syropList}]];
-    var innyList = [[${innyList}]];
+    let barek = [[${barek}]];
+    let alkoList = [[${alkoList}]];
+    let sokList = [[${sokList}]];
+    let syropList = [[${syropList}]];
+    let innyList = [[${innyList}]];
+    let butlaList = [[${butlaList}]];
+
 
     let starter = function (elementName, rodzaj) {
         let rowIndexSelector = '.hgw';
@@ -112,17 +114,19 @@
         head1text.value = "nazwa";
 
         if (rodzaj == 1) {
+            head1text.value = "typ alkoholu";
+
             let head4 = document.createElement('td');
             head4.classList.add('col-sm-2');
             let head4text = document.createElement('output');
-            head4text.value = "Alkohol";
+            head4text.value = "Butelka";
             head4.appendChild(head4text);
             headRow.appendChild(head4);
 
             let head3 = document.createElement('td');
             head3.classList.add('col-sm-2');
             let head3text = document.createElement('output');
-            head3text.value = "Typ";
+            head3text.value = "Rodzaj alkoholu";
             head3.appendChild(head3text);
             headRow.appendChild(head3);
         }
@@ -170,19 +174,20 @@
         colName.appendChild(nameText);
         row.appendChild(colName);
 
-        if (rodzaj==1){
+        console.log(obj);
+        if (rodzaj == 1) {
 
-            let colAlko= document.createElement('td');
+            let colAlko = document.createElement('td');
             colAlko.classList.add('col-sm-2');
-            let aplkoText= document.createElement('output');
-            aplkoText.value=obj.alkoholNazwa;
+            let aplkoText = document.createElement('output');
+            aplkoText.value = obj.alkoholNazwa;
             colAlko.appendChild(aplkoText);
             row.appendChild(colAlko);
 
-            let colTyp= document.createElement('td');
+            let colTyp = document.createElement('td');
             colTyp.classList.add('col-sm-2');
-            let typText= document.createElement('output');
-            typText.value=obj.typNazwa;
+            let typText = document.createElement('output');
+            typText.value = obj.typNazwa;
             colTyp.appendChild(typText);
             row.appendChild(colTyp);
         }
@@ -252,16 +257,16 @@
 
             switch (rodzaj) {
                 case 1:
-                    window.location.href ='/'+ barek.id+ '/butelka/delete/' + rowIndex;
+                    window.location.href = '/' + barek.id + '/butelka/delete/' + rowIndex;
                     break;
                 case 2:
-                    window.location.href ='/'+ barek.id+ '/sok/delete/' + rowIndex;
+                    window.location.href = '/' + barek.id + '/sok/delete/' + rowIndex;
                     break;
                 case 3:
-                    window.location.href = '/'+ barek.id+'/syrop/delete/' + rowIndex;
+                    window.location.href = '/' + barek.id + '/syrop/delete/' + rowIndex;
                     break;
                 case 4:
-                    window.location.href = '/'+ barek.id+'/inny/delete/' + rowIndex;
+                    window.location.href = '/' + barek.id + '/inny/delete/' + rowIndex;
                     break;
             }
         }
@@ -282,9 +287,77 @@
                     break;
             }
         }
+    };
+
+    function alkoBottleChanger(row, selectList) {
+        let parent = selectList.value;
+
+        let skladniki = [[${alkoList}]];
+        let childID = 'typNazwa';
+        let typList = document.getElementById(childID);
+        do {
+            typList.remove(typList.length - 1);
+        } while (typList.length > 0);
+
+        let childBottles = 'id';
+        let bottlesAddlist = document.getElementById(childBottles);
+
+        do {
+            bottlesAddlist.remove(bottlesAddlist.length - 1);
+        } while (bottlesAddlist.length > 0);
+
+        skladniki.forEach((skladnik) => {
+            let bol = skladnik.nazwa == parent;
+
+            if (bol) {
+                var typLista = skladnik.typList;
+                for (var i = 0; i < typLista.length; i++) {
+                    let option = document.createElement("option");
+                    option.value = typLista[i].nazwa;
+                    option.text = typLista[i].nazwa;
+                    typList.appendChild(option);
+                }
+            }
+        });
+
+        butlaList.forEach((butla) => {
+            let toAdd = butla.alkoholNazwa == parent;
+            if (toAdd) {
+                let option2 = document.createElement("option");
+                option2.value = butla.id;
+                option2.text = butla.nazwa;
+                bottlesAddlist.appendChild(option2);
+            }
+        });
     }
 
-    let addEndRowBottle=function (elementName){
+
+
+    function typBottleChanger(row, selectList) {
+
+        let parent = selectList.value;
+        console.log(parent);
+        let childBottles = 'id';
+        let bottlesAddlist = document.getElementById(childBottles);
+
+        do {
+            bottlesAddlist.remove(bottlesAddlist.length - 1);
+        } while (bottlesAddlist.length > 0);
+
+        butlaList.forEach((butla) => {
+            let toAdd = butla.typNazwa == parent;
+            if (toAdd) {
+                let option2 = document.createElement("option");
+                option2.value = butla.id;
+                option2.text = butla.nazwa;
+                bottlesAddlist.appendChild(option2);
+            }
+        });
+    }
+
+
+
+    let addEndRowBottle = function (elementName) {
         let rowIndexSelector = '.hgw';
         let row = document.createElement('tr');
         row.classList.add(rowIndexSelector.substr(1));
@@ -298,14 +371,14 @@
         let col = document.createElement('td');
         col.classList.add('col-sm-2');
         let selectList = document.createElement('select');
-        var option = document.createElement("option");
-        option.value = "-----";
-        option.text = "-----";
-        selectList.appendChild(option);
+        // var option = document.createElement("option");
+        // option.value = "-----";
+        // option.text = "-----";
+        // selectList.appendChild(option);
 
         for (var i = 0; i < alkoList.length; i++) {
             var option = document.createElement("option");
-            option.value = alkoList[i].id;
+            option.value = alkoList[i].nazwa;
             option.text = alkoList[i].nazwa;
             selectList.appendChild(option);
         }
@@ -315,37 +388,55 @@
         col.appendChild(selectList);
         row.appendChild(col);
 
+        let col2 = document.createElement('td');
+        col2.classList.add('col-sm-2');
+        let selectList2 = document.createElement('select');
+        selectList2.classList.add('form-control');
+        selectList2.id = 'typNazwa';
+        selectList2.setAttribute('name', 'typNazwa');
+        col2.appendChild(selectList2);
+        row.appendChild(col2);
 
 
+        let colBottle = document.createElement('td');
+        colBottle.classList.add('col-sm-2');
+        let selectListBottle = document.createElement('select');
+        selectListBottle.classList.add('form-control');
+        selectListBottle.id = 'id';
+        selectListBottle.setAttribute('name', 'id');
+        colBottle.appendChild(selectListBottle);
+        row.appendChild(colBottle);
 
-        addNewBottleButton(elementName,row);
-    }
+
+        selectList.addEventListener("change", function () {
+            alkoBottleChanger(row, selectList)
+        }, true);
+
+        selectList2.addEventListener("change", function () {
+            typBottleChanger(row, selectList2)
+        }, true);
 
 
+        addNewBottleButton(elementName, row);
+        alkoBottleChanger(row, selectList);
 
-    let addNewBottleButton= function(elementName, row){
+    };
+
+
+    let addNewBottleButton = function (elementName, row) {
 
         let colPost = document.createElement('td');
         colPost.classList.add('col-sm-2');
         let postbutton = document.createElement("BUTTON");
-        postbutton.innerHTML = "Dodaj";
         postbutton.classList.add("btn");
         postbutton.classList.add("btn-default");
-        postbutton.type = "button";
-        postbutton.name = "dodaj";
+        postbutton.type = "submit";
+        postbutton.innerHTML = "Dodaj";
+        postbutton.name = "dodajBottle";
 
         colPost.appendChild(postbutton);
         row.appendChild(colPost);
         document.getElementById(elementName).appendChild(row);
-
-
-        postbutton.addEventListener("click", function () {
-            dodajNowaButla();
-        }, true);
-
-        function dodajNowaButla() {
-            window.location.href = '/skladniki/dodajbutle/'+barek.id;
-        }
 
     };
 
@@ -414,11 +505,12 @@
         document.getElementById(elementName).appendChild(row);
 
 
-    }
+    };
 
     let butlaTable = function (elementName) {
         starter(elementName, 1);
-        barek.butelkaList.forEach(function (butla) {
+        let barBottles = [[${barBottles}]];
+        barBottles.forEach(function (butla) {
             inRowIteration(elementName, 1, butla);
         });
         addEndRowBottle(elementName);
@@ -430,7 +522,7 @@
         barek.listSok.forEach(function (sok) {
             inRowIteration(elementName, 2, sok);
         });
-        addEndRow(elementName,2);
+        addEndRow(elementName, 2);
     };
 
 
@@ -439,15 +531,15 @@
         barek.listSyrop.forEach(function (syrop) {
             inRowIteration(elementName, 3, syrop);
         });
-        addEndRow(elementName,3);
-    }
+        addEndRow(elementName, 3);
+    };
 
     let inneTable = function (elementName) {
         starter(elementName, 4);
         barek.listInny.forEach(function (inny) {
             inRowIteration(elementName, 4, inny);
         });
-        addEndRow(elementName,4);
+        addEndRow(elementName, 4);
     };
 
 

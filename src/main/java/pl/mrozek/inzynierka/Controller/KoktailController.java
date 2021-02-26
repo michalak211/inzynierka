@@ -197,19 +197,22 @@ public class KoktailController {
         syrop.setNazwa("syrop cukrowy");
         syropRepo.save(syrop);
 
-        Barek barek = new Barek();
-        List<Butelka> typList = new ArrayList<>();
-        List<Sok> sokList = new ArrayList<>();
-        List<Syrop> syropList = new ArrayList<>();
-        List<Inny> innyList = new ArrayList<>();
+//        Barek barek = new Barek();
+//        barek.setNazwa("barek mieszkanie");
 
-        barek.setButelkaList(typList);
-        barek.setListInny(innyList);
-        barek.setListSyrop(syropList);
-        barek.setListSok(sokList);
-        barek.setNazwa("barek mieszkanie");
 
-        barekRepo.save(barek);
+//        List<Butelka> typList = new ArrayList<>();
+//        List<Sok> sokList = new ArrayList<>();
+//        List<Syrop> syropList = new ArrayList<>();
+//        List<Inny> innyList = new ArrayList<>();
+//
+//        barek.setButelkaList(typList);
+//        barek.setListInny(innyList);
+//        barek.setListSyrop(syropList);
+//        barek.setListSok(sokList);
+//        barek.setNazwa("barek mieszkanie");
+//
+//        barekRepo.save(barek);
 
         return "redirect:/koktajl/add";
 
