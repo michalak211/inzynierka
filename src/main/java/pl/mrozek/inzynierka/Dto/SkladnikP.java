@@ -32,14 +32,14 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
-// bar manager butle
-// dodawanie do barku - mapowanie po id
-// nowy do konkretnego barku barku
-// wybór barku
+// dodawanieod razu do barku - mapowanie po id
+// nowy do konkretnego barku
 // strona główna
+// testy na czystej bazie - czy działa doqwolny do butli
 // heroku
 // usun skladnik
 // edit skladnik
+// aktywacja rodzaju w managerach
 // filtry po barze
 // kolorowanie po barze i brakujace skladniki
 // workhorse

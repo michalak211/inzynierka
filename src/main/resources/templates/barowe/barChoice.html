@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!--<html lang="en">-->
+<head>
+    <div th:replace="fragments/header :: header-css"></div>
+    <title>title</title>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container-fluid">
+    <div class="starter-template">
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <label class="col-md-9 control-label">Wybierz bar</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td style="text-align:center">Nazwa</td>
+                                <td style="text-align:center">Bar id</td>
+                                <td style="text-align:center">Przejdź</td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="bar : ${bars}">
+
+                                <td style="text-align:center" th:text="${bar.nazwa}"></td>
+                                <td style="text-align:center" th:text="${bar.id}"></td>
+                                <td style="text-align:center">
+                                    <a th:href="@{'/bar/'+${bar.id}}" class="btn btn-default"
+                                       role="button" th:text="Wejdź">KWN</a>
+                                </td>
+                            </tr>
+                            <form class="form-horizontal row-border" action=""
+                                  th:object="${bar}" method="post">
+
+                                <tr>
+                                    <td style="text-align:center">Dodaj nowy barek</td>
+
+                                    <td class="col-sm-2">
+                                        <input th:field="*{nazwa}" type="text" class="form-control"
+                                               placeholder="Tu wpisz nazwę" required>
+                                    </td>
+
+                                    <td style="text-align:center">
+                                        <button type="submit" class="btn btn-primary" name="dodajBar">Dodaj barek
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            </form>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

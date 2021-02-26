@@ -14,6 +14,10 @@ import javax.persistence.*;
 @ToString
 @Entity
 
+
+
+
+
 public class Butelka {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -106,6 +106,23 @@ public class MainController {
 
     }
 
+    @GetMapping("/bar")
+    public String chooseBar(Model model) {
+
+        model.addAttribute("bars", barekRepo.findAll());
+        model.addAttribute("bar", new Barek());
+
+        return "/barowe/barChoice";
+    }
+
+    @PostMapping("/bar")
+    public String newBar( @ModelAttribute("bar") Barek barek) {
+
+        barek = skladnikService.saveBarek(barek);
+        return "redirect:/bar/" + barek.getId();
+    }
+
+
     @GetMapping("/bar/{id}")
     public String barManager(Model model, @PathVariable("id") long id) {
 
@@ -118,9 +135,10 @@ public class MainController {
             model.addAttribute("sokList", skladnikService.getSoksToAdd(barek));
             model.addAttribute("syropList", skladnikService.getSyropsToAdd(barek));
             model.addAttribute("innyList", skladnikService.getInnyToAdd(barek));
+            model.addAttribute("barBottles", skladnikService.getBarButlaForms(id));
 
             //do dodawania
-//            model.addAttribute("skladnikList", alkoholRepo.findAll());
+            model.addAttribute("alkoList", alkoholRepo.findAll());
             model.addAttribute("typList", typRepo.findAll());
             model.addAttribute("butlaList", skladnikService.getAllbutlaFormsNotBarek(id));
 
@@ -134,6 +152,14 @@ public class MainController {
     public String barDodaj(@ModelAttribute("skladnikP") SkladnikP skladnikP, @PathVariable("id") long id) {
 
         skladnikService.addToBar(skladnikP, id);
+        return "redirect:/bar/" + id;
+    }
+
+    @PostMapping(value = "/bar/{id}", params = "dodajBottle")
+    public String barDodajBottle(@ModelAttribute("skladnikP") SkladnikP skladnikP, @PathVariable("id") long id) {
+
+//        System.out.println(skladnikP);
+        skladnikService.addBottleToBar(skladnikP.getId(), id);
         return "redirect:/bar/" + id;
     }
 

@@ -11,6 +11,7 @@ import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SkladnikService {
@@ -124,8 +125,6 @@ public class SkladnikService {
             Barek barek = barekRepo.findById(barId).get();
 
             switch (skladnikP.getRodzaj()) {
-                case 1:
-                    break;
                 case 2:
                     if (sokRepo.findById(skladnikP.getId()).isPresent()) {
                         Sok sok = sokRepo.findById(skladnikP.getId()).get();
@@ -154,6 +153,22 @@ public class SkladnikService {
                         }
                     }
                     break;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean addBottleToBar(long bottleId, Long barId) {
+
+        if (butelkaRepo.findById(bottleId).isPresent() && barekRepo.findById(barId).isPresent()) {
+            Butelka butelka = butelkaRepo.findById(bottleId).get();
+            Barek barek = barekRepo.findById(barId).get();
+
+            if (!barek.getButelkaList().contains(butelka)) {
+                barek.getButelkaList().add(butelka);
+                barekRepo.save(barek);
+                return true;
             }
         }
 
@@ -193,12 +208,27 @@ public class SkladnikService {
         return butelkaList;
     }
 
+    public ArrayList<Butelka> getBarButlaForms(long barId) {
+        ArrayList<Butelka> butelkaList = new ArrayList<>();
+
+
+        if (barekRepo.findById(barId).isPresent()) {
+            Barek barek = barekRepo.findById(barId).get();
+            for (Butelka butelka : barek.getButelkaList()) {
+                butelkaList.add(mapper.butlaToForm(butelka));
+            }
+        }
+
+
+        return butelkaList;
+    }
+
+
     public ArrayList<Butelka> getAllbutlaFormsNotBarek(long barId) {
         ArrayList<Butelka> butelkaList = new ArrayList<>();
 
         if (barekRepo.findById(barId).isPresent()) {
             Barek barek = barekRepo.findById(barId).get();
-
 
             for (Butelka butelka : butelkaRepo.findAll()) {
                 if (!barek.getButelkaList().contains(butelka)) {
@@ -208,6 +238,23 @@ public class SkladnikService {
         }
         return butelkaList;
 
+    }
+
+    public Barek saveBarek(Barek barek){
+        List<Butelka> typList = new ArrayList<>();
+        List<Sok> sokList = new ArrayList<>();
+        List<Syrop> syropList = new ArrayList<>();
+        List<Inny> innyList = new ArrayList<>();
+
+        barek.setButelkaList(typList);
+        barek.setListInny(innyList);
+        barek.setListSyrop(syropList);
+        barek.setListSok(sokList);
+
+        barekRepo.save(barek);
+
+
+        return barek;
     }
 
 
