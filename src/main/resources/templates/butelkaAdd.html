@@ -65,7 +65,7 @@
 <!--                                                    <td class="col-sm-2">-->
 <!--                                                        <input value="Dowolne" th:field="*{typNazwa}" type="text"-->
 <!--                                                               class="form-control">-->
-                                                    </td>
+<!--                                                    </td>-->
 
                                                 </tr>
                                                 <tr>
@@ -324,6 +324,10 @@
     inputNazwa.id = 'nazwa';
     inputNazwa.setAttribute('name', 'nazwa');
     inputNazwa.placeholder = "Nazwa butelki";
+    // let  butelkalol= [[${butelka}]];
+    // if (butelkalol.nazwa==null){
+    //     inputNazwa.value=butelkalol.nazwa;
+    // }
     inputNazwa.required=true;
     colNazwa.appendChild(inputNazwa);
     row.appendChild(colNazwa);

@@ -174,7 +174,6 @@
         colName.appendChild(nameText);
         row.appendChild(colName);
 
-        console.log(obj);
         if (rodzaj == 1) {
 
             let colAlko = document.createElement('td');
@@ -336,7 +335,6 @@
     function typBottleChanger(row, selectList) {
 
         let parent = selectList.value;
-        console.log(parent);
         let childBottles = 'id';
         let bottlesAddlist = document.getElementById(childBottles);
 
@@ -359,14 +357,37 @@
 
     let addEndRowBottle = function (elementName) {
         let rowIndexSelector = '.hgw';
-        let row = document.createElement('tr');
-        row.classList.add(rowIndexSelector.substr(1));
 
         let rowHead = document.createElement('tr');
         rowHead.classList.add(rowIndexSelector.substr(1));
         rowHead.textContent = "Dodaj nową butelkę do barku";
         rowHead.style.textAlign = "center";
         document.getElementById(elementName).appendChild(rowHead);
+
+
+        let colbutla = document.createElement('td');
+        colbutla.classList.add('col-sm-2');
+        let butlaButton = document.createElement("BUTTON");
+        butlaButton.innerHTML = "utwórz nową butle do barku";
+        butlaButton.classList.add("btn");
+        butlaButton.classList.add("btn-default");
+        butlaButton.type = "button";
+
+        butlaButton.addEventListener("click", function () {
+            nowaButla();
+        }, true);
+
+        colbutla.appendChild(butlaButton);
+        rowHead.appendChild(colbutla);
+        document.getElementById(elementName).appendChild(rowHead);
+
+
+        function nowaButla() {
+                    window.location.href = '/skladniki/dodajbutle/' + barek.id;
+        }
+
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
 
         let col = document.createElement('td');
         col.classList.add('col-sm-2');
@@ -541,6 +562,24 @@
         });
         addEndRow(elementName, 4);
     };
+
+
+    let toClick=[[${toClick}]];
+    switch (toClick) {
+        case 1:
+            butlaTable('SkladTable');
+            break;
+        case 2:
+            sokiTable('SkladTable');
+            break;
+        case 3:
+            syropTable('SkladTable');
+            break;
+        case 4:
+            inneTable('SkladTable');
+            break;
+    }
+
 
 
 </script>

@@ -6,5 +6,6 @@ import pl.mrozek.inzynierka.Entity.bar.Butelka;
 
 @Repository
 public interface ButelkaRepo extends CrudRepository<Butelka,Long> {
+    Butelka findByNazwaEquals(String nazwa);
 }
 
