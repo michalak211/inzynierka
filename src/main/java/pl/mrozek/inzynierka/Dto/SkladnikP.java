@@ -32,11 +32,15 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
-// dodawanieod razu do barku - mapowanie po id
-// nowy do konkretnego barku
-// strona główna
+// skladniki przechodzenie
 // testy na czystej bazie - czy działa doqwolny do butli
-// heroku
+// heroku + remote sql
+// komunikat o tym, że butelka juz istnieje
+// większa nazwa butli przy wpisywnaiu/wyswietlaniu i ogólnie innych pó/nazw
+// pokazanie w jakiej kategorii jesteśmy
+// edycja skladnikow
+// edycja truktury skladnikow (alkohol-typ)
+// kontroler do baru
 // usun skladnik
 // edit skladnik
 // aktywacja rodzaju w managerach
@@ -79,6 +83,7 @@ public class SkladnikP {
 //todo refactor
 // mapper skladnik p do b (kolejność w if)
 // js!
+// pliki ze skryptami js
 
 
 //todo validacja

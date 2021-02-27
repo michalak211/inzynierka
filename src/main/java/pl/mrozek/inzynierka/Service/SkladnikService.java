@@ -1,6 +1,7 @@
 package pl.mrozek.inzynierka.Service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
 import pl.mrozek.inzynierka.Entity.bar.Butelka;
@@ -171,7 +172,6 @@ public class SkladnikService {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -255,6 +255,40 @@ public class SkladnikService {
 
 
         return barek;
+    }
+
+    public String completeBarModel(Model model, Barek barek,int toClick){
+
+
+        model.addAttribute("skladnikP", new SkladnikP());
+        model.addAttribute("barek", barek);
+        model.addAttribute("sokList", getSoksToAdd(barek));
+        model.addAttribute("syropList", getSyropsToAdd(barek));
+        model.addAttribute("innyList", getInnyToAdd(barek));
+        model.addAttribute("barBottles", getBarButlaForms(barek.getId()));
+        model.addAttribute("toClick",toClick);
+
+        //do dodawania
+        model.addAttribute("alkoList", alkoholRepo.findAll());
+        model.addAttribute("typList", typRepo.findAll());
+        model.addAttribute("butlaList", getAllbutlaFormsNotBarek(barek.getId()));
+
+
+        return "/barowe/barManager";
+    }
+
+    public String completeSkladnikiModel(Model model,int toClick){
+        model.addAttribute("skladnikP", new SkladnikP());
+        model.addAttribute("sokList", sokRepo.findAll());
+        model.addAttribute("syropList", syropRepo.findAll());
+        model.addAttribute("innyList", innyRepo.findAll());
+        model.addAttribute("toClick",toClick);
+
+
+        model.addAttribute("alkoList", alkoholRepo.findAll());
+        model.addAttribute("typList", typRepo.findAll());
+        model.addAttribute("butlaList", getAllbutlaForms());
+        return "/barowe/skladnikManager";
     }
 
 
