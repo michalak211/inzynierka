@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @ToString
 
 @Entity
-public class User {
+public class Uzytkownik {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

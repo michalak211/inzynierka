@@ -1,11 +1,10 @@
 package pl.mrozek.inzynierka.Entity.bar;
 
 import lombok.*;
-import pl.mrozek.inzynierka.Entity.User;
+import pl.mrozek.inzynierka.Entity.Uzytkownik;
 import pl.mrozek.inzynierka.Entity.skladniki.Inny;
 import pl.mrozek.inzynierka.Entity.skladniki.Sok;
 import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
-import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,7 +23,7 @@ public class Barek {
     private Long id;
 
     @OneToOne
-    private User user;
+    private Uzytkownik uzytkownik;
 
     private String nazwa;
 
