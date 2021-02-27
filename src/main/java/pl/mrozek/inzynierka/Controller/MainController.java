@@ -57,6 +57,7 @@ public class MainController {
 
     @GetMapping("/")
     public String tytulowa(){
+        System.out.println("testy6 heroku main");
         return "tytulowa";
 
     }
@@ -64,6 +65,7 @@ public class MainController {
     @GetMapping("/test")
     public String test() {
 
+        System.out.println("testy heroku test");
 //        if (butelkaRepo.findById((long)16).isPresent()) {
 //            Butelka butelka= butelkaRepo.findById((long)16).get();
 //            butelkaRepo.delete(butelka);
@@ -75,6 +77,7 @@ public class MainController {
     @GetMapping("/przegladaj")
     public String przegladanie(Model model) {
 
+        System.out.println("testy heroku przegladaj");
 
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
@@ -265,6 +268,7 @@ public class MainController {
             return "/butelkaAdd";
         }
 
+        //no i zobaczymy
         return "redirect:/skladniki/dodajbutle/" + id;
     }
 
