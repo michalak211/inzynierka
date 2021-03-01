@@ -55,12 +55,12 @@ public class MainController {
         this.butelkaRepo = butelkaRepo;
     }
 
-//    @GetMapping("/")
-//    public String tytulowa(){
-//        System.out.println("testy6 heroku main");
-//        return "tytulowa";
-//
-//    }
+    @GetMapping("/")
+    public String tytulowa(){
+        System.out.println("testy6 heroku main");
+        return "tytulowa";
+
+    }
 
     @GetMapping("/test")
     public String test() {
