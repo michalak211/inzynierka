@@ -80,16 +80,10 @@ public class MainController {
         System.out.println("testy heroku przegladaj");
 
         model.addAttribute("alkoholList", alkoholRepo.findAll());
-        System.out.println("testy heroku po find all alko");
-        System.out.println(alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
-        System.out.println("testy heroku po find all typ");
-        System.out.println(typRepo.findAll());
-
         model.addAttribute("koktajlList", koktailService.getAllUserForms());
-        System.out.println("testy heroku po find all koktajl");
 
-        return "/wyswietl";
+        return "wyswietl";
     }
 
 
@@ -126,10 +120,11 @@ public class MainController {
     @GetMapping("/bar")
     public String chooseBar(Model model) {
 
+        System.out.println("jestem w bar");
         model.addAttribute("bars", barekRepo.findAll());
         model.addAttribute("bar", new Barek());
 
-        return "/barowe/barChoice";
+        return "barowe/barChoice";
     }
 
     @PostMapping("/bar")
