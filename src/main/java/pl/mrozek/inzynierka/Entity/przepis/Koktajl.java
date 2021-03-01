@@ -28,14 +28,12 @@ public class Koktajl {
     private String nazwa;
 
     @OneToMany (cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<SkladnikB> skladnikBList=new ArrayList<>();
+//    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<SkladnikB> skladnikBList;
 
     @Nullable
     private String klasa;
 
-//    @OneToOne
-//    private Skladnik skladnikGlowny;
     @Nullable
     private long ocena;
     @Nullable
