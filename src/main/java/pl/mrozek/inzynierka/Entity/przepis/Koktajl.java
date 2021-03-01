@@ -41,9 +41,9 @@ public class Koktajl {
 
     private boolean vegan;
 
-//    @Nullable
+    @Nullable
 //    @Column(columnDefinition = "LONGTEXT")
-//    private String opisPrzyzadzenia;
+    private String opisPrzyzadzenia;
 
     @Nullable
     private String zdobienie;

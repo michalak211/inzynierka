@@ -227,7 +227,7 @@ public class MainController {
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("alkoList", alkoholRepo.findAll());
         model.addAttribute("butelka", new Butelka());
-        return "/butelkaAdd";
+        return "butelkaAdd";
     }
 
     @PostMapping(value = "/skladniki/dodajbutle", params = "dodaj")
@@ -240,7 +240,7 @@ public class MainController {
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
             model.addAttribute("butelka", butelka);
-            return "/butelkaAdd";
+            return "butelkaAdd";
         }
 
 
@@ -253,7 +253,7 @@ public class MainController {
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("alkoList", alkoholRepo.findAll());
         model.addAttribute("butelka", new Butelka());
-        return "/butelkaAdd";
+        return "butelkaAdd";
     }
 
     @PostMapping(value = "/skladniki/dodajbutle/{id}", params = "dodaj")
@@ -267,7 +267,7 @@ public class MainController {
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
             model.addAttribute("butelka", butelka);
-            return "/butelkaAdd";
+            return "butelkaAdd";
         }
 
         //no i zobaczymy

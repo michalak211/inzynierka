@@ -66,7 +66,7 @@ public class KoktailController {
         model.addAttribute("syropList", syropRepo.findAll());
         model.addAttribute("innyList", innyRepo.findAll());
 
-        return "/edit";
+        return "edit";
     }
 
     @Transactional
@@ -118,7 +118,7 @@ public class KoktailController {
         model.addAttribute("innyList", innyRepo.findAll());
 
 
-        return "/edit";
+        return "edit";
     }
 
     @Transactional
