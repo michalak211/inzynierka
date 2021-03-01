@@ -31,13 +31,13 @@ public class Koktajl {
 ////    @LazyCollection(LazyCollectionOption.FALSE)
 //    private List<SkladnikB> skladnikBList;
 
-//    @Nullable
-//    private String klasa;
-//
-//    @Nullable
-//    private long ocena;
-//    @Nullable
-//    private String szklo;
+    @Nullable
+    private String klasa;
+
+    @Nullable
+    private long ocena;
+    @Nullable
+    private String szklo;
 //
 //    private boolean vegan;
 //
