@@ -50,14 +50,14 @@ public class Koktajl {
 
     @Lob
     private byte[] zdjecie;
-
-    @OneToOne
-    private Uzytkownik uzytkownik;
-
-    @Nullable
-    private double cena;
-
-    private int origin=0;
+//
+//    @OneToOne
+//    private Uzytkownik uzytkownik;
+//
+//    @Nullable
+//    private double cena;
+//
+//    private int origin=0;
 
 
 }
