@@ -39,7 +39,7 @@ public class Koktajl {
     @Nullable
     private String szklo;
 
-    private boolean Vegan;
+    private boolean vegan;
 
     @Nullable
     @Column(columnDefinition = "LONGTEXT")
