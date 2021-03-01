@@ -20,9 +20,12 @@ public class Typ extends Skladnik{
     private Long id;
 
 
-    @OneToOne
+//    @OneToOne
+//    @Nullable
+//    private AlkoholSkladnik workhorse;
+
     @Nullable
-    private AlkoholSkladnik workhorse;
+    private long butelkaId;
 
     private Long alkoholID;
 
