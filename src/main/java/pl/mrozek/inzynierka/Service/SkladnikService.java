@@ -274,7 +274,7 @@ public class SkladnikService {
         model.addAttribute("butlaList", getAllbutlaFormsNotBarek(barek.getId()));
 
 
-        return "/barowe/barManager";
+        return "barowe/barManager";
     }
 
     public String completeSkladnikiModel(Model model,int toClick){
@@ -288,7 +288,7 @@ public class SkladnikService {
         model.addAttribute("alkoList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
         model.addAttribute("butlaList", getAllbutlaForms());
-        return "/barowe/skladnikManager";
+        return "barowe/skladnikManager";
     }
 
 
