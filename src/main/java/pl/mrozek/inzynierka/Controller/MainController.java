@@ -81,8 +81,10 @@ public class MainController {
 
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         System.out.println("testy heroku po find all alko");
+        System.out.println(alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
         System.out.println("testy heroku po find all typ");
+        System.out.println(typRepo.findAll());
 
         model.addAttribute("koktajlList", koktailService.getAllUserForms());
         System.out.println("testy heroku po find all koktajl");
