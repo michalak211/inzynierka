@@ -56,7 +56,7 @@ public class KoktailService {
             byte[] bytes = file.getBytes();
             if (koktailRepo.findById(id).isPresent()){
                 Koktajl koktajl= koktailRepo.findById(id).get();
-                koktajl.setZdjecie(bytes);
+//                koktajl.setZdjecie(bytes);
             }
 
         } catch (IOException e) {
@@ -69,7 +69,8 @@ public class KoktailService {
     public byte[] getPhoto(long id){
         if (koktailRepo.findById(id).isPresent()){
             Koktajl koktajl= koktailRepo.findById(id).get();
-            return koktajl.getZdjecie();
+//            return koktajl.getZdjecie();
+            return null;
 
         }else {
             return null;

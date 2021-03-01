@@ -47,29 +47,29 @@ public class Mapper {
     public Koktajl toKoktajl(Koktajl koktajl, KoktajlForm koktajlForm) {
 
         koktajl.setNazwa(koktajlForm.getNazwa());
-        if (koktajlForm.getKlasa() != null) {
-            koktajl.setKlasa(koktajlForm.getKlasa());
-        }
-        if (koktajlForm.getKlasa() != null) {
-            koktajl.setKlasa(koktajlForm.getKlasa());
-        }
-        if (koktajlForm.getSzklo() != null) {
-            koktajl.setSzklo(koktajlForm.getSzklo());
-        }
-
-        koktajl.setVegan(koktajlForm.getVegan().equals("tak"));
-
-        if (koktajlForm.getZdobienie() != null) {
-            koktajl.setZdobienie(koktajlForm.getZdobienie());
-        }
-
-
-        if (koktajlForm.getOpisPrzyrzadzenia() != null) {
-            koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
-        }
-        if (koktajlForm.getOcena() != null) {
-            koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
-        }
+//        if (koktajlForm.getKlasa() != null) {
+//            koktajl.setKlasa(koktajlForm.getKlasa());
+//        }
+//        if (koktajlForm.getKlasa() != null) {
+//            koktajl.setKlasa(koktajlForm.getKlasa());
+//        }
+//        if (koktajlForm.getSzklo() != null) {
+//            koktajl.setSzklo(koktajlForm.getSzklo());
+//        }
+//
+//        koktajl.setVegan(koktajlForm.getVegan().equals("tak"));
+//
+//        if (koktajlForm.getZdobienie() != null) {
+//            koktajl.setZdobienie(koktajlForm.getZdobienie());
+//        }
+//
+//
+//        if (koktajlForm.getOpisPrzyrzadzenia() != null) {
+//            koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
+//        }
+//        if (koktajlForm.getOcena() != null) {
+//            koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
+//        }
 
 //        if (koktajl.getId()!=null) {
 //            koktajlForm.setId(koktajl.getId());
@@ -192,31 +192,31 @@ public class Mapper {
 
         koktajlForm.setNazwa(koktajl.getNazwa());
 
-        if (koktajl.getKlasa() != null) {
-            koktajlForm.setKlasa(koktajl.getKlasa());
-        }
-        if (koktajl.getSzklo() != null) {
-            koktajlForm.setSzklo(koktajl.getSzklo());
-        }
-        if (koktajl.getOpisPrzyzadzenia() != null) {
-            koktajlForm.setOpisPrzyrzadzenia(koktajl.getOpisPrzyzadzenia());
-        }
-        if (koktajl.getZdobienie() != null) {
-            koktajlForm.setZdobienie(koktajl.getZdobienie());
-        }
-        koktajlForm.setOcena(koktajl.getOcena());
-
-        if (koktajl.isVegan()) {
-            koktajlForm.setVegan("tak");
-        } else {
-            koktajlForm.setVegan("nie");
-        }
-
-        if (koktajl.getId() != null) {
-            koktajlForm.setId(koktajl.getId());
-        } else {
-            koktajlForm.setId(0);
-        }
+//        if (koktajl.getKlasa() != null) {
+//            koktajlForm.setKlasa(koktajl.getKlasa());
+//        }
+//        if (koktajl.getSzklo() != null) {
+//            koktajlForm.setSzklo(koktajl.getSzklo());
+//        }
+//        if (koktajl.getOpisPrzyzadzenia() != null) {
+//            koktajlForm.setOpisPrzyrzadzenia(koktajl.getOpisPrzyzadzenia());
+//        }
+//        if (koktajl.getZdobienie() != null) {
+//            koktajlForm.setZdobienie(koktajl.getZdobienie());
+//        }
+//        koktajlForm.setOcena(koktajl.getOcena());
+//
+//        if (koktajl.isVegan()) {
+//            koktajlForm.setVegan("tak");
+//        } else {
+//            koktajlForm.setVegan("nie");
+//        }
+//
+//        if (koktajl.getId() != null) {
+//            koktajlForm.setId(koktajl.getId());
+//        } else {
+//            koktajlForm.setId(0);
+//        }
 
 
         List<SkladnikP> skladnikPList = new ArrayList<>();

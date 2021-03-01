@@ -31,33 +31,33 @@ public class Koktajl {
 ////    @LazyCollection(LazyCollectionOption.FALSE)
 //    private List<SkladnikB> skladnikBList;
 
-    @Nullable
-    private String klasa;
-
-    @Nullable
-    private long ocena;
-    @Nullable
-    private String szklo;
-
-    private boolean vegan;
-
-    @Nullable
-    @Column(columnDefinition = "LONGTEXT")
-    private String opisPrzyzadzenia;
-
-    @Nullable
-    private String zdobienie;
-
-    @Lob
-    private byte[] zdjecie;
-
-    @OneToOne
-    private Uzytkownik uzytkownik;
-
-    @Nullable
-    private double cena;
-
-    private int origin=0;
+//    @Nullable
+//    private String klasa;
+//
+//    @Nullable
+//    private long ocena;
+//    @Nullable
+//    private String szklo;
+//
+//    private boolean vegan;
+//
+//    @Nullable
+//    @Column(columnDefinition = "LONGTEXT")
+//    private String opisPrzyzadzenia;
+//
+//    @Nullable
+//    private String zdobienie;
+//
+//    @Lob
+//    private byte[] zdjecie;
+//
+//    @OneToOne
+//    private Uzytkownik uzytkownik;
+//
+//    @Nullable
+//    private double cena;
+//
+//    private int origin=0;
 
 
 }
