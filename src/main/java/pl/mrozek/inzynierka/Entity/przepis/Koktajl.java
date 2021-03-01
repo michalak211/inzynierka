@@ -27,9 +27,9 @@ public class Koktajl {
 
     private String nazwa;
 
-    @OneToMany (cascade = CascadeType.ALL)
-//    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<SkladnikB> skladnikBList;
+//    @OneToMany (cascade = CascadeType.ALL)
+////    @LazyCollection(LazyCollectionOption.FALSE)
+//    private List<SkladnikB> skladnikBList;
 
     @Nullable
     private String klasa;
@@ -50,14 +50,14 @@ public class Koktajl {
 
     @Lob
     private byte[] zdjecie;
-//
-//    @OneToOne
-//    private Uzytkownik uzytkownik;
-//
-//    @Nullable
-//    private double cena;
-//
-//    private int origin=0;
+
+    @OneToOne
+    private Uzytkownik uzytkownik;
+
+    @Nullable
+    private double cena;
+
+    private int origin=0;
 
 
 }
