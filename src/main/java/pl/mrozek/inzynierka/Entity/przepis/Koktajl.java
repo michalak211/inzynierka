@@ -27,9 +27,9 @@ public class Koktajl {
 
     private String nazwa;
 
-//    @OneToMany (cascade = CascadeType.ALL)
-////    @LazyCollection(LazyCollectionOption.FALSE)
-//    private List<SkladnikB> skladnikBList;
+    @OneToMany (cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<SkladnikB> skladnikBList;
 
     @Nullable
     private String klasa;
@@ -38,12 +38,12 @@ public class Koktajl {
     private long ocena;
     @Nullable
     private String szklo;
-//
-//    private boolean vegan;
-//
-    @Nullable
-    @Column(columnDefinition = "LONGTEXT")
-    private String opisPrzyzadzenia;
+
+    private boolean vegan;
+
+//    @Nullable
+//    @Column(columnDefinition = "LONGTEXT")
+//    private String opisPrzyzadzenia;
 
     @Nullable
     private String zdobienie;
@@ -56,8 +56,8 @@ public class Koktajl {
 
     @Nullable
     private double cena;
-//
-//    private int origin=0;
+
+    private int origin=0;
 
 
 }
