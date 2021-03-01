@@ -41,21 +41,21 @@ public class Koktajl {
 //
 //    private boolean vegan;
 //
-//    @Nullable
-//    @Column(columnDefinition = "LONGTEXT")
-//    private String opisPrzyzadzenia;
-//
-//    @Nullable
-//    private String zdobienie;
-//
-//    @Lob
-//    private byte[] zdjecie;
-//
-//    @OneToOne
-//    private Uzytkownik uzytkownik;
-//
-//    @Nullable
-//    private double cena;
+    @Nullable
+    @Column(columnDefinition = "LONGTEXT")
+    private String opisPrzyzadzenia;
+
+    @Nullable
+    private String zdobienie;
+
+    @Lob
+    private byte[] zdjecie;
+
+    @OneToOne
+    private Uzytkownik uzytkownik;
+
+    @Nullable
+    private double cena;
 //
 //    private int origin=0;
 
