@@ -80,8 +80,13 @@ public class MainController {
         System.out.println("testy heroku przegladaj");
 
         model.addAttribute("alkoholList", alkoholRepo.findAll());
+        System.out.println("testy heroku po find all alko");
         model.addAttribute("typList", typRepo.findAll());
+        System.out.println("testy heroku po find all typ");
+
         model.addAttribute("koktajlList", koktailService.getAllUserForms());
+        System.out.println("testy heroku po find all koktajl");
+
         return "/wyswietl";
     }
 
