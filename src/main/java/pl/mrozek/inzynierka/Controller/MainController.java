@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Controller
@@ -103,6 +104,7 @@ public class MainController {
 
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 
+        System.out.println(Arrays.toString(koktailService.getPhoto(id)));
         if (koktailService.getPhoto(id) != null) {
             response.getOutputStream().write(koktailService.getPhoto(id));
         } else {
