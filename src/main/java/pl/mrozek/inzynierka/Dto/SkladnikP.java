@@ -32,9 +32,7 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
-// skladniki przechodzenie
-// testy na czystej bazie - czy działa doqwolny do butli
-// heroku + remote sql
+// usuwanie
 // komunikat o tym, że butelka juz istnieje
 // większa nazwa butli przy wpisywnaiu/wyswietlaniu i ogólnie innych pó/nazw
 // pokazanie w jakiej kategorii jesteśmy
