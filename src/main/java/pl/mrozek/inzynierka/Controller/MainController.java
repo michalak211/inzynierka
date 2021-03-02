@@ -1,6 +1,7 @@
 package pl.mrozek.inzynierka.Controller;
 
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -109,14 +111,12 @@ public class MainController {
             System.out.println("nie null");
             response.getOutputStream().write(koktailService.getPhoto(id));
         } else {
-            try {
-                System.out.println("try empty photo");
-                byte[] bytes = Files.readAllBytes(Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource("static/img/fotka.jpg")).toURI()));
-                response.getOutputStream().write(bytes);
-            } catch (URISyntaxException e) {
-                System.out.println("empty fail");
-                e.printStackTrace();
-            }
+            InputStream inputStream= getClass().getResourceAsStream("static/img/fotka.jpg");
+            System.out.println("try empty photo");
+            byte[] bytes = IOUtils.toByteArray(inputStream);
+
+//                byte[] bytes = Files.readAllBytes(Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource("static/img/fotka.jpg")).toURI()));
+            response.getOutputStream().write(bytes);
         }
         response.getOutputStream().close();
 
