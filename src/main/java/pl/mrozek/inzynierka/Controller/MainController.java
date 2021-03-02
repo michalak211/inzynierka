@@ -111,7 +111,7 @@ public class MainController {
             System.out.println("nie null");
             response.getOutputStream().write(koktailService.getPhoto(id));
         } else {
-            InputStream inputStream= getClass().getResourceAsStream("static/img/fotka.jpg");
+            InputStream inputStream= getClass().getResourceAsStream("/static/img/fotka.jpg");
             System.out.println("try empty photo");
             byte[] bytes = IOUtils.toByteArray(inputStream);
             System.out.println(Arrays.toString(bytes));
