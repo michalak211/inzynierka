@@ -18,7 +18,8 @@
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
                             <div class="row">
-                                <label class="col-md-9 control-label">Utwórz nową butelkę</label>
+                                <label th:if="${butelka.nazwa}!=null" class="col-md-9 control-label" th:text="'butelka '+${butelka.nazwa}+' już istnieje'"></label>
+                                <label th:unless="${butelka.nazwa}!=null" class="col-md-9 control-label">Utwórz nową butelkę</label>
                             </div>
                         </div>
 
@@ -324,9 +325,11 @@
     inputNazwa.id = 'nazwa';
     inputNazwa.setAttribute('name', 'nazwa');
     inputNazwa.placeholder = "Nazwa butelki";
-    // let  butelkalol= [[${butelka}]];
+    let  butelkalol= [[${butelka}]];
+    console.log(butelkalol);
+    inputNazwa.value=butelkalol.nazwa;
+    //
     // if (butelkalol.nazwa==null){
-    //     inputNazwa.value=butelkalol.nazwa;
     // }
     inputNazwa.required=true;
     colNazwa.appendChild(inputNazwa);

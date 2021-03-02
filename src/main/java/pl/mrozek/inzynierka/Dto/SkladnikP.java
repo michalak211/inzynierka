@@ -32,14 +32,10 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
-// skladniki przechodzenie
-// testy na czystej bazie - czy działa doqwolny do butli
-// heroku + remote sql
-// komunikat o tym, że butelka juz istnieje
-// większa nazwa butli przy wpisywnaiu/wyswietlaniu i ogólnie innych pó/nazw
+// większa nazwa butli przy wpisywnaiu/wyswietlaniu i ogólnie innych pól/nazw
 // pokazanie w jakiej kategorii jesteśmy
 // edycja skladnikow
-// edycja truktury skladnikow (alkohol-typ)
+// edycja struktury skladnikow (alkohol-typ)
 // kontroler do baru
 // usun skladnik
 // edit skladnik

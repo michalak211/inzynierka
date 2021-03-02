@@ -234,6 +234,7 @@ public class MainController {
 
         if (butelkaRepo.findByNazwaEquals(butelka.getNazwa())==null) {
             butelkaRepo.save(mapper.butlaToBase(butelka));
+            return skladnikService.completeSkladnikiModel(model, 1);
         }else {
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
@@ -241,8 +242,6 @@ public class MainController {
             return "/butelkaAdd";
         }
 
-
-        return "redirect:/skladniki/dodajbutle";
     }
 
     @GetMapping(value = "/skladniki/dodajbutle/{id}")
@@ -264,11 +263,10 @@ public class MainController {
         }else {
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
-            model.addAttribute("butelka", butelka);
+            model.addAttribute("butelka", mapper.butlaToForm(butelka));
             return "/butelkaAdd";
         }
 
-        //no i zobaczymy
         return "redirect:/skladniki/dodajbutle/" + id;
     }
 
