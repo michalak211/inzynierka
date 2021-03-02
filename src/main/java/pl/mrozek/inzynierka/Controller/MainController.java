@@ -103,7 +103,7 @@ public class MainController {
             throws ServletException, IOException {
 
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-
+//
 //        System.out.println(Arrays.toString(koktailService.getPhoto(id)));
         if (koktailService.getPhoto(id) != null) {
             System.out.println("nie null");
