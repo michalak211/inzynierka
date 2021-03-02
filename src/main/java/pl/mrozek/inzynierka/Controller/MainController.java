@@ -114,6 +114,7 @@ public class MainController {
             InputStream inputStream= getClass().getResourceAsStream("static/img/fotka.jpg");
             System.out.println("try empty photo");
             byte[] bytes = IOUtils.toByteArray(inputStream);
+            System.out.println(Arrays.toString(bytes));
 
 //                byte[] bytes = Files.readAllBytes(Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource("static/img/fotka.jpg")).toURI()));
             response.getOutputStream().write(bytes);
