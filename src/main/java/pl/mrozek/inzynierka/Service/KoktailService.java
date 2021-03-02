@@ -70,8 +70,6 @@ public class KoktailService {
         if (koktailRepo.findById(id).isPresent()){
             Koktajl koktajl= koktailRepo.findById(id).get();
             return koktajl.getZdjecie();
-//            return null;
-
         }else {
             return null;
         }

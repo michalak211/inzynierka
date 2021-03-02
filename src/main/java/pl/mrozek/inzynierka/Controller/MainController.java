@@ -1,7 +1,6 @@
 package pl.mrozek.inzynierka.Controller;
 
 import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Controller
@@ -85,8 +82,7 @@ public class MainController {
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
         model.addAttribute("koktajlList", koktailService.getAllUserForms());
-
-        return "wyswietl";
+        return "/wyswietl";
     }
 
 
@@ -105,19 +101,16 @@ public class MainController {
             throws ServletException, IOException {
 
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-//
-//        System.out.println(Arrays.toString(koktailService.getPhoto(id)));
+
         if (koktailService.getPhoto(id) != null) {
-            System.out.println("nie null");
             response.getOutputStream().write(koktailService.getPhoto(id));
         } else {
-            InputStream inputStream= getClass().getResourceAsStream("/static/img/fotka.jpg");
-            System.out.println("try empty photo");
-            byte[] bytes = IOUtils.toByteArray(inputStream);
-            System.out.println(Arrays.toString(bytes));
-
-//                byte[] bytes = Files.readAllBytes(Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource("static/img/fotka.jpg")).toURI()));
-            response.getOutputStream().write(bytes);
+            try {
+                byte[] bytes = Files.readAllBytes(Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource("static/img/fotka.jpg")).toURI()));
+                response.getOutputStream().write(bytes);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
         response.getOutputStream().close();
 
@@ -126,11 +119,10 @@ public class MainController {
     @GetMapping("/bar")
     public String chooseBar(Model model) {
 
-        System.out.println("jestem w bar");
         model.addAttribute("bars", barekRepo.findAll());
         model.addAttribute("bar", new Barek());
 
-        return "barowe/barChoice";
+        return "/barowe/barChoice";
     }
 
     @PostMapping("/bar")
@@ -233,7 +225,7 @@ public class MainController {
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("alkoList", alkoholRepo.findAll());
         model.addAttribute("butelka", new Butelka());
-        return "butelkaAdd";
+        return "/butelkaAdd";
     }
 
     @PostMapping(value = "/skladniki/dodajbutle", params = "dodaj")
@@ -242,15 +234,14 @@ public class MainController {
 
         if (butelkaRepo.findByNazwaEquals(butelka.getNazwa())==null) {
             butelkaRepo.save(mapper.butlaToBase(butelka));
+            return skladnikService.completeSkladnikiModel(model, 1);
         }else {
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
             model.addAttribute("butelka", butelka);
-            return "butelkaAdd";
+            return "/butelkaAdd";
         }
 
-
-        return "redirect:/skladniki/dodajbutle";
     }
 
     @GetMapping(value = "/skladniki/dodajbutle/{id}")
@@ -259,7 +250,7 @@ public class MainController {
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("alkoList", alkoholRepo.findAll());
         model.addAttribute("butelka", new Butelka());
-        return "butelkaAdd";
+        return "/butelkaAdd";
     }
 
     @PostMapping(value = "/skladniki/dodajbutle/{id}", params = "dodaj")
@@ -272,11 +263,10 @@ public class MainController {
         }else {
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
-            model.addAttribute("butelka", butelka);
-            return "butelkaAdd";
+            model.addAttribute("butelka", mapper.butlaToForm(butelka));
+            return "/butelkaAdd";
         }
 
-        //no i zobaczymy
         return "redirect:/skladniki/dodajbutle/" + id;
     }
 

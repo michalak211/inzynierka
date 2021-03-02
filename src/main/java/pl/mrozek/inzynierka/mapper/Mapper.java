@@ -71,11 +71,11 @@ public class Mapper {
             koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
         }
 
-        if (koktajl.getId()!=null) {
-            koktajlForm.setId(koktajl.getId());
-        }else {
-            koktajlForm.setId(0);
-        }
+//        if (koktajl.getId()!=null) {
+//            koktajlForm.setId(koktajl.getId());
+//        }else {
+//            koktajlForm.setId(0);
+//        }
 
 
         koktajl.setSkladnikBList(new ArrayList<>());

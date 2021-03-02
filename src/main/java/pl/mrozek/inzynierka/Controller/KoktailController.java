@@ -66,7 +66,7 @@ public class KoktailController {
         model.addAttribute("syropList", syropRepo.findAll());
         model.addAttribute("innyList", innyRepo.findAll());
 
-        return "edit";
+        return "/edit";
     }
 
     @Transactional
@@ -118,7 +118,7 @@ public class KoktailController {
         model.addAttribute("innyList", innyRepo.findAll());
 
 
-        return "edit";
+        return "/edit";
     }
 
     @Transactional
@@ -143,76 +143,76 @@ public class KoktailController {
     @GetMapping("/init")
     public String init() {
 
-        Alkohol alkohol = new Alkohol();
-        alkohol.setNazwa("whyskey");
+//        Alkohol alkohol = new Alkohol();
+//        alkohol.setNazwa("whyskey");
+//
+//        alkoholRepo.save(alkohol);
+//
+//        Alkohol alkohol1 = new Alkohol();
+//        alkohol1.setNazwa("rum");
+//        alkoholRepo.save(alkohol1);
+//
+//
+//        Typ typ = new Typ();
+//        typ.setNazwa("Burbon");
+//        typ.setAlkoholID(alkohol.getId());
+//        typRepo.save(typ);
+//
+//
+//        Typ typ1 = new Typ();
+//        typ1.setNazwa("Szkocka");
+//        typ1.setAlkoholID(alkohol.getId());
+//        typRepo.save(typ1);
+//
+//        Typ typ2 = new Typ();
+//        typ2.setAlkoholID(alkohol1.getId());
+//        typ2.setNazwa("czarny");
+//        typRepo.save(typ2);
+//
+//        Typ typ3 = new Typ();
+//        typ3.setAlkoholID(alkohol1.getId());
+//        typ3.setNazwa("jasny");
+//        typRepo.save(typ3);
+//
+//        List<Typ> typLista = new ArrayList<>();
+//        typLista.add(typ);
+//        typLista.add(typ1);
+//
+//        List<Typ> typLista1 = new ArrayList<>();
+//        typLista1.add(typ2);
+//        typLista1.add(typ3);
+//
+//
+//        alkohol.setTypList(typLista);
+//        alkoholRepo.save(alkohol);
+//
+//        alkohol1.setTypList(typLista1);
+//        alkoholRepo.save(alkohol1);
+//
+//        Sok sok = new Sok();
+//        sok.setNazwa("sok limonkowy");
+//        sokRepo.save(sok);
+//
+//        Syrop syrop = new Syrop();
+//        syrop.setNazwa("syrop cukrowy");
+//        syropRepo.save(syrop);
 
-        alkoholRepo.save(alkohol);
-
-        Alkohol alkohol1 = new Alkohol();
-        alkohol1.setNazwa("rum");
-        alkoholRepo.save(alkohol1);
+//        Barek barek = new Barek();
+//        barek.setNazwa("barek mieszkanie");
 
 
-        Typ typ = new Typ();
-        typ.setNazwa("Burbon");
-        typ.setAlkoholID(alkohol.getId());
-        typRepo.save(typ);
-
-
-        Typ typ1 = new Typ();
-        typ1.setNazwa("Szkocka");
-        typ1.setAlkoholID(alkohol.getId());
-        typRepo.save(typ1);
-
-        Typ typ2 = new Typ();
-        typ2.setAlkoholID(alkohol1.getId());
-        typ2.setNazwa("czarny");
-        typRepo.save(typ2);
-
-        Typ typ3 = new Typ();
-        typ3.setAlkoholID(alkohol1.getId());
-        typ3.setNazwa("jasny");
-        typRepo.save(typ3);
-
-        List<Typ> typLista = new ArrayList<>();
-        typLista.add(typ);
-        typLista.add(typ1);
-
-        List<Typ> typLista1 = new ArrayList<>();
-        typLista1.add(typ2);
-        typLista1.add(typ3);
-
-
-        alkohol.setTypList(typLista);
-        alkoholRepo.save(alkohol);
-
-        alkohol1.setTypList(typLista1);
-        alkoholRepo.save(alkohol1);
-
-        Sok sok = new Sok();
-        sok.setNazwa("sok limonkowy");
-        sokRepo.save(sok);
-
-        Syrop syrop = new Syrop();
-        syrop.setNazwa("syrop cukrowy");
-        syropRepo.save(syrop);
-
-        Barek barek = new Barek();
-        barek.setNazwa("barek mieszkanie");
-
-
-        List<Butelka> typList = new ArrayList<>();
-        List<Sok> sokList = new ArrayList<>();
-        List<Syrop> syropList = new ArrayList<>();
-        List<Inny> innyList = new ArrayList<>();
-
-        barek.setButelkaList(typList);
-        barek.setListInny(innyList);
-        barek.setListSyrop(syropList);
-        barek.setListSok(sokList);
-        barek.setNazwa("barek mieszkanie");
-
-        barekRepo.save(barek);
+//        List<Butelka> typList = new ArrayList<>();
+//        List<Sok> sokList = new ArrayList<>();
+//        List<Syrop> syropList = new ArrayList<>();
+//        List<Inny> innyList = new ArrayList<>();
+//
+//        barek.setButelkaList(typList);
+//        barek.setListInny(innyList);
+//        barek.setListSyrop(syropList);
+//        barek.setListSok(sokList);
+//        barek.setNazwa("barek mieszkanie");
+//
+//        barekRepo.save(barek);
 
         return "redirect:/koktajl/add";
 

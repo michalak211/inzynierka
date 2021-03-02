@@ -34,6 +34,8 @@ public class Koktajl {
     @Nullable
     private String klasa;
 
+//    @OneToOne
+//    private Skladnik skladnikGlowny;
     @Nullable
     private long ocena;
     @Nullable
@@ -47,6 +49,7 @@ public class Koktajl {
 
     @Nullable
     private String zdobienie;
+
 
     @Lob
     private byte[] zdjecie;
