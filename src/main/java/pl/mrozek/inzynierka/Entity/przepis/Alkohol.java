@@ -24,22 +24,9 @@ public class Alkohol  {
 
     @Column (unique = true)
     private String nazwa;
-//    private int procenty;
-//    private String marka;
-
-//    @Nullable
-//    @OneToOne (cascade = CascadeType.ALL)
-//    private  Typ typ;
 
 
     @OneToMany (cascade = CascadeType.ALL)
     private List<Typ> typList;
-
-
-//    @Nullable
-//    private String podTyp;
-
-
-
 
 }
