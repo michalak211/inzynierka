@@ -104,14 +104,17 @@ public class MainController {
 
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 
-        System.out.println(Arrays.toString(koktailService.getPhoto(id)));
+//        System.out.println(Arrays.toString(koktailService.getPhoto(id)));
         if (koktailService.getPhoto(id) != null) {
+            System.out.println("nie null");
             response.getOutputStream().write(koktailService.getPhoto(id));
         } else {
             try {
+                System.out.println("try empty photo");
                 byte[] bytes = Files.readAllBytes(Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource("static/img/fotka.jpg")).toURI()));
                 response.getOutputStream().write(bytes);
             } catch (URISyntaxException e) {
+                System.out.println("empty fail");
                 e.printStackTrace();
             }
         }
