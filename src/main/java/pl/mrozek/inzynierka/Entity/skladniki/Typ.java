@@ -24,8 +24,8 @@ public class Typ extends Skladnik{
 //    @Nullable
 //    private AlkoholSkladnik workhorse;
 
-    @Nullable
-    private long butelkaId;
+//    @Nullable
+    private Long butelkaId;
 
     private Long alkoholID;
 

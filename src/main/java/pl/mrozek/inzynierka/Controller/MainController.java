@@ -145,6 +145,7 @@ public class MainController {
             return skladnikService.completeBarModel(model, barek, 0);
         }
 
+
         return "redirect:/bar";
     }
 

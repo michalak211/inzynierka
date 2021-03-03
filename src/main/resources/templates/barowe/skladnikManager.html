@@ -18,7 +18,7 @@
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
                             <div class="row">
-                                <label class="col-md-9 control-label">Przegląd składników</label>
+                                <label id="tytul" class="col-md-9 control-label">Przegląd składników</label>
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
 <script th:inline="javascript">
 
 
-    let butlaList=[[${butlaList}]]
+    let butlaList = [[${butlaList}]];
     // var skladnikList = [[${skladnikList}]];
     var sokList = [[${sokList}]];
     var syropList = [[${syropList}]];
@@ -170,19 +170,19 @@
         colName.appendChild(nameText);
         row.appendChild(colName);
 
-        if (rodzaj==1){
+        if (rodzaj == 1) {
 
-            let colAlko= document.createElement('td');
+            let colAlko = document.createElement('td');
             colAlko.classList.add('col-sm-2');
-            let aplkoText= document.createElement('output');
-            aplkoText.value=obj.alkoholNazwa;
+            let aplkoText = document.createElement('output');
+            aplkoText.value = obj.alkoholNazwa;
             colAlko.appendChild(aplkoText);
             row.appendChild(colAlko);
 
-            let colTyp= document.createElement('td');
+            let colTyp = document.createElement('td');
             colTyp.classList.add('col-sm-2');
-            let typText= document.createElement('output');
-            typText.value=obj.typNazwa;
+            let typText = document.createElement('output');
+            typText.value = obj.typNazwa;
             colTyp.appendChild(typText);
             row.appendChild(colTyp);
         }
@@ -248,7 +248,7 @@
         document.getElementById(elementName).appendChild(row);
 
 
-        function usunSkladnik(rodzaj,obj) {
+        function usunSkladnik(rodzaj, obj) {
 
             switch (rodzaj) {
                 case 1:
@@ -303,9 +303,9 @@
         let inputNewName = document.createElement('input');
         inputNewName.type = 'text';
         inputNewName.classList.add('form-control');
-        inputNewName.setAttribute('name','nazwa');
+        inputNewName.setAttribute('name', 'nazwa');
         inputNewName.placeholder = "Nowa nazwa";
-        inputNewName.required=true;
+        inputNewName.required = true;
         colNewName.appendChild(inputNewName);
         row.appendChild(colNewName);
 
@@ -316,17 +316,17 @@
         // inputNewPrice.step = "0.5";
         inputNewPrice.value = "0";
         inputNewPrice.classList.add('form-control');
-        inputNewPrice.setAttribute('name','iloscML');
+        inputNewPrice.setAttribute('name', 'iloscML');
         colNewprice.appendChild(inputNewPrice);
         row.appendChild(colNewprice);
 
-        if (rodzaj==3){
+        if (rodzaj == 3) {
             let colNewName = document.createElement('td');
             colNewName.classList.add('col-sm-2');
             let inputNewName = document.createElement('input');
             inputNewName.type = 'text';
             inputNewName.classList.add('form-control');
-            inputNewName.setAttribute('name','opisDodatkowy');
+            inputNewName.setAttribute('name', 'opisDodatkowy');
             inputNewName.placeholder = "Przepis";
             colNewName.appendChild(inputNewName);
             row.appendChild(colNewName);
@@ -349,7 +349,7 @@
     };
 
 
-    let addEndRowBottle= function(elementName){
+    let addEndRowBottle = function (elementName) {
         let rowIndexSelector = '.hgw';
 
 
@@ -383,13 +383,15 @@
         }, true);
 
         function dodajNowaButla() {
-                window.location.href = '/skladniki/dodajbutle/';
+            window.location.href = '/skladniki/dodajbutle/';
         }
 
     };
+    let tytul = document.getElementById('tytul');
 
 
     let bootleTable = function (elementName) {
+        tytul.innerText = 'Przegląd składników: butelki';
         starter(elementName, 1);
         butlaList.forEach(function (butelka) {
             inRowIteration(elementName, 1, butelka);
@@ -398,6 +400,7 @@
     };
 
     let sokiTable = function (elementName) {
+        tytul.innerText = 'Przegląd składników: soki';
         starter(elementName, 2);
         sokList.forEach(function (sok) {
             inRowIteration(elementName, 2, sok);
@@ -406,7 +409,7 @@
     };
 
     let syropTable = function (elementName) {
-
+        tytul.innerText = 'Przegląd składników: syropy';
         starter(elementName, 3);
         syropList.forEach(function (syrop) {
             inRowIteration(elementName, 3, syrop);
@@ -415,7 +418,7 @@
     };
 
     let inneTable = function (elementName) {
-
+        tytul.innerText = 'Przegląd składników: inne';
         starter(elementName, 4);
         innyList.forEach(function (inny) {
             inRowIteration(elementName, 4, inny);
@@ -424,7 +427,7 @@
     };
 
 
-    let toClick=[[${toClick}]];
+    let toClick = [[${toClick}]];
     switch (toClick) {
         case 1:
             bootleTable('SkladTable');

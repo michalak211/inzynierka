@@ -18,7 +18,7 @@
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
                             <div class="row">
-                                <label class="col-md-9 control-label" th:text="${barek.nazwa}"></label>
+                                <label id="tytul" class="col-md-9 control-label" th:text="${barek.nazwa}"></label>
                             </div>
                         </div>
 
@@ -331,7 +331,6 @@
     }
 
 
-
     function typBottleChanger(row, selectList) {
 
         let parent = selectList.value;
@@ -352,7 +351,6 @@
             }
         });
     }
-
 
 
     let addEndRowBottle = function (elementName) {
@@ -383,7 +381,7 @@
 
 
         function nowaButla() {
-                    window.location.href = '/skladniki/dodajbutle/' + barek.id;
+            window.location.href = '/skladniki/dodajbutle/' + barek.id;
         }
 
         let row = document.createElement('tr');
@@ -526,7 +524,12 @@
 
     };
 
+    let tytul = document.getElementById('tytul');
+
+
     let butlaTable = function (elementName) {
+        let textTyt = [[${barek.nazwa}]] + ': butelki';
+        tytul.innerText = textTyt;
         starter(elementName, 1);
         let barBottles = [[${barBottles}]];
         barBottles.forEach(function (butla) {
@@ -537,6 +540,9 @@
 
 
     let sokiTable = function (elementName) {
+        let textTyt = [[${barek.nazwa}]] + ': soki';
+        tytul.innerText = textTyt;
+
         starter(elementName, 2);
         barek.listSok.forEach(function (sok) {
             inRowIteration(elementName, 2, sok);
@@ -546,6 +552,8 @@
 
 
     let syropTable = function (elementName) {
+        let textTyt = [[${barek.nazwa}]] + ': syropy';
+        tytul.innerText = textTyt;
         starter(elementName, 3);
         barek.listSyrop.forEach(function (syrop) {
             inRowIteration(elementName, 3, syrop);
@@ -554,6 +562,8 @@
     };
 
     let inneTable = function (elementName) {
+        let textTyt = [[${barek.nazwa}]] + ': inne';
+        tytul.innerText = textTyt;
         starter(elementName, 4);
         barek.listInny.forEach(function (inny) {
             inRowIteration(elementName, 4, inny);
@@ -562,7 +572,7 @@
     };
 
 
-    let toClick=[[${toClick}]];
+    let toClick = [[${toClick}]];
     switch (toClick) {
         case 1:
             butlaTable('SkladTable');
@@ -577,7 +587,6 @@
             inneTable('SkladTable');
             break;
     }
-
 
 
 </script>

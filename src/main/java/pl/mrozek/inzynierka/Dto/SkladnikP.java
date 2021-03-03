@@ -32,15 +32,13 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
-// większa nazwa butli przy wpisywnaiu/wyswietlaniu i ogólnie innych pól/nazw
-// pokazanie w jakiej kategorii jesteśmy
 // edycja skladnikow
 // edycja struktury skladnikow (alkohol-typ)
 // kontroler do baru
 // usun skladnik
 // edit skladnik
 // aktywacja rodzaju w managerach
-// filtry po barze
+// filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // kolorowanie po barze i brakujace skladniki
 // workhorse
 // pozostałe filtry
