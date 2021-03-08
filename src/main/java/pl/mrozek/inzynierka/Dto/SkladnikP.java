@@ -32,15 +32,13 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
-// edycja skladnikow
+// edycja butelek// usun skladnik
 // edycja struktury skladnikow (alkohol-typ)
-// kontroler do baru
-// usun skladnik
-// edit skladnik
-// aktywacja rodzaju w managerach
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // kolorowanie po barze i brakujace skladniki
 // workhorse
+// photo made by
+// widok pełen i skrotowy dla skladnikow butelek etc
 // pozostałe filtry
 // cena
 // riff
@@ -48,6 +46,7 @@ public class SkladnikP {
 // dodwanie własnych zdjęć
 // dodawanie zdjec butelek
 // logowanie
+// paging
 
 
 

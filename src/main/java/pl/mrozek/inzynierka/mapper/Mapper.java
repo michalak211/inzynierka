@@ -7,10 +7,7 @@ import pl.mrozek.inzynierka.Entity.bar.Butelka;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Entity.przepis.SkladnikB;
-import pl.mrozek.inzynierka.Entity.skladniki.Inny;
-import pl.mrozek.inzynierka.Entity.skladniki.Sok;
-import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
-import pl.mrozek.inzynierka.Entity.skladniki.Typ;
+import pl.mrozek.inzynierka.Entity.skladniki.*;
 import pl.mrozek.inzynierka.Repo.*;
 
 import java.util.ArrayList;
@@ -255,20 +252,20 @@ public class Mapper {
         return koktajlForm;
     }
 
-    public Butelka butlaToBase(Butelka butelka){
+    public Butelka butlaToBase(Butelka butelka) {
 
 
         if (butelka.isNewAlko()) {
-            boolean repeatsAlko=alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa())!=null;
+            boolean repeatsAlko = alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa()) != null;
 
-            if (repeatsAlko){
+            if (repeatsAlko) {
                 butelka.setAlkoholId(alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa()).getId());
             } else {
                 Alkohol alkohol = new Alkohol();
                 alkohol.setNazwa(butelka.getAlkoholNazwa());
                 alkoholRepo.save(alkohol);
 
-                List<Typ> typList= new ArrayList<>();
+                List<Typ> typList = new ArrayList<>();
                 Typ typ = new Typ();
                 typ.setAlkoholID(alkohol.getId());
                 typ.setNazwa(butelka.getTypNazwa());
@@ -282,11 +279,11 @@ public class Mapper {
                 butelka.setTypId(typ.getId());
             }
 
-        }else if (butelka.isNewTyp()){
-            Alkohol alkohol=alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa());
+        } else if (butelka.isNewTyp()) {
+            Alkohol alkohol = alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa());
             butelka.setAlkoholId(alkohol.getId());
 
-            Typ typ= new Typ();
+            Typ typ = new Typ();
             typ.setAlkoholID(alkohol.getId());
             typ.setNazwa(butelka.getTypNazwa());
             typRepo.save(typ);
@@ -295,24 +292,51 @@ public class Mapper {
             alkoholRepo.save(alkohol);
             butelka.setTypId(typ.getId());
 
-        }else {
+        } else {
             butelka.setAlkoholId(alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa()).getId());
             butelka.setTypId(typRepo.findByNazwaEquals(butelka.getTypNazwa()).getId());
         }
 
         return butelka;
     }
-    public Butelka butlaToForm(Butelka butelka){
 
-        if (alkoholRepo.findById(butelka.getAlkoholId()).isPresent()){
-            Alkohol alkohol=alkoholRepo.findById(butelka.getAlkoholId()).get();
+    public Butelka butlaToForm(Butelka butelka) {
+
+        if (alkoholRepo.findById(butelka.getAlkoholId()).isPresent()) {
+            Alkohol alkohol = alkoholRepo.findById(butelka.getAlkoholId()).get();
             butelka.setAlkoholNazwa(alkohol.getNazwa());
         }
-        if (typRepo.findById(butelka.getTypId()).isPresent()){
-            Typ typ=typRepo.findById(butelka.getTypId()).get();
+        if (typRepo.findById(butelka.getTypId()).isPresent()) {
+            Typ typ = typRepo.findById(butelka.getTypId()).get();
             butelka.setTypNazwa(typ.getNazwa());
         }
         return butelka;
+    }
+
+    public SkladnikP toSkladnikP(Long id) {
+        SkladnikP skladnikP = new SkladnikP();
+
+        if (skladnikRepo.findById(id).isPresent()) {
+            Skladnik skladnik = skladnikRepo.findById(id).get();
+            skladnikP.setId(skladnik.getId());
+            skladnikP.setNazwa(skladnik.getNazwa());
+
+            if (skladnik instanceof Sok){
+                skladnikP.setRodzaj(2);
+                skladnikP.setIloscML(((Sok) skladnik).getCenaZaLitr());
+            }
+            if (skladnik instanceof Syrop){
+                skladnikP.setRodzaj(3);
+                skladnikP.setIloscML(((Syrop) skladnik).getCenaZaLitr());
+                skladnikP.setOpisDodatkowy(((Syrop) skladnik).getPrzepis());
+            }
+            if (skladnik instanceof Inny){
+                skladnikP.setRodzaj(4);
+                skladnikP.setIloscML(((Inny) skladnik).getCenaZaJednostke());
+            }
+        }
+
+        return skladnikP;
     }
 
 }

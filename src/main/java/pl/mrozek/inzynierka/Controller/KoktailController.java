@@ -38,9 +38,8 @@ public class KoktailController {
     private final SyropRepo syropRepo;
     private final InnyRepo innyRepo;
     private final KoktailService koktailService;
-    private final BarekRepo barekRepo;
 
-    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService, BarekRepo barekRepo) {
+    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService) {
         this.skladnikRepo = skladnikRepo;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -50,7 +49,6 @@ public class KoktailController {
         this.syropRepo = syropRepo;
         this.innyRepo = innyRepo;
         this.koktailService = koktailService;
-        this.barekRepo = barekRepo;
     }
 
     @Transactional

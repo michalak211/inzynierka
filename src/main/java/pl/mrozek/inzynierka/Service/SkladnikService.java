@@ -82,6 +82,20 @@ public class SkladnikService {
         return false;
     }
 
+    public boolean deleteBottleFromBar(long bottleId, long barId) {
+
+        if (barekRepo.findById(barId).isPresent()) {
+            Barek barek = barekRepo.findById(barId).get();
+            int inte = (int) (bottleId - 1);
+            barek.getButelkaList().remove(inte);
+            barekRepo.save(barek);
+            return true;
+        }
+
+        return false;
+    }
+
+
     public boolean deleteSokFromBar(long sokId, long barId) {
 
         if (barekRepo.findById(barId).isPresent()) {
@@ -288,7 +302,41 @@ public class SkladnikService {
         model.addAttribute("alkoList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
         model.addAttribute("butlaList", getAllbutlaForms());
-        return "barowe/skladnikManager";
+        return "skladniki/skladnikManager";
+    }
+
+    public void editSkladnik(SkladnikP skladnikP){
+
+        switch (skladnikP.getRodzaj()){
+            case 1:
+                break;
+            case 2:
+                if (sokRepo.findById(skladnikP.getId()).isPresent()){
+                    Sok sok= sokRepo.findById(skladnikP.getId()).get();
+                    sok.setNazwa(skladnikP.getNazwa());
+                    sok.setCenaZaLitr(skladnikP.getIloscML());
+                    sokRepo.save(sok);
+                }
+                break;
+            case 3:
+                if (syropRepo.findById(skladnikP.getId()).isPresent()){
+                    Syrop syrop= syropRepo.findById(skladnikP.getId()).get();
+                    syrop.setNazwa(skladnikP.getNazwa());
+                    syrop.setCenaZaLitr(skladnikP.getIloscML());
+                    syrop.setPrzepis(skladnikP.getOpisDodatkowy());
+                    syropRepo.save(syrop);
+                }
+                break;
+            case 4:
+                if (innyRepo.findById(skladnikP.getId()).isPresent()){
+                    Inny inny= innyRepo.findById(skladnikP.getId()).get();
+                    inny.setNazwa(skladnikP.getNazwa());
+                    inny.setCenaZaJednostke(skladnikP.getIloscML());
+                    innyRepo.save(inny);
+                }
+                break;
+        }
+
     }
 
 

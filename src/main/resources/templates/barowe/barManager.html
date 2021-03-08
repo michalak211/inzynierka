@@ -256,16 +256,16 @@
 
             switch (rodzaj) {
                 case 1:
-                    window.location.href = '/' + barek.id + '/butelka/delete/' + rowIndex;
+                    window.location.href = '/bar/' + barek.id + '/butelka/delete/' + rowIndex;
                     break;
                 case 2:
-                    window.location.href = '/' + barek.id + '/sok/delete/' + rowIndex;
+                    window.location.href = '/bar/' + barek.id + '/sok/delete/' + rowIndex;
                     break;
                 case 3:
-                    window.location.href = '/' + barek.id + '/syrop/delete/' + rowIndex;
+                    window.location.href = '/bar/' + barek.id + '/syrop/delete/' + rowIndex;
                     break;
                 case 4:
-                    window.location.href = '/' + barek.id + '/inny/delete/' + rowIndex;
+                    window.location.href = '/bar/' + barek.id + '/inny/delete/' + rowIndex;
                     break;
             }
         }
@@ -474,10 +474,10 @@
         let col6 = document.createElement('td');
         col6.classList.add('col-sm-2');
         let input3 = document.createElement('select');
-        var option2 = document.createElement("option");
-        option2.value = "-----";
-        option2.text = "-----";
-        input3.appendChild(option2);
+        // var option2 = document.createElement("option");
+        // option2.value = "-----";
+        // option2.text = "-----";
+        // input3.appendChild(option2);
 
         let inputList;
 
