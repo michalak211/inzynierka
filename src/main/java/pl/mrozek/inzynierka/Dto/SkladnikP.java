@@ -32,6 +32,7 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
+// dowanie do barku i do skladników w post - inaczej nie pozwala na post po usunieciu (może dodatkowy post?)
 // edycja butelek// usun skladnik
 // edycja struktury skladnikow (alkohol-typ)
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
