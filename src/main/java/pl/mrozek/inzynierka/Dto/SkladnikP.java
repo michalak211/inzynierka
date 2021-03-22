@@ -28,11 +28,10 @@ public class SkladnikP {
     private boolean nowyAlko;
 
 
-
 }
 
 //todo kolejnosc
-// dowanie do barku i do skladników w post - inaczej nie pozwala na post po usunieciu (może dodatkowy post?)
+// dowanie do barku i do skladników w post - inaczej nie pozwala na post po usunieciu (jak w przegladaj)
 // edycja butelek// usun skladnik
 // edycja struktury skladnikow (alkohol-typ)
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim

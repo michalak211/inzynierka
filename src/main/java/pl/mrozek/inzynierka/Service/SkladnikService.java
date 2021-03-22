@@ -86,8 +86,7 @@ public class SkladnikService {
 
         if (barekRepo.findById(barId).isPresent()) {
             Barek barek = barekRepo.findById(barId).get();
-            int inte = (int) (bottleId - 1);
-            barek.getButelkaList().remove(inte);
+            barek.getButelkaList().removeIf(butelka -> butelka.getId() == bottleId);
             barekRepo.save(barek);
             return true;
         }
@@ -100,8 +99,7 @@ public class SkladnikService {
 
         if (barekRepo.findById(barId).isPresent()) {
             Barek barek = barekRepo.findById(barId).get();
-            int inte = (int) (sokId - 1);
-            barek.getListSok().remove(inte);
+            barek.getListSok().removeIf(sok -> sokId==sok.getId());
             barekRepo.save(barek);
             return true;
         }
@@ -113,8 +111,8 @@ public class SkladnikService {
 
         if (barekRepo.findById(barId).isPresent()) {
             Barek barek = barekRepo.findById(barId).get();
-            int inte = (int) (syropId - 1);
-            barek.getListSyrop().remove(inte);
+            barek.getListSyrop().removeIf(syrop -> syrop.getId()==syropId);
+
             barekRepo.save(barek);
             return true;
         }
@@ -126,8 +124,7 @@ public class SkladnikService {
 
         if (barekRepo.findById(barId).isPresent()) {
             Barek barek = barekRepo.findById(barId).get();
-            int inte = (int) (innyId - 1);
-            barek.getListInny().remove(inte);
+            barek.getListInny().removeIf(inny -> inny.getId()==innyId);
             barekRepo.save(barek);
             return true;
         }

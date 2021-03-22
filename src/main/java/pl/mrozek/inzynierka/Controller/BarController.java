@@ -71,47 +71,105 @@ public class BarController {
     }
 
 
-    @GetMapping(value = "/{barID}/butelka/delete/{id}")
-    public String bottleDelete(Model model, @PathVariable("id") Long id, @PathVariable("barID") Long barid) {
-        skladnikService.deleteBottleFromBar(id, barid);
+    @PostMapping(value = "/{id}", params = "usunButla")
+    public String bottleDelete(Model model,@RequestParam long usunButla, @ModelAttribute("skladnikP") SkladnikP skladnikP, @PathVariable("id") long id) {
+
+        skladnikService.deleteBottleFromBar(usunButla, id);
         if (barekRepo.findById(id).isPresent()) {
             Barek barek = barekRepo.findById(id).get();
-            return skladnikService.completeBarModel(model, barek, 1);
+            return skladnikService.completeBarModel(model, barek, skladnikP.getRodzaj());
         }
-        return "redirect:/bar/" + barid;
+        return "redirect:/bar";
     }
 
 
-    @GetMapping(value = "/{barID}/sok/delete/{id}")
-    public String sokDelete(Model model, @PathVariable("id") Long id, @PathVariable("barID") Long barid) {
-        skladnikService.deleteSokFromBar(id, barid);
+    @PostMapping(value = "/{id}", params = "usunSok")
+    public String sokDelete(Model model,@RequestParam long usunSok, @ModelAttribute("skladnikP") SkladnikP skladnikP, @PathVariable("id") long id) {
+
+        skladnikService.deleteSokFromBar(usunSok, id);
         if (barekRepo.findById(id).isPresent()) {
             Barek barek = barekRepo.findById(id).get();
-            return skladnikService.completeBarModel(model, barek, 2);
+            return skladnikService.completeBarModel(model, barek, skladnikP.getRodzaj());
         }
-
-        return "redirect:/bar/" + barid;
+        return "redirect:/bar";
     }
 
-    @GetMapping(value = "/{barID}/syrop/delete/{id}")
-    public String syropDelete(Model model, @PathVariable("id") Long id, @PathVariable("barID") Long barid) {
-        skladnikService.deleteSyropFromBar(id, barid);
+    @PostMapping(value = "/{id}", params = "usunSyrop")
+    public String syropDelete(Model model,@RequestParam long usunSyrop, @ModelAttribute("skladnikP") SkladnikP skladnikP, @PathVariable("id") long id) {
+
+        System.out.println("usun syrop");
+        skladnikService.deleteSyropFromBar(usunSyrop, id);
         if (barekRepo.findById(id).isPresent()) {
             Barek barek = barekRepo.findById(id).get();
-            return skladnikService.completeBarModel(model, barek, 3);
+            return skladnikService.completeBarModel(model, barek, skladnikP.getRodzaj());
         }
-        return "redirect:/bar/" + barid;
+        return "redirect:/bar";
     }
 
-    @GetMapping(value = "/{barID}/inny/delete/{id}")
-    public String innyDelete(Model model, @PathVariable("id") Long id, @PathVariable("barID") Long barid) {
-        skladnikService.deleteInnyFromBar(id, barid);
+
+    @PostMapping(value = "/{id}", params = "usunInny")
+    public String innyDelete(Model model,@RequestParam long usunInny, @ModelAttribute("skladnikP") SkladnikP skladnikP, @PathVariable("id") long id) {
+
+        skladnikService.deleteInnyFromBar(usunInny, id);
         if (barekRepo.findById(id).isPresent()) {
             Barek barek = barekRepo.findById(id).get();
-            return skladnikService.completeBarModel(model, barek, 4);
+            return skladnikService.completeBarModel(model, barek, skladnikP.getRodzaj());
         }
-        return "redirect:/bar/" + barid;
+        return "redirect:/bar";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+//    @GetMapping(value = "/{barID}/butelka/delete/{id}")
+//    public String bottleDelete(Model model, @PathVariable("id") Long id, @PathVariable("barID") Long barid) {
+//        skladnikService.deleteBottleFromBar(id, barid);
+//        if (barekRepo.findById(id).isPresent()) {
+//            Barek barek = barekRepo.findById(id).get();
+//            return skladnikService.completeBarModel(model, barek, 1);
+//        }
+//        return "redirect:/bar/" + barid;
+//    }
+
+
+//    @GetMapping(value = "/{barID}/sok/delete/{id}")
+//    public String sokDelete(Model model, @PathVariable("id") Long id, @PathVariable("barID") Long barid) {
+//        skladnikService.deleteSokFromBar(id, barid);
+//        if (barekRepo.findById(id).isPresent()) {
+//            Barek barek = barekRepo.findById(id).get();
+//            return skladnikService.completeBarModel(model, barek, 2);
+//        }
+//
+//        return "redirect:/bar/" + barid;
+//    }
+//
+//    @GetMapping(value = "/{barID}/syrop/delete/{id}")
+//    public String syropDelete(Model model, @PathVariable("id") Long id, @PathVariable("barID") Long barid) {
+//        skladnikService.deleteSyropFromBar(id, barid);
+//        if (barekRepo.findById(id).isPresent()) {
+//            Barek barek = barekRepo.findById(id).get();
+//            return skladnikService.completeBarModel(model, barek, 3);
+//        }
+//        return "redirect:/bar/" + barid;
+//    }
+//
+//    @GetMapping(value = "/{barID}/inny/delete/{id}")
+//    public String innyDelete(Model model, @PathVariable("id") Long id, @PathVariable("barID") Long barid) {
+//        skladnikService.deleteInnyFromBar(id, barid);
+//        if (barekRepo.findById(id).isPresent()) {
+//            Barek barek = barekRepo.findById(id).get();
+//            return skladnikService.completeBarModel(model, barek, 4);
+//        }
+//        return "redirect:/bar/" + barid;
+//    }
 
 
 }

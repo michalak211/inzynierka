@@ -239,6 +239,24 @@
         usunbutton.classList.add("btn-default");
         usunbutton.type = "button";
 
+        // usunbutton.classList.add("form-control");
+        // usunbutton.value=obj.id;
+        //
+        // switch (rodzaj) {
+        //     case 1:
+        //         usunbutton.name="usunButla";
+        //         break;
+        //     case 2:
+        //         usunbutton.name="usunSok";
+        //         break;
+        //     case 3:
+        //         usunbutton.name="usunSyrop";
+        //         break;
+        //     case 4:
+        //         usunbutton.name="usunInny";
+        //         break;
+        // }
+
         usunbutton.addEventListener("click", function () {
             usunSkladnik(rodzaj, obj);
         }, true);
