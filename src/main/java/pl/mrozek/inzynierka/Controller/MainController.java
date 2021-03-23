@@ -262,6 +262,14 @@ public class MainController {
     }
 
 
+    @GetMapping(value = "/struktura")
+    public String strukturaEdit(Model model){
+
+        model.addAttribute("alkoList", alkoholRepo.findAll());
+
+        return "struktura";
+    }
+
 
 
 }

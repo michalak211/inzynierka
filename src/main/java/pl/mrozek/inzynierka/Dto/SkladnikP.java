@@ -31,8 +31,8 @@ public class SkladnikP {
 }
 
 //todo kolejnosc
-// przeglad butelek naglowki
 // edycja struktury skladnikow (alkohol-typ)
+// skladnik controller
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // kolorowanie po barze i brakujace skladniki
 // workhorse

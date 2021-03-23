@@ -113,17 +113,19 @@
         let head1text = document.createElement('output');
         head1text.value = "nazwa";
         if (rodzaj == 1) {
+            head1text.value = "typ alkoholu";
+
             let head4 = document.createElement('td');
             head4.classList.add('col-sm-2');
             let head4text = document.createElement('output');
-            head4text.value = "Alkohol";
+            head4text.value = "Butelka";
             head4.appendChild(head4text);
             headRow.appendChild(head4);
 
             let head3 = document.createElement('td');
             head3.classList.add('col-sm-2');
             let head3text = document.createElement('output');
-            head3text.value = "Typ";
+            head3text.value = "Rodzaj alkoholu";
             head3.appendChild(head3text);
             headRow.appendChild(head3);
         }
