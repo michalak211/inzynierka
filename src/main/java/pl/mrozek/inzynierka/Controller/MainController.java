@@ -64,11 +64,13 @@ public class MainController {
     @GetMapping("/test")
     public String test() {
 
-        System.out.println("testy heroku test");
+//        System.out.println("testy heroku test");
 //        if (butelkaRepo.findById((long)16).isPresent()) {
 //            Butelka butelka= butelkaRepo.findById((long)16).get();
 //            butelkaRepo.delete(butelka);
 //        }
+
+//        butelkaRepo.deleteById((long)31);
         return "redirect:/przegladaj";
 
     }
@@ -166,8 +168,6 @@ public class MainController {
         return "redirect:/skladniki";
     }
 
-
-
     @GetMapping(value = "/skladniki/dodajbutle")
     public String createBottle(Model model) {
 
@@ -180,7 +180,6 @@ public class MainController {
     @PostMapping(value = "/skladniki/dodajbutle", params = "dodaj")
     public String addBottle(Model model,@ModelAttribute("butelka") Butelka butelka) {
 
-
         if (butelkaRepo.findByNazwaEquals(butelka.getNazwa())==null) {
             butelkaRepo.save(mapper.butlaToBase(butelka));
             return skladnikService.completeSkladnikiModel(model, 1);
@@ -190,8 +189,32 @@ public class MainController {
             model.addAttribute("butelka", butelka);
             return "butelkaAdd";
         }
-
     }
+
+    @GetMapping(value = "/skladniki/butelka/edit/{id}")
+    public String editBottle(Model model, @PathVariable("id") long id){
+
+        if (butelkaRepo.findById(id).isPresent()){
+            Butelka butelka=butelkaRepo.findById(id).get();
+            model.addAttribute("skladnikList", alkoholRepo.findAll());
+            model.addAttribute("alkoList", alkoholRepo.findAll());
+            model.addAttribute("butelka", butelka);
+            return "butelkaAdd";
+        }
+        return "redirect:/skladniki";
+    }
+
+    @PostMapping(value = "/skladniki/butelka/edit/{id}", params = "dodaj")
+    public String editBottlePost(Model model, @PathVariable("id") long id,@ModelAttribute("butelka") Butelka butelka){
+
+        butelka.setId(id);
+        butelkaRepo.save(mapper.butlaToBase(butelka));
+//        return skladnikService.completeSkladnikiModel(model, 1);
+
+
+        return "redirect:/skladniki";
+    }
+
 
     @GetMapping(value = "/skladniki/dodajbutle/{id}")
     public String createBottletoBar(Model model, @PathVariable("id") Long id) {

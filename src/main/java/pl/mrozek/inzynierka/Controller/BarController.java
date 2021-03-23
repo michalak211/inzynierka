@@ -106,7 +106,6 @@ public class BarController {
         return "redirect:/bar";
     }
 
-
     @PostMapping(value = "/{id}", params = "usunInny")
     public String innyDelete(Model model,@RequestParam long usunInny, @ModelAttribute("skladnikP") SkladnikP skladnikP, @PathVariable("id") long id) {
 
