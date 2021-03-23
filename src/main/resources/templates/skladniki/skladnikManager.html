@@ -237,52 +237,53 @@
         usunbutton.innerHTML = "usun";
         usunbutton.classList.add("btn");
         usunbutton.classList.add("btn-default");
-        usunbutton.type = "button";
+        usunbutton.type = "submit";
 
-        // usunbutton.classList.add("form-control");
-        // usunbutton.value=obj.id;
-        //
-        // switch (rodzaj) {
-        //     case 1:
-        //         usunbutton.name="usunButla";
-        //         break;
-        //     case 2:
-        //         usunbutton.name="usunSok";
-        //         break;
-        //     case 3:
-        //         usunbutton.name="usunSyrop";
-        //         break;
-        //     case 4:
-        //         usunbutton.name="usunInny";
-        //         break;
-        // }
+        usunbutton.classList.add("form-control");
+        usunbutton.value=obj.id;
 
-        usunbutton.addEventListener("click", function () {
-            usunSkladnik(rodzaj, obj);
-        }, true);
+
+        switch (rodzaj) {
+            case 1:
+                usunbutton.name="usunButla";
+                break;
+            case 2:
+                usunbutton.name="usunSok";
+                break;
+            case 3:
+                usunbutton.name="usunSyrop";
+                break;
+            case 4:
+                usunbutton.name="usunInny";
+                break;
+        }
+
+        // usunbutton.addEventListener("click", function () {
+        //     usunSkladnik(rodzaj, obj);
+        // }, true);
 
         colUsun.appendChild(usunbutton);
         row.appendChild(colUsun);
         document.getElementById(elementName).appendChild(row);
 
 
-        function usunSkladnik(rodzaj, obj) {
-
-            switch (rodzaj) {
-                case 1:
-                    window.location.href = '/butelka/delete/' + obj.id;
-                    break;
-                case 2:
-                    window.location.href = '/sok/delete/' + obj.id;
-                    break;
-                case 3:
-                    window.location.href = '/syrop/delete/' + obj.id;
-                    break;
-                case 4:
-                    window.location.href = '/inny/delete/' + obj.id;
-                    break;
-            }
-        }
+        // function usunSkladnik(rodzaj, obj) {
+        //
+        //     switch (rodzaj) {
+        //         case 1:
+        //             window.location.href = '/butelka/delete/' + obj.id;
+        //             break;
+        //         case 2:
+        //             window.location.href = '/sok/delete/' + obj.id;
+        //             break;
+        //         case 3:
+        //             window.location.href = '/syrop/delete/' + obj.id;
+        //             break;
+        //         case 4:
+        //             window.location.href = '/inny/delete/' + obj.id;
+        //             break;
+        //     }
+        // }
 
         function toEdit(rodzaj, obj) {
             switch (rodzaj) {
@@ -323,7 +324,7 @@
         inputNewName.classList.add('form-control');
         inputNewName.setAttribute('name', 'nazwa');
         inputNewName.placeholder = "Nowa nazwa";
-        inputNewName.required = true;
+        // inputNewName.required = true;
         colNewName.appendChild(inputNewName);
         row.appendChild(colNewName);
 

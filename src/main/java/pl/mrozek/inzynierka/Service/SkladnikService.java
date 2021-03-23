@@ -95,6 +95,22 @@ public class SkladnikService {
     }
 
 
+    public boolean deleteBottle(long bottleId){
+        if (butelkaRepo.findById(bottleId).isPresent()){
+            Butelka butelka=butelkaRepo.findById(bottleId).get();
+
+            List<Barek> barekList=barekRepo.findAllByButelkaListContaining(butelka);
+            for (Barek barek:barekList){
+                barek.getButelkaList().removeIf(butelkaBar -> butelkaBar.getId() == bottleId);
+                barekRepo.save(barek);
+            }
+            butelkaRepo.delete(butelka);
+            return true;
+        }
+        return false;
+    }
+
+
     public boolean deleteSokFromBar(long sokId, long barId) {
 
         if (barekRepo.findById(barId).isPresent()) {
@@ -107,18 +123,49 @@ public class SkladnikService {
         return false;
     }
 
+
+    public boolean deleteSok(long sokId){
+        if (sokRepo.findById(sokId).isPresent()){
+            Sok sok=sokRepo.findById(sokId).get();
+
+            List<Barek> barekList=barekRepo.findAllByListSokContaining(sok);
+            for (Barek barek:barekList){
+                barek.getListSok().removeIf(butelkaBar -> butelkaBar.getId() == sokId);
+                barekRepo.save(barek);
+            }
+            sokRepo.delete(sok);
+            return true;
+        }
+        return false;
+    }
+
+
     public boolean deleteSyropFromBar(long syropId, long barId) {
 
         if (barekRepo.findById(barId).isPresent()) {
             Barek barek = barekRepo.findById(barId).get();
             barek.getListSyrop().removeIf(syrop -> syrop.getId()==syropId);
-
             barekRepo.save(barek);
             return true;
         }
-
         return false;
     }
+
+    public boolean deleteSyrop(long syropId){
+        if (syropRepo.findById(syropId).isPresent()){
+            Syrop syrop=syropRepo.findById(syropId).get();
+
+            List<Barek> barekList=barekRepo.findAllByListSyropContaining(syrop);
+            for (Barek barek:barekList){
+                barek.getListSyrop().removeIf(butelkaBar -> butelkaBar.getId() == syropId);
+                barekRepo.save(barek);
+            }
+            syropRepo.delete(syrop);
+            return true;
+        }
+        return false;
+    }
+
 
     public boolean deleteInnyFromBar(long innyId, long barId) {
 
@@ -128,9 +175,25 @@ public class SkladnikService {
             barekRepo.save(barek);
             return true;
         }
-
         return false;
     }
+
+    public boolean deleteInny(long innyId){
+        if (innyRepo.findById(innyId).isPresent()){
+            Inny inny=innyRepo.findById(innyId).get();
+
+            List<Barek> barekList=barekRepo.findAllByListInnyContaining(inny);
+            for (Barek barek:barekList){
+                barek.getListSyrop().removeIf(butelkaBar -> butelkaBar.getId() == innyId);
+                barekRepo.save(barek);
+            }
+            innyRepo.delete(inny);
+            return true;
+        }
+        return false;
+    }
+
+
 
     public boolean addToBar(SkladnikP skladnikP, Long barId) {
         if (barekRepo.findById(barId).isPresent()) {

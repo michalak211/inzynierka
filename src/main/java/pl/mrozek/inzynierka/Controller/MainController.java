@@ -107,13 +107,6 @@ public class MainController {
             InputStream inputStream= getClass().getResourceAsStream("/static/img/fotka.jpg");
             byte[] bytes = IOUtils.toByteArray(inputStream);
             response.getOutputStream().write(bytes);
-
-//            try {
-//                byte[] bytes = Files.readAllBytes(Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource("/static/img/fotka.jpg")).toURI()));
-//                response.getOutputStream().write(bytes);
-//            } catch (URISyntaxException e) {
-//                e.printStackTrace();
-//            }
         }
         response.getOutputStream().close();
 
@@ -131,9 +124,49 @@ public class MainController {
     @PostMapping(value = "/skladniki", params = "dodaj")
     public String skladnikDodaj(Model model, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
 
-        skladnikService.saveSkladnik(skladnikP);
+        if (skladnikP.getNazwa()!=null&&!skladnikP.getNazwa().equals("")) {
+            skladnikService.saveSkladnik(skladnikP);
+        }
         return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
     }
+
+    @PostMapping(value = "/skladniki", params = "usunButla")
+    public String bottleDelete(Model model,@RequestParam long usunButla, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
+
+        if (skladnikService.deleteBottle(usunButla)) {
+            return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
+        }
+        return "redirect:/skladniki";
+    }
+
+    @PostMapping(value = "/skladniki", params = "usunSok")
+    public String sokDelete(Model model,@RequestParam long usunSok, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
+
+        if (skladnikService.deleteSok(usunSok)) {
+            return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
+        }
+        return "redirect:/skladniki";
+    }
+
+    @PostMapping(value = "/skladniki", params = "usunSyrop")
+    public String syropDelete(Model model,@RequestParam long usunSyrop, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
+
+        if (skladnikService.deleteSyrop(usunSyrop)) {
+            return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
+        }
+        return "redirect:/skladniki";
+    }
+
+    @PostMapping(value = "/skladniki", params = "usunInny")
+    public String innyDelete(Model model,@RequestParam long usunInny, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
+
+        if (skladnikService.deleteInny(usunInny)) {
+            return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
+        }
+        return "redirect:/skladniki";
+    }
+
+
 
     @GetMapping(value = "/skladniki/dodajbutle")
     public String createBottle(Model model) {
