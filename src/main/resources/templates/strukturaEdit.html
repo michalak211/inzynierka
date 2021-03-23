@@ -3,7 +3,7 @@
 <!--<html lang="en">-->
 <head>
     <div th:replace="fragments/header :: header-css"></div>
-    <title>Struktura</title>
+    <title>Alkohol Edycja</title>
 
 </head>
 <body>
@@ -18,14 +18,14 @@
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
                             <div class="row">
-                                <label id="tytul" class="col-md-9 control-label">Przegląd struktury alkoholi</label>
+                                <label id="tytul" class="col-md-9 control-label " th:text="${alkohol.nazwa}"></label>
                             </div>
                         </div>
 
                     </div>
                     <div class="panel-body">
                         <form class="form-horizontal row-border" action=""
-                              th:object="${skladnikP}" method="post">
+                              th:object="${alkohol}" method="post">
 
 
                             <div class="form-group">
@@ -56,86 +56,49 @@
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 <script th:inline="javascript">
-    let alkoList = [[${alkoList}]];
-    // console.log(alkoList);
+
+    let alkohol= [[${alkohol}]];
     let rowIndexSelector = 'selector';
 
-    let clearTable = function (elementName) {
-        let clearTable = document.getElementById(elementName);
-        clearTable.innerHTML = "";
-    }
-    let firstRow = function (elementName) {
+    let firstRow=function (elementName){
 
     }
 
-    function toEdit( obj) {
-                window.location.href = '/struktura/edit/' + obj.id;
-    }
-
-
-    let addRow = function (elementName, alkohol) {
+    let addRow= function (elementName,typ){
         let rowIndex = document.querySelectorAll(rowIndexSelector).length;
         let row = document.createElement('tr');
         row.classList.add(rowIndexSelector.substr(1));
 
-        let colNazwa = document.createElement('td');
-        colNazwa.classList.add('col-sm-4');
-        let inputNazwa = document.createElement('output');
-        // inputNazwa.type = 'text';
-        // inputNazwa.classList.add('form-control');
-        // inputNazwa.id = 'nazwa';
-        // inputNazwa.setAttribute('name', 'nazwa');
-        inputNazwa.value = alkohol.nazwa;
 
-        colNazwa.appendChild(inputNazwa);
-        row.appendChild(colNazwa);
+
 
         let colTyp = document.createElement('td');
         colTyp.classList.add('col-sm-4');
-        let outputTyp = document.createElement('select');
+        let outputTyp = document.createElement('input');
+        outputTyp.type = 'text';
+        outputTyp.value=typ.nazwa;
+
         outputTyp.classList.add('form-control');
         outputTyp.id = 'typ';
-        // outputTyp.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
+        outputTyp.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'typ');
         colTyp.appendChild(outputTyp);
         row.appendChild(colTyp);
 
-        alkohol.typList.forEach((typ) => {
-            let option = document.createElement("option");
-            option.value = typ.nazwa;
-            option.text = typ.nazwa;
-            outputTyp.appendChild(option);
-        });
-
-        let colEdit = document.createElement('td');
-        colEdit.classList.add('col-sm-2');
-        let editbutton = document.createElement("BUTTON");
-        editbutton.innerHTML = "edytuj";
-        editbutton.classList.add("btn");
-        editbutton.classList.add("btn-default");
-        editbutton.type = "button";
-
-        colEdit.appendChild(editbutton);
-        row.appendChild(colEdit);
-
-        editbutton.addEventListener("click", function () {
-            toEdit(alkohol);
-        }, true);
-
 
         document.getElementById(elementName).appendChild(row);
+
     }
 
     let creator = function (elementName) {
         firstRow(elementName);
-        alkoList.forEach((alkohol) => {
 
-            addRow(elementName, alkohol);
-
+        alkohol.typList.forEach((typ) => {
+            addRow(elementName,typ);
         });
+
     }
 
     creator('MainTable');
-
 
 </script>
 </html>

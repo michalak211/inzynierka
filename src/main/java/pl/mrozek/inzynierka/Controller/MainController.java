@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
 import pl.mrozek.inzynierka.Entity.bar.Butelka;
+import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
 import pl.mrozek.inzynierka.Service.SkladnikService;
@@ -55,7 +56,7 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String tytulowa(){
+    public String tytulowa() {
         System.out.println("testy6 heroku main");
         return "tytulowa";
 
@@ -106,15 +107,13 @@ public class MainController {
         if (koktailService.getPhoto(id) != null) {
             response.getOutputStream().write(koktailService.getPhoto(id));
         } else {
-            InputStream inputStream= getClass().getResourceAsStream("/static/img/fotka.jpg");
+            InputStream inputStream = getClass().getResourceAsStream("/static/img/fotka.jpg");
             byte[] bytes = IOUtils.toByteArray(inputStream);
             response.getOutputStream().write(bytes);
         }
         response.getOutputStream().close();
 
     }
-
-
 
 
     @GetMapping(value = "/skladniki")
@@ -126,14 +125,14 @@ public class MainController {
     @PostMapping(value = "/skladniki", params = "dodaj")
     public String skladnikDodaj(Model model, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
 
-        if (skladnikP.getNazwa()!=null&&!skladnikP.getNazwa().equals("")) {
+        if (skladnikP.getNazwa() != null && !skladnikP.getNazwa().equals("")) {
             skladnikService.saveSkladnik(skladnikP);
         }
         return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
     }
 
     @PostMapping(value = "/skladniki", params = "usunButla")
-    public String bottleDelete(Model model,@RequestParam long usunButla, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
+    public String bottleDelete(Model model, @RequestParam long usunButla, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
 
         if (skladnikService.deleteBottle(usunButla)) {
             return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
@@ -142,7 +141,7 @@ public class MainController {
     }
 
     @PostMapping(value = "/skladniki", params = "usunSok")
-    public String sokDelete(Model model,@RequestParam long usunSok, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
+    public String sokDelete(Model model, @RequestParam long usunSok, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
 
         if (skladnikService.deleteSok(usunSok)) {
             return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
@@ -151,7 +150,7 @@ public class MainController {
     }
 
     @PostMapping(value = "/skladniki", params = "usunSyrop")
-    public String syropDelete(Model model,@RequestParam long usunSyrop, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
+    public String syropDelete(Model model, @RequestParam long usunSyrop, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
 
         if (skladnikService.deleteSyrop(usunSyrop)) {
             return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
@@ -160,7 +159,7 @@ public class MainController {
     }
 
     @PostMapping(value = "/skladniki", params = "usunInny")
-    public String innyDelete(Model model,@RequestParam long usunInny, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
+    public String innyDelete(Model model, @RequestParam long usunInny, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
 
         if (skladnikService.deleteInny(usunInny)) {
             return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
@@ -178,12 +177,12 @@ public class MainController {
     }
 
     @PostMapping(value = "/skladniki/dodajbutle", params = "dodaj")
-    public String addBottle(Model model,@ModelAttribute("butelka") Butelka butelka) {
+    public String addBottle(Model model, @ModelAttribute("butelka") Butelka butelka) {
 
-        if (butelkaRepo.findByNazwaEquals(butelka.getNazwa())==null) {
+        if (butelkaRepo.findByNazwaEquals(butelka.getNazwa()) == null) {
             butelkaRepo.save(mapper.butlaToBase(butelka));
             return skladnikService.completeSkladnikiModel(model, 1);
-        }else {
+        } else {
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
             model.addAttribute("butelka", butelka);
@@ -192,10 +191,10 @@ public class MainController {
     }
 
     @GetMapping(value = "/skladniki/butelka/edit/{id}")
-    public String editBottle(Model model, @PathVariable("id") long id){
+    public String editBottle(Model model, @PathVariable("id") long id) {
 
-        if (butelkaRepo.findById(id).isPresent()){
-            Butelka butelka=butelkaRepo.findById(id).get();
+        if (butelkaRepo.findById(id).isPresent()) {
+            Butelka butelka = butelkaRepo.findById(id).get();
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
             model.addAttribute("butelka", butelka);
@@ -205,7 +204,7 @@ public class MainController {
     }
 
     @PostMapping(value = "/skladniki/butelka/edit/{id}", params = "dodaj")
-    public String editBottlePost(Model model, @PathVariable("id") long id,@ModelAttribute("butelka") Butelka butelka){
+    public String editBottlePost(Model model, @PathVariable("id") long id, @ModelAttribute("butelka") Butelka butelka) {
 
         butelka.setId(id);
         butelkaRepo.save(mapper.butlaToBase(butelka));
@@ -226,13 +225,13 @@ public class MainController {
     }
 
     @PostMapping(value = "/skladniki/dodajbutle/{id}", params = "dodaj")
-    public String addBottletoBar(Model model,@ModelAttribute("butelka") Butelka butelka, @PathVariable("id") Long id) {
+    public String addBottletoBar(Model model, @ModelAttribute("butelka") Butelka butelka, @PathVariable("id") Long id) {
 
-        if (butelkaRepo.findByNazwaEquals(butelka.getNazwa())==null) {
+        if (butelkaRepo.findByNazwaEquals(butelka.getNazwa()) == null) {
             butelkaRepo.save(mapper.butlaToBase(butelka));
             Butelka butelka1 = butelkaRepo.findByNazwaEquals(butelka.getNazwa());
             skladnikService.addBottleToBar(butelka1.getId(), id);
-        }else {
+        } else {
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
             model.addAttribute("butelka", mapper.butlaToForm(butelka));
@@ -243,33 +242,52 @@ public class MainController {
     }
 
     @GetMapping(value = "/skladniki/edit/{id}")
-    public String editSkladnik(Model model, @PathVariable("id") Long id){
+    public String editSkladnik(Model model, @PathVariable("id") Long id) {
 
-            SkladnikP skladnikP= mapper.toSkladnikP(id);
-
-            model.addAttribute("skladnikP",skladnikP);
-
+        SkladnikP skladnikP = mapper.toSkladnikP(id);
+        model.addAttribute("skladnikP", skladnikP);
         return "skladniki/skladnikEditor";
     }
+
     @PostMapping(value = "/skladniki/edit/{id}", params = "zapisz")
-    public String saveEdit(Model model, @ModelAttribute("skladnikP") SkladnikP skladnikP, @PathVariable("id") Long id){
-
-        System.out.println(skladnikP);
-
+    public String saveEdit(Model model, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
         skladnikService.editSkladnik(skladnikP);
-
-        return skladnikService.completeSkladnikiModel(model,skladnikP.getRodzaj());
+        return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
     }
 
 
     @GetMapping(value = "/struktura")
-    public String strukturaEdit(Model model){
+    public String struktura(Model model) {
 
         model.addAttribute("alkoList", alkoholRepo.findAll());
+//        for (Alkohol alkohol:alkoholRepo.findAll()){
+//            System.out.println(alkohol.getNazwa());
+//        }
 
         return "struktura";
     }
 
+    @GetMapping(value = "/struktura/edit/{id}")
+    public String strukturaEdit(Model model, @PathVariable("id") Long id) {
+
+        if (alkoholRepo.findById(id).isPresent()) {
+            Alkohol alkohol = alkoholRepo.findById(id).get();
+            model.addAttribute("alkohol", alkohol);
+            return "strukturaEdit";
+        }
+        return "redirect:/struktura";
+    }
+
+    @PostMapping(value = "/struktura/edit/{id}")
+    public String strukturaEditPost(Model model, @ModelAttribute("alkohol") Alkohol alkohol, @PathVariable("id") Long id) {
+
+
+        System.out.println(alkohol);
+
+
+
+        return "redirect:/struktura";
+    }
 
 
 }

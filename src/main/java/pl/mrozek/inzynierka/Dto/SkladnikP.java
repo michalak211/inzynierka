@@ -32,6 +32,11 @@ public class SkladnikP {
 
 //todo kolejnosc
 // edycja struktury skladnikow (alkohol-typ)
+// w przycisku edytuj nazwa alkoholu (np. whyskey) w polu tekstowym i lista typow wypisana
+// struktura firstRow
+// edycja poprzez zmianew polu tekstowym + przycisk usun przy kazdym
+// usun odswieza strone z juz usunietym typem (przez id, jak w skladnikach)
+// odczyt calosci jako obiekt (nie pamietanm gdzie pzryklad)
 // skladnik controller
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // kolorowanie po barze i brakujace skladniki
