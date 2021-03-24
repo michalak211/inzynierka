@@ -318,19 +318,7 @@ public class MainController {
     @PostMapping(value = "/struktura/edit/{id}", params = "dodaj")
     public String addTyp(Model model, @RequestParam String nowyTyp, @PathVariable("id") Long id) {
 
-        System.out.println(nowyTyp);
         skladnikService.addTyp(id,nowyTyp);
-//        if (alkoholRepo.findById(id).isPresent()) {
-//            Alkohol alkohol = alkoholRepo.findById(id).get();
-//            if (typRepo.findByNazwaEquals(nowyTyp) == null) {
-//                Typ newTyp = new Typ();
-//                newTyp.setNazwa(nowyTyp);
-//                newTyp.setAlkoholID(alkohol.getId());
-//                typRepo.save(newTyp);
-//                alkohol.getTypList().add(newTyp);
-//                alkoholRepo.save(alkohol);
-//            }
-//        }
         return "redirect:/struktura/edit/" + id;
     }
 

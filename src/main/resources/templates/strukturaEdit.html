@@ -104,23 +104,27 @@
         row.appendChild(colTyp);
 
 
+        outputTyp.disabled=true;
+        if (outputTyp.value!=='Dowolny') {
+
+            outputTyp.disabled=false;
 
 
-        let colUsun = document.createElement('td');
-        colUsun.classList.add('col-sm-2');
-        let usunbutton = document.createElement("BUTTON");
-        usunbutton.innerHTML = "usun";
-        usunbutton.classList.add("btn");
-        usunbutton.classList.add("btn-default");
-        usunbutton.type = "submit";
+            let colUsun = document.createElement('td');
+            colUsun.classList.add('col-sm-2');
+            let usunbutton = document.createElement("BUTTON");
+            usunbutton.innerHTML = "usun";
+            usunbutton.classList.add("btn");
+            usunbutton.classList.add("btn-default");
+            usunbutton.type = "submit";
 
-        usunbutton.classList.add("form-control");
-        usunbutton.value=typ.id;
-        usunbutton.name="usunTyp";
+            usunbutton.classList.add("form-control");
+            usunbutton.value = typ.id;
+            usunbutton.name = "usunTyp";
 
-
-        colUsun.appendChild(usunbutton);
-        row.appendChild(colUsun);
+            colUsun.appendChild(usunbutton);
+            row.appendChild(colUsun);
+        }
 
 
 
@@ -140,7 +144,6 @@
         outputTyp.id = 'nowyTyp';
         outputTyp.name="nowyTyp";
         // outputTyp.value=typ.id;
-        outputTyp.name="dodaj";
 
         // outputTyp.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'nazwa');
         colTyp.appendChild(outputTyp);

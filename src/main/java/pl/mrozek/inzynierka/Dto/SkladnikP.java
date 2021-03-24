@@ -32,9 +32,7 @@ public class SkladnikP {
 
 //todo kolejnosc
 // edycja struktury skladnikow (alkohol-typ)
-// zablokowac dowolny przed usuwaniem
 // struktura firstRow
-// dodawanie @rewuest parameter
 // uładnić
 // skladnik controller
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
