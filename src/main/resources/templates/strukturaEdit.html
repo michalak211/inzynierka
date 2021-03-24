@@ -63,11 +63,21 @@
     let rowIndexSelector = '.selector';
 
     let firstRow=function (elementName){
-        let row = document.createElement('tr');
 
+        let headRow = document.createElement('tr');
+
+        let head1 = document.createElement('td');
+        head1.classList.add('col-sm-2');
+        let head1text = document.createElement('output');
+        head1text.value = "Alkohol";
+        head1.appendChild(head1text);
+        headRow.appendChild(head1);
+        document.getElementById(elementName).appendChild(headRow);
+
+
+        let row = document.createElement('tr');
         let colNazwa=document.createElement('td');
         colNazwa.classList.add('col-sm-4');
-
         let outputNazwa = document.createElement('input');
         outputNazwa.type = 'text';
         outputNazwa.value=alkohol.nazwa;
@@ -79,8 +89,21 @@
         row.appendChild(colNazwa);
 
 
-
         document.getElementById(elementName).appendChild(row);
+
+
+        let headRow2 = document.createElement('tr');
+
+        let head2 = document.createElement('td');
+        head2.classList.add('col-sm-2');
+        let head2text = document.createElement('output');
+        head2text.value = "Typ";
+        head2.appendChild(head2text);
+        headRow2.appendChild(head2);
+        document.getElementById(elementName).appendChild(headRow2);
+
+
+
     };
 
     let addRow= function (elementName,typ){
@@ -133,8 +156,18 @@
     };
 
     let endRow= function(elementName){
-        let row = document.createElement('tr');
 
+        let headRow = document.createElement('tr');
+
+        let head1 = document.createElement('td');
+        head1.classList.add('col-sm-2');
+        let head1text = document.createElement('output');
+        head1text.value = "Dodaj nowy typ";
+        head1.appendChild(head1text);
+        headRow.appendChild(head1);
+        document.getElementById(elementName).appendChild(headRow);
+
+        let row = document.createElement('tr');
         let colTyp = document.createElement('td');
         colTyp.classList.add('col-sm-4');
         let outputTyp = document.createElement('input');
@@ -143,12 +176,9 @@
         outputTyp.classList.add('form-control');
         outputTyp.id = 'nowyTyp';
         outputTyp.name="nowyTyp";
-        // outputTyp.value=typ.id;
 
-        // outputTyp.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'nazwa');
         colTyp.appendChild(outputTyp);
         row.appendChild(colTyp);
-
 
         let colUsun = document.createElement('td');
         colUsun.classList.add('col-sm-2');
@@ -159,15 +189,10 @@
         usunbutton.type = "submit";
 
         usunbutton.classList.add("form-control");
-        // usunbutton.value=typ.id;
         usunbutton.name="dodaj";
-
 
         colUsun.appendChild(usunbutton);
         row.appendChild(colUsun);
-
-
-
         document.getElementById(elementName).appendChild(row);
 
 

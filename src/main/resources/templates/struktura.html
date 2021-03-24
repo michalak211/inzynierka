@@ -57,19 +57,33 @@
 </body>
 <script th:inline="javascript">
     let alkoList = [[${alkoList}]];
-    // console.log(alkoList);
     let rowIndexSelector = 'selector';
 
-    let clearTable = function (elementName) {
-        let clearTable = document.getElementById(elementName);
-        clearTable.innerHTML = "";
-    };
+
     let firstRow = function (elementName) {
 
+        let headRow = document.createElement('tr');
+        headRow.classList.add(rowIndexSelector.substr(1));
+        let head1 = document.createElement('td');
+        head1.classList.add('col-sm-4');
+        let head2 = document.createElement('td');
+        head2.classList.add('col-sm-2');
+
+        let head1text = document.createElement('output');
+        head1text.value = "Alkohol";
+        let head2text = document.createElement('output');
+        head2text.value = "Typ";
+
+
+        head2.appendChild(head2text);
+        head1.appendChild(head1text);
+        headRow.appendChild(head1);
+        headRow.appendChild(head2);
+        document.getElementById(elementName).appendChild(headRow);
     };
 
-    function toEdit( obj) {
-                window.location.href = '/struktura/edit/' + obj.id;
+    function toEdit(obj) {
+        window.location.href = '/struktura/edit/' + obj.id;
     }
 
 
@@ -81,10 +95,6 @@
         let colNazwa = document.createElement('td');
         colNazwa.classList.add('col-sm-4');
         let inputNazwa = document.createElement('output');
-        // inputNazwa.type = 'text';
-        // inputNazwa.classList.add('form-control');
-        // inputNazwa.id = 'nazwa';
-        // inputNazwa.setAttribute('name', 'nazwa');
         inputNazwa.value = alkohol.nazwa;
 
         colNazwa.appendChild(inputNazwa);
@@ -95,7 +105,6 @@
         let outputTyp = document.createElement('select');
         outputTyp.classList.add('form-control');
         outputTyp.id = 'typ';
-        // outputTyp.setAttribute('name', listName + '[' + rowIndex + '].' + 'typ');
         colTyp.appendChild(outputTyp);
         row.appendChild(colTyp);
 
@@ -125,13 +134,51 @@
         document.getElementById(elementName).appendChild(row);
     }
 
+    let endRow = function (elementName) {
+        let row = document.createElement('tr');
+
+        let colTyp = document.createElement('td');
+        colTyp.classList.add('col-sm-4');
+        let outputTyp = document.createElement('input');
+        outputTyp.type = 'text';
+        outputTyp.placeholder = "nowy alkohol";
+        outputTyp.classList.add('form-control');
+        outputTyp.id = 'nowyAlko';
+        outputTyp.name = "nowyAlko";
+        // outputTyp.value=typ.id;
+
+        colTyp.appendChild(outputTyp);
+        row.appendChild(colTyp);
+
+
+        let colUsun = document.createElement('td');
+        colUsun.classList.add('col-sm-2');
+        let usunbutton = document.createElement("BUTTON");
+        usunbutton.innerHTML = "dodaj alkohol";
+        usunbutton.classList.add("btn");
+        usunbutton.classList.add("btn-default");
+        usunbutton.type = "submit";
+
+        usunbutton.classList.add("form-control");
+        // usunbutton.value=typ.id;
+        usunbutton.name = "dodaj";
+
+
+        colUsun.appendChild(usunbutton);
+        row.appendChild(colUsun);
+
+
+        document.getElementById(elementName).appendChild(row);
+
+
+    }
+
     let creator = function (elementName) {
         firstRow(elementName);
         alkoList.forEach((alkohol) => {
-
             addRow(elementName, alkohol);
-
         });
+        endRow(elementName);
     }
 
     creator('MainTable');

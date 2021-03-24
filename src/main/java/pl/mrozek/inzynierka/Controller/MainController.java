@@ -273,14 +273,19 @@ public class MainController {
 
     @GetMapping(value = "/struktura")
     public String struktura(Model model) {
-
         model.addAttribute("alkoList", alkoholRepo.findAll());
-//        for (Alkohol alkohol:alkoholRepo.findAll()){
-//            System.out.println(alkohol.getNazwa());
-//        }
-
         return "struktura";
     }
+
+    @PostMapping(value = "/struktura", params = "dodaj")
+    public String strukturaAdd(Model model,@RequestParam String nowyAlko) {
+
+        skladnikService.addNewAlko(nowyAlko);
+        model.addAttribute("alkoList", alkoholRepo.findAll());
+        return "struktura";
+    }
+
+
 
     @GetMapping(value = "/struktura/edit/{id}")
     public String strukturaEdit(Model model, @PathVariable("id") Long id) {
@@ -295,16 +300,12 @@ public class MainController {
 
     @PostMapping(value = "/struktura/edit/{id}", params = "zapisz")
     public String strukturaEditPost(Model model, @ModelAttribute("alkohol") Alkohol alkohol, @PathVariable("id") Long id) {
-
         return skladnikService.editAlko(id, alkohol, model);
     }
-
 
     @Transactional
     @PostMapping(value = "/struktura/edit/{id}", params = "usunTyp")
     public String typDelete(Model model, @RequestParam long usunTyp, @PathVariable("id") Long id) {
-
-
         if (skladnikService.deleteTyp(usunTyp, id)) {
             if (alkoholRepo.findById(id).isPresent()) {
                 Alkohol alkoholBaza = alkoholRepo.findById(id).get();

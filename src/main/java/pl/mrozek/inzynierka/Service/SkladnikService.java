@@ -451,4 +451,19 @@ public class SkladnikService {
         }
     }
 
+    public void addNewAlko(String nazwa){
+        Alkohol alkohol = new Alkohol();
+        alkohol.setNazwa(nazwa);
+        Typ newTyp = new Typ();
+        newTyp.setNazwa("Dowolny");
+        alkoholRepo.save(alkohol);
+        newTyp.setAlkoholID(alkohol.getId());
+        typRepo.save(newTyp);
+
+        List<Typ> alkolist = new ArrayList<>();
+        alkolist.add(newTyp);
+        alkohol.setTypList(alkolist);
+        alkoholRepo.save(alkohol);
+    }
+
 }
