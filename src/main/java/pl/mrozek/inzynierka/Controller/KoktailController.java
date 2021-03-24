@@ -76,9 +76,6 @@ public class KoktailController {
         koktajl = mapper.toKoktajl(koktajl, koktajlForm);
         koktailRepo.save(koktajl);
 
-//        model.addAttribute("alkoholList", alkoholRepo.findAll());
-//        model.addAttribute("typList", typRepo.findAll());
-//        model.addAttribute("koktajlList", koktailService.getAllUserForms());
         return "redirect:/przegladaj";
 
     }
@@ -124,6 +121,7 @@ public class KoktailController {
     public String editKoktajlPost(@PathVariable Long id, @ModelAttribute("koktajlForm") KoktajlForm koktajlForm, Model model) {
 
 
+        System.out.println();
         if (koktailRepo.findById(id).isPresent()) {
             Koktajl koktajl = koktailRepo.findById(id).get();
             koktajl = mapper.toKoktajl(koktajl, koktajlForm);

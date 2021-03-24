@@ -9,6 +9,7 @@ import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
 import pl.mrozek.inzynierka.Entity.bar.Butelka;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
+import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
 import pl.mrozek.inzynierka.Service.SkladnikService;
@@ -21,6 +22,7 @@ import javax.transaction.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 
 @Controller
@@ -72,6 +74,19 @@ public class MainController {
 //        }
 
 //        butelkaRepo.deleteById((long)31);
+
+//        List<Typ> typList= (List<Typ>) typRepo.findAll();
+//        for (Typ typ:typList){
+//            if (typ.getAlkoholID()==2){
+//                long tempid=typ.getId();
+//                Typ typ1=new Typ();
+//                typ1.setId(tempid);
+//                typRepo.save(typ1);
+//
+//                typRepo.delete(typ1);
+//            }
+//        }
+
         return "redirect:/przegladaj";
 
     }
@@ -278,16 +293,45 @@ public class MainController {
         return "redirect:/struktura";
     }
 
-    @PostMapping(value = "/struktura/edit/{id}")
+    @PostMapping(value = "/struktura/edit/{id}", params = "zapisz")
     public String strukturaEditPost(Model model, @ModelAttribute("alkohol") Alkohol alkohol, @PathVariable("id") Long id) {
 
-
-        System.out.println(alkohol);
-
-
-
-        return "redirect:/struktura";
+        return skladnikService.editAlko(id, alkohol, model);
     }
 
+
+    @Transactional
+    @PostMapping(value = "/struktura/edit/{id}", params = "usunTyp")
+    public String typDelete(Model model, @RequestParam long usunTyp, @PathVariable("id") Long id) {
+
+
+        if (skladnikService.deleteTyp(usunTyp, id)) {
+            if (alkoholRepo.findById(id).isPresent()) {
+                Alkohol alkoholBaza = alkoholRepo.findById(id).get();
+                model.addAttribute("alkohol", alkoholBaza);
+                return "strukturaEdit";
+            }
+        }
+        return "redirect:/struktura/edit/" + id;
+    }
+
+    @PostMapping(value = "/struktura/edit/{id}", params = "dodaj")
+    public String addTyp(Model model, @RequestParam String nowyTyp, @PathVariable("id") Long id) {
+
+        System.out.println(nowyTyp);
+        skladnikService.addTyp(id,nowyTyp);
+//        if (alkoholRepo.findById(id).isPresent()) {
+//            Alkohol alkohol = alkoholRepo.findById(id).get();
+//            if (typRepo.findByNazwaEquals(nowyTyp) == null) {
+//                Typ newTyp = new Typ();
+//                newTyp.setNazwa(nowyTyp);
+//                newTyp.setAlkoholID(alkohol.getId());
+//                typRepo.save(newTyp);
+//                alkohol.getTypList().add(newTyp);
+//                alkoholRepo.save(alkohol);
+//            }
+//        }
+        return "redirect:/struktura/edit/" + id;
+    }
 
 }

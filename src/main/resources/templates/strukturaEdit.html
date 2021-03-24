@@ -44,8 +44,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <button type="submit" class="btn btn-primary" name="zapisz">Zapisz</button>
 
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -58,11 +60,28 @@
 <script th:inline="javascript">
 
     let alkohol= [[${alkohol}]];
-    let rowIndexSelector = 'selector';
+    let rowIndexSelector = '.selector';
 
     let firstRow=function (elementName){
+        let row = document.createElement('tr');
 
-    }
+        let colNazwa=document.createElement('td');
+        colNazwa.classList.add('col-sm-4');
+
+        let outputNazwa = document.createElement('input');
+        outputNazwa.type = 'text';
+        outputNazwa.value=alkohol.nazwa;
+
+        outputNazwa.classList.add('form-control');
+        outputNazwa.id = 'alkohol';
+        outputNazwa.setAttribute('name', 'nazwa');
+        colNazwa.appendChild(outputNazwa);
+        row.appendChild(colNazwa);
+
+
+
+        document.getElementById(elementName).appendChild(row);
+    };
 
     let addRow= function (elementName,typ){
         let rowIndex = document.querySelectorAll(rowIndexSelector).length;
@@ -80,14 +99,76 @@
 
         outputTyp.classList.add('form-control');
         outputTyp.id = 'typ';
-        outputTyp.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'typ');
+        outputTyp.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'nazwa');
         colTyp.appendChild(outputTyp);
         row.appendChild(colTyp);
 
 
+
+
+        let colUsun = document.createElement('td');
+        colUsun.classList.add('col-sm-2');
+        let usunbutton = document.createElement("BUTTON");
+        usunbutton.innerHTML = "usun";
+        usunbutton.classList.add("btn");
+        usunbutton.classList.add("btn-default");
+        usunbutton.type = "submit";
+
+        usunbutton.classList.add("form-control");
+        usunbutton.value=typ.id;
+        usunbutton.name="usunTyp";
+
+
+        colUsun.appendChild(usunbutton);
+        row.appendChild(colUsun);
+
+
+
         document.getElementById(elementName).appendChild(row);
 
-    }
+    };
+
+    let endRow= function(elementName){
+        let row = document.createElement('tr');
+
+        let colTyp = document.createElement('td');
+        colTyp.classList.add('col-sm-4');
+        let outputTyp = document.createElement('input');
+        outputTyp.type = 'text';
+        outputTyp.placeholder="nowy typ";
+        outputTyp.classList.add('form-control');
+        outputTyp.id = 'nowyTyp';
+        outputTyp.name="nowyTyp";
+        // outputTyp.value=typ.id;
+        outputTyp.name="dodaj";
+
+        // outputTyp.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'nazwa');
+        colTyp.appendChild(outputTyp);
+        row.appendChild(colTyp);
+
+
+        let colUsun = document.createElement('td');
+        colUsun.classList.add('col-sm-2');
+        let usunbutton = document.createElement("BUTTON");
+        usunbutton.innerHTML = "dodaj typ";
+        usunbutton.classList.add("btn");
+        usunbutton.classList.add("btn-default");
+        usunbutton.type = "submit";
+
+        usunbutton.classList.add("form-control");
+        // usunbutton.value=typ.id;
+        usunbutton.name="dodaj";
+
+
+        colUsun.appendChild(usunbutton);
+        row.appendChild(colUsun);
+
+
+
+        document.getElementById(elementName).appendChild(row);
+
+
+    };
 
     let creator = function (elementName) {
         firstRow(elementName);
@@ -95,8 +176,9 @@
         alkohol.typList.forEach((typ) => {
             addRow(elementName,typ);
         });
+        endRow(elementName);
 
-    }
+    };
 
     creator('MainTable');
 

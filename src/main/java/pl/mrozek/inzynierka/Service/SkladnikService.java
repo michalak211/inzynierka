@@ -5,14 +5,17 @@ import org.springframework.ui.Model;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
 import pl.mrozek.inzynierka.Entity.bar.Butelka;
+import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.skladniki.Inny;
 import pl.mrozek.inzynierka.Entity.skladniki.Sok;
 import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
+import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SkladnikService {
@@ -95,12 +98,12 @@ public class SkladnikService {
     }
 
 
-    public boolean deleteBottle(long bottleId){
-        if (butelkaRepo.findById(bottleId).isPresent()){
-            Butelka butelka=butelkaRepo.findById(bottleId).get();
+    public boolean deleteBottle(long bottleId) {
+        if (butelkaRepo.findById(bottleId).isPresent()) {
+            Butelka butelka = butelkaRepo.findById(bottleId).get();
 
-            List<Barek> barekList=barekRepo.findAllByButelkaListContaining(butelka);
-            for (Barek barek:barekList){
+            List<Barek> barekList = barekRepo.findAllByButelkaListContaining(butelka);
+            for (Barek barek : barekList) {
                 barek.getButelkaList().removeIf(butelkaBar -> butelkaBar.getId() == bottleId);
                 barekRepo.save(barek);
             }
@@ -115,7 +118,7 @@ public class SkladnikService {
 
         if (barekRepo.findById(barId).isPresent()) {
             Barek barek = barekRepo.findById(barId).get();
-            barek.getListSok().removeIf(sok -> sokId==sok.getId());
+            barek.getListSok().removeIf(sok -> sokId == sok.getId());
             barekRepo.save(barek);
             return true;
         }
@@ -124,12 +127,12 @@ public class SkladnikService {
     }
 
 
-    public boolean deleteSok(long sokId){
-        if (sokRepo.findById(sokId).isPresent()){
-            Sok sok=sokRepo.findById(sokId).get();
+    public boolean deleteSok(long sokId) {
+        if (sokRepo.findById(sokId).isPresent()) {
+            Sok sok = sokRepo.findById(sokId).get();
 
-            List<Barek> barekList=barekRepo.findAllByListSokContaining(sok);
-            for (Barek barek:barekList){
+            List<Barek> barekList = barekRepo.findAllByListSokContaining(sok);
+            for (Barek barek : barekList) {
                 barek.getListSok().removeIf(butelkaBar -> butelkaBar.getId() == sokId);
                 barekRepo.save(barek);
             }
@@ -144,19 +147,19 @@ public class SkladnikService {
 
         if (barekRepo.findById(barId).isPresent()) {
             Barek barek = barekRepo.findById(barId).get();
-            barek.getListSyrop().removeIf(syrop -> syrop.getId()==syropId);
+            barek.getListSyrop().removeIf(syrop -> syrop.getId() == syropId);
             barekRepo.save(barek);
             return true;
         }
         return false;
     }
 
-    public boolean deleteSyrop(long syropId){
-        if (syropRepo.findById(syropId).isPresent()){
-            Syrop syrop=syropRepo.findById(syropId).get();
+    public boolean deleteSyrop(long syropId) {
+        if (syropRepo.findById(syropId).isPresent()) {
+            Syrop syrop = syropRepo.findById(syropId).get();
 
-            List<Barek> barekList=barekRepo.findAllByListSyropContaining(syrop);
-            for (Barek barek:barekList){
+            List<Barek> barekList = barekRepo.findAllByListSyropContaining(syrop);
+            for (Barek barek : barekList) {
                 barek.getListSyrop().removeIf(butelkaBar -> butelkaBar.getId() == syropId);
                 barekRepo.save(barek);
             }
@@ -171,19 +174,19 @@ public class SkladnikService {
 
         if (barekRepo.findById(barId).isPresent()) {
             Barek barek = barekRepo.findById(barId).get();
-            barek.getListInny().removeIf(inny -> inny.getId()==innyId);
+            barek.getListInny().removeIf(inny -> inny.getId() == innyId);
             barekRepo.save(barek);
             return true;
         }
         return false;
     }
 
-    public boolean deleteInny(long innyId){
-        if (innyRepo.findById(innyId).isPresent()){
-            Inny inny=innyRepo.findById(innyId).get();
+    public boolean deleteInny(long innyId) {
+        if (innyRepo.findById(innyId).isPresent()) {
+            Inny inny = innyRepo.findById(innyId).get();
 
-            List<Barek> barekList=barekRepo.findAllByListInnyContaining(inny);
-            for (Barek barek:barekList){
+            List<Barek> barekList = barekRepo.findAllByListInnyContaining(inny);
+            for (Barek barek : barekList) {
                 barek.getListSyrop().removeIf(butelkaBar -> butelkaBar.getId() == innyId);
                 barekRepo.save(barek);
             }
@@ -192,7 +195,6 @@ public class SkladnikService {
         }
         return false;
     }
-
 
 
     public boolean addToBar(SkladnikP skladnikP, Long barId) {
@@ -314,7 +316,7 @@ public class SkladnikService {
 
     }
 
-    public Barek saveBarek(Barek barek){
+    public Barek saveBarek(Barek barek) {
         List<Butelka> typList = new ArrayList<>();
         List<Sok> sokList = new ArrayList<>();
         List<Syrop> syropList = new ArrayList<>();
@@ -331,7 +333,7 @@ public class SkladnikService {
         return barek;
     }
 
-    public String completeBarModel(Model model, Barek barek,int toClick){
+    public String completeBarModel(Model model, Barek barek, int toClick) {
 
 
         model.addAttribute("skladnikP", new SkladnikP());
@@ -340,7 +342,7 @@ public class SkladnikService {
         model.addAttribute("syropList", getSyropsToAdd(barek));
         model.addAttribute("innyList", getInnyToAdd(barek));
         model.addAttribute("barBottles", getBarButlaForms(barek.getId()));
-        model.addAttribute("toClick",toClick);
+        model.addAttribute("toClick", toClick);
 
         //do dodawania
         model.addAttribute("alkoList", alkoholRepo.findAll());
@@ -351,12 +353,12 @@ public class SkladnikService {
         return "barowe/barManager";
     }
 
-    public String completeSkladnikiModel(Model model,int toClick){
+    public String completeSkladnikiModel(Model model, int toClick) {
         model.addAttribute("skladnikP", new SkladnikP());
         model.addAttribute("sokList", sokRepo.findAll());
         model.addAttribute("syropList", syropRepo.findAll());
         model.addAttribute("innyList", innyRepo.findAll());
-        model.addAttribute("toClick",toClick);
+        model.addAttribute("toClick", toClick);
 
 
         model.addAttribute("alkoList", alkoholRepo.findAll());
@@ -365,22 +367,22 @@ public class SkladnikService {
         return "skladniki/skladnikManager";
     }
 
-    public void editSkladnik(SkladnikP skladnikP){
+    public void editSkladnik(SkladnikP skladnikP) {
 
-        switch (skladnikP.getRodzaj()){
+        switch (skladnikP.getRodzaj()) {
             case 1:
                 break;
             case 2:
-                if (sokRepo.findById(skladnikP.getId()).isPresent()){
-                    Sok sok= sokRepo.findById(skladnikP.getId()).get();
+                if (sokRepo.findById(skladnikP.getId()).isPresent()) {
+                    Sok sok = sokRepo.findById(skladnikP.getId()).get();
                     sok.setNazwa(skladnikP.getNazwa());
                     sok.setCenaZaLitr(skladnikP.getIloscML());
                     sokRepo.save(sok);
                 }
                 break;
             case 3:
-                if (syropRepo.findById(skladnikP.getId()).isPresent()){
-                    Syrop syrop= syropRepo.findById(skladnikP.getId()).get();
+                if (syropRepo.findById(skladnikP.getId()).isPresent()) {
+                    Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
                     syrop.setNazwa(skladnikP.getNazwa());
                     syrop.setCenaZaLitr(skladnikP.getIloscML());
                     syrop.setPrzepis(skladnikP.getOpisDodatkowy());
@@ -388,8 +390,8 @@ public class SkladnikService {
                 }
                 break;
             case 4:
-                if (innyRepo.findById(skladnikP.getId()).isPresent()){
-                    Inny inny= innyRepo.findById(skladnikP.getId()).get();
+                if (innyRepo.findById(skladnikP.getId()).isPresent()) {
+                    Inny inny = innyRepo.findById(skladnikP.getId()).get();
                     inny.setNazwa(skladnikP.getNazwa());
                     inny.setCenaZaJednostke(skladnikP.getIloscML());
                     innyRepo.save(inny);
@@ -399,5 +401,54 @@ public class SkladnikService {
 
     }
 
+    public boolean deleteTyp(long typId, long alkoId) {
+
+        if (typRepo.findById(typId).isPresent() && alkoholRepo.findById(alkoId).isPresent()) {
+            Typ typ = typRepo.findById(typId).get();
+            Alkohol alkohol = alkoholRepo.findById(alkoId).get();
+
+            if (alkohol.getTypList().removeIf(typ1 -> Objects.equals(typ1.getId(), typ.getId()))) {
+                alkoholRepo.save(alkohol);
+                typRepo.delete(typ);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String editAlko(long alkoId, Alkohol alkohol,Model model) {
+
+        if (alkoholRepo.findById(alkoId).isPresent()) {
+            Alkohol alkoholBaza = alkoholRepo.findById(alkoId).get();
+            alkoholBaza.setNazwa(alkohol.getNazwa());
+            int i = 0;
+            for (Typ typ : alkoholBaza.getTypList()) {
+                typ.setNazwa(alkohol.getTypList().get(i).getNazwa());
+                typRepo.save(typ);
+                i++;
+            }
+            alkoholRepo.save(alkoholBaza);
+            model.addAttribute("alkohol", alkoholBaza);
+            return "strukturaEdit";
+
+        }
+        return "redirect:/struktura";
+
+    }
+
+    public void addTyp(long id,String nowyTyp){
+
+        if (alkoholRepo.findById(id).isPresent()) {
+            Alkohol alkohol = alkoholRepo.findById(id).get();
+            if (typRepo.findByNazwaEquals(nowyTyp) == null) {
+                Typ newTyp = new Typ();
+                newTyp.setNazwa(nowyTyp);
+                newTyp.setAlkoholID(alkohol.getId());
+                typRepo.save(newTyp);
+                alkohol.getTypList().add(newTyp);
+                alkoholRepo.save(alkohol);
+            }
+        }
+    }
 
 }
