@@ -30,9 +30,15 @@ public class SkladnikP {
 
 }
 
+
+// opcja dla is prezent
+
+//    Foo foo = repository.findById(id)
+//            .orElse(new Foo());
+
 //todo kolejnosc
-// edycja struktury skladnikow (alkohol-typ)
 // skladnik controller
+// rodzaj edycja wyswtietla numer nie nazwe
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // kolorowanie po barze i brakujace skladniki
 // workhorse
@@ -47,6 +53,8 @@ public class SkladnikP {
 // logowanie
 // paging
 
+
+//
 
 
 //todo edycja
