@@ -29,9 +29,9 @@ public class SkladnikController {
 
     @GetMapping(value = "")
     public String skladnikManager(Model model) {
-
         return skladnikService.completeSkladnikiModel(model, 0);
     }
+
     @PostMapping(value = "", params = "dodaj")
     public String skladnikDodaj(Model model, @ModelAttribute("skladnikP") SkladnikP skladnikP) {
 
@@ -124,7 +124,7 @@ public class SkladnikController {
 
 
     @GetMapping(value = "/dodajbutle/{id}")
-    public String createBottletoBar(Model model, @PathVariable("id") Long id) {
+    public String createBottletoBar(Model model) {
 
         model.addAttribute("skladnikList", alkoholRepo.findAll());
         model.addAttribute("alkoList", alkoholRepo.findAll());

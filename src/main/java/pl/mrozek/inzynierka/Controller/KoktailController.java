@@ -121,7 +121,6 @@ public class KoktailController {
     public String editKoktajlPost(@PathVariable Long id, @ModelAttribute("koktajlForm") KoktajlForm koktajlForm, Model model) {
 
 
-        System.out.println();
         if (koktailRepo.findById(id).isPresent()) {
             Koktajl koktajl = koktailRepo.findById(id).get();
             koktajl = mapper.toKoktajl(koktajl, koktajlForm);

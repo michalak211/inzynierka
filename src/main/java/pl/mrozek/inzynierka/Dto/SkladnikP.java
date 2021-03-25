@@ -36,10 +36,19 @@ public class SkladnikP {
 //    Foo foo = repository.findById(id)
 //            .orElse(new Foo());
 
+//dynamic querry
+//https://javadeveloperzone.com/spring/spring-jpa-dynamic-query-example/
+
+
 //todo kolejnosc
-// skladnik controller
-// rodzaj edycja wyswtietla numer nie nazwe
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
+// barek docelowy
+// wybor barku
+// brak filtrowania po barku
+// filtr z kolorami (docelowy)
+// testy fitrowania po barze
+// przy dodaniu nowej butli lub usunieciu sie uzupelniaja
+// sprawdzanie czy jest skladnik
 // kolorowanie po barze i brakujace skladniki
 // workhorse
 // photo made by
