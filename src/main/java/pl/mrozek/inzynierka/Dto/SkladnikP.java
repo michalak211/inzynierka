@@ -1,15 +1,6 @@
 package pl.mrozek.inzynierka.Dto;
 
 import lombok.*;
-import org.springframework.data.annotation.Transient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,17 +34,13 @@ public class SkladnikP {
 
 
 //todo kolejnosc
+// workhorse
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // wybor barku
 // brak filtrowania po barku
-// testy fitrowania po barze
-// przy dodaniu nowej butli lub usunieciu sie uzupelniaja
-// sprawdzanie czy jest skladnik
-// kolorowanie po barze i brakujace skladniki
-// workhorse
-// photo made by
-// widok pełen i skrotowy dla skladnikow butelek etc
 // pozostałe filtry
+// przy dodaniu nowej butli lub usunieciu sie uzupelniaja?????
+// photo made by
 // cena
 // riff
 // dodawanie zapytań o drinki
@@ -81,9 +68,6 @@ public class SkladnikP {
 
 
 //todo zasoby barku
-// delete from bar rodzaj przekazywany?
-// edit skladnik
-// konkretny składink dla przepisów?
 // workhorse dla
 // aktualizacja
 // obliczanie ceny koktajlu

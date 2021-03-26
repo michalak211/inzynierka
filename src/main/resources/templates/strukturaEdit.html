@@ -97,9 +97,19 @@
         let head2 = document.createElement('td');
         head2.classList.add('col-sm-2');
         let head2text = document.createElement('output');
-        head2text.value = "Typ";
+        head2text.value = "Workhorse";
         head2.appendChild(head2text);
         headRow2.appendChild(head2);
+
+
+        let head3 = document.createElement('td');
+        head3.classList.add('col-sm-2');
+        let head3text = document.createElement('output');
+        head3text.value = "Typ";
+        head3.appendChild(head3text);
+        headRow2.appendChild(head3);
+
+
         document.getElementById(elementName).appendChild(headRow2);
 
 
@@ -131,7 +141,6 @@
         if (outputTyp.value!=='Dowolny') {
 
             outputTyp.disabled=false;
-
 
             let colUsun = document.createElement('td');
             colUsun.classList.add('col-sm-2');
