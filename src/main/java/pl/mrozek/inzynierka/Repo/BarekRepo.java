@@ -17,5 +17,6 @@ public interface BarekRepo extends CrudRepository<Barek,Long> {
     List<Barek> findAllByListSokContaining(Sok sok);
     List<Barek> findAllByListSyropContaining(Syrop syrop);
     List<Barek> findAllByListInnyContaining(Inny inny);
+    Barek findByNazwaEquals(String nazwa);
 
 }

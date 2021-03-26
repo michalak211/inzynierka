@@ -5,15 +5,11 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.mrozek.inzynierka.Dto.SkladnikP;
-import pl.mrozek.inzynierka.Entity.bar.Barek;
-import pl.mrozek.inzynierka.Entity.bar.Butelka;
+import pl.mrozek.inzynierka.Dto.FilterSet;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
-import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
 import pl.mrozek.inzynierka.Service.SkladnikService;
-import pl.mrozek.inzynierka.mapper.Mapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +18,6 @@ import javax.transaction.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 
 @Controller
@@ -33,13 +28,15 @@ public class MainController {
     private final AlkoholRepo alkoholRepo;
     private final TypRepo typRepo;
     private final SkladnikService skladnikService;
+    private final BarekRepo barekRepo;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
         this.skladnikService = skladnikService;
+        this.barekRepo = barekRepo;
     }
 
     @GetMapping("/")
@@ -55,9 +52,14 @@ public class MainController {
 
     @GetMapping("/przegladaj")
     public String przegladanie(Model model) {
+
+        Long defaultBarekId =barekRepo.findByNazwaEquals("barek mieszkanie").getId();
+
+        model.addAttribute("bars", barekRepo.findAll());
+        model.addAttribute("filterSet",new FilterSet());
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
-        model.addAttribute("koktajlList", koktailService.getAllUserForms());
+        model.addAttribute("koktajlList", koktailService.checkSkladnikAccesability(defaultBarekId));
         return "wyswietl";
     }
 

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
+import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
 import pl.mrozek.inzynierka.Entity.bar.Butelka;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
@@ -47,7 +48,7 @@ public class KoktailService {
         koktailRepo.save(koktajl);
     }
 
-    public List<KoktajlForm> getAllUserForms(){
+    public List<KoktajlForm> getAllKoktajlForms(){
 
         ArrayList<Koktajl> list = (ArrayList<Koktajl>) koktailRepo.findAll();
         List<KoktajlForm> koktajlFormList= new ArrayList<>();
@@ -73,8 +74,49 @@ public class KoktailService {
         return koktajlFormList;
     }
 
-    private boolean checkKoktailPossibility(Barek barek, Koktajl koktajl){
 
+    public List<KoktajlForm> checkSkladnikAccesability(Long barId){
+        List<KoktajlForm> koktajlFormList= getAllKoktajlForms();
+
+
+        Barek barek= barekRepo.findById(barId).orElse(null);
+        if (barek==null) return null;
+        List<Long> typList=getBarekTypesId(barek);
+        typList.addAll(addDowolnyId(barek,typList));
+
+        List<Long> sokIds= new ArrayList<>();
+        for (Sok sok:barek.getListSok()){
+            sokIds.add(sok.getId());
+        }
+
+        List<Long> syropIds= new ArrayList<>();
+        for (Syrop syrop:barek.getListSyrop()){
+            syropIds.add(syrop.getId());
+        }
+
+        List<Long> innyIds= new ArrayList<>();
+        for (Inny inny:barek.getListInny()){
+            innyIds.add(inny.getId());
+        }
+
+        for (KoktajlForm koktajlForm:koktajlFormList){
+            for (SkladnikP skladnikP:koktajlForm.getListaSkladnikow()){
+                skladnikP.setPresent(setSkladnikPresence(skladnikP,typList,sokIds,syropIds,innyIds));
+            }
+        }
+        return koktajlFormList;
+    }
+
+
+    private boolean setSkladnikPresence(SkladnikP skladnikP,List<Long> typList,List<Long> sokIds,
+                                        List<Long> syropIds,List<Long> innyIds){
+        if (typList.contains(skladnikP.getId())) return true;
+        if (sokIds.contains(skladnikP.getId())) return true;
+        if (syropIds.contains(skladnikP.getId())) return true;
+        return innyIds.contains(skladnikP.getId());
+    }
+
+    private boolean checkKoktailPossibility(Barek barek, Koktajl koktajl){
 
         List<Long> typList=getBarekTypesId(barek);
         typList.addAll(addDowolnyId(barek,typList));

@@ -224,6 +224,7 @@ public class Mapper {
                 Skladnik skladnik=skladnikRepo.findById(skladnikB.getSkladnikId()).get();
 
                 SkladnikP skladnikP = new SkladnikP();
+                skladnikP.setId(skladnikB.getSkladnikId());
                 skladnikP.setIloscML(skladnikB.getIlosc());
                 skladnikP.setOpisDodatkowy(skladnikB.getOpisDodatkowy());
 

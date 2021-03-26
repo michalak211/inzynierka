@@ -27,6 +27,8 @@ public class SkladnikP {
     private boolean nowy;
     private boolean nowyAlko;
 
+    private boolean present=false;
+
 
 }
 
@@ -42,10 +44,8 @@ public class SkladnikP {
 
 //todo kolejnosc
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
-// barek docelowy
 // wybor barku
 // brak filtrowania po barku
-// filtr z kolorami (docelowy)
 // testy fitrowania po barze
 // przy dodaniu nowej butli lub usunieciu sie uzupelniaja
 // sprawdzanie czy jest skladnik
@@ -63,7 +63,8 @@ public class SkladnikP {
 // paging
 
 
-//
+//todo settings
+// defaultBar
 
 
 //todo edycja

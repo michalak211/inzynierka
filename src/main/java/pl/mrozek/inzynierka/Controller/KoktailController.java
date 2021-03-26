@@ -129,7 +129,7 @@ public class KoktailController {
 
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
-        model.addAttribute("koktajlList", koktailService.getAllUserForms());
+        model.addAttribute("koktajlList", koktailService.getAllKoktajlForms());
         return "redirect:/przegladaj";
 
     }
