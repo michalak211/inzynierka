@@ -31,11 +31,20 @@ public class SkladnikP {
 
 //dynamic querry
 //https://javadeveloperzone.com/spring/spring-jpa-dynamic-query-example/
+// ogarnąć extract method
+// metody w encjach?
 
+//wiedza
+// ogarniecie put, delete, patch
+// modelmapper zamiana na np dto loombok tez ma!
+// garbage colector??? co to
+// paramgmaty programowania
 
 //todo kolejnosc
 // workhorse
+// set workhorse w stukturze
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
+// przeniesienie metod do entity
 // wybor barku
 // brak filtrowania po barku
 // pozostałe filtry
