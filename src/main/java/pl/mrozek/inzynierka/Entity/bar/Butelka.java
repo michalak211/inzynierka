@@ -23,8 +23,8 @@ public class Butelka {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nazwa;
-    private Long AlkoholId;
-    private Long TypId;
+    private Long alkoholId;
+    private Long typId;
     @Nullable
     private double cenaZaLitr;
     @Nullable

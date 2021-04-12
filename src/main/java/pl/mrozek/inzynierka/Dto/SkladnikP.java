@@ -41,8 +41,6 @@ public class SkladnikP {
 // paramgmaty programowania
 
 //todo kolejnosc
-// workhorse
-// set workhorse w stukturze
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // przeniesienie metod do entity
 // wybor barku

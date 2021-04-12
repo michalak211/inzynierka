@@ -423,12 +423,15 @@ public class SkladnikService {
             alkoholBaza.setNazwa(alkohol.getNazwa());
             int i = 0;
             for (Typ typ : alkoholBaza.getTypList()) {
+                typ.setButelkaId(alkohol.getTypList().get(i).getButelkaId());
                 typ.setNazwa(alkohol.getTypList().get(i).getNazwa());
                 typRepo.save(typ);
                 i++;
             }
             alkoholRepo.save(alkoholBaza);
             model.addAttribute("alkohol", alkoholBaza);
+            model.addAttribute("bottleList", butelkaRepo.findAllByAlkoholIdEquals(alkoId));
+
             return "strukturaEdit";
 
         }

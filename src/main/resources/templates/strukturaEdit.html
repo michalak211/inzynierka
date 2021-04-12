@@ -61,6 +61,44 @@
 
     let alkohol= [[${alkohol}]];
     let rowIndexSelector = '.selector';
+    let bottleList= [[${bottleList}]];
+
+    let insertBottles= function (typ,selectList){
+        let tempBottleList= [];
+
+
+        if (typ.nazwa=="Dowolny"){
+            tempBottleList=bottleList;
+
+        }else {
+            bottleList.forEach((bottle) =>{
+                if (bottle.typId==typ.id) {
+                    tempBottleList.push(bottle);
+                }
+            });
+        }
+
+        tempBottleList.forEach((bottle) =>{
+
+            let option = document.createElement("option");
+            option.value = bottle.id;
+            option.text = bottle.nazwa;
+            selectList.appendChild(option);
+
+            // selectList.value=bottle.id;
+
+            // option.selected;
+        })
+
+        console.log(typ);
+        selectList.value=typ.butelkaId;
+
+
+        // console.log(tempBottleList);
+
+
+
+    }
 
     let firstRow=function (elementName){
 
@@ -94,6 +132,15 @@
 
         let headRow2 = document.createElement('tr');
 
+        let head4 = document.createElement('td');
+        head4.classList.add('col-sm-2');
+        let head4text = document.createElement('output');
+        head4text.value = "Typ";
+        head4.appendChild(head4text);
+        headRow2.appendChild(head4);
+
+
+
         let head2 = document.createElement('td');
         head2.classList.add('col-sm-2');
         let head2text = document.createElement('output');
@@ -121,9 +168,6 @@
         let row = document.createElement('tr');
         row.classList.add(rowIndexSelector.substr(1));
 
-
-
-
         let colTyp = document.createElement('td');
         colTyp.classList.add('col-sm-4');
         let outputTyp = document.createElement('input');
@@ -135,12 +179,31 @@
         outputTyp.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'nazwa');
         colTyp.appendChild(outputTyp);
         row.appendChild(colTyp);
+        outputTyp.readOnly=true;
+
+        let colWorkhorse= document.createElement('td');
+        colWorkhorse.classList.add('col-sm-2');
+
+        let selectList = document.createElement('select');
+        let option = document.createElement("option");
+        option.value = "0";
+        option.text = "-----";
+        selectList.appendChild(option);
+        colWorkhorse.appendChild(selectList);
+
+        selectList.classList.add('form-control');
+        selectList.id = 'typList' + '[' + rowIndex + '].' + 'butelkaId';
+        selectList.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'butelkaId');
+
+        row.appendChild(selectList);
+
+        insertBottles(typ,selectList);
 
 
-        outputTyp.disabled=true;
+
         if (outputTyp.value!=='Dowolny') {
 
-            outputTyp.disabled=false;
+            outputTyp.readOnly=false;
 
             let colUsun = document.createElement('td');
             colUsun.classList.add('col-sm-2');
@@ -157,8 +220,6 @@
             colUsun.appendChild(usunbutton);
             row.appendChild(colUsun);
         }
-
-
 
         document.getElementById(elementName).appendChild(row);
 

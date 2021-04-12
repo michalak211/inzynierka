@@ -29,14 +29,16 @@ public class MainController {
     private final TypRepo typRepo;
     private final SkladnikService skladnikService;
     private final BarekRepo barekRepo;
+    private final ButelkaRepo butelkaRepo;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo, ButelkaRepo butelkaRepo) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
         this.skladnikService = skladnikService;
         this.barekRepo = barekRepo;
+        this.butelkaRepo = butelkaRepo;
     }
 
     @GetMapping("/")
@@ -111,6 +113,7 @@ public class MainController {
         if (alkoholRepo.findById(id).isPresent()) {
             Alkohol alkohol = alkoholRepo.findById(id).get();
             model.addAttribute("alkohol", alkohol);
+            model.addAttribute("bottleList", butelkaRepo.findAllByAlkoholIdEquals(id));
             return "strukturaEdit";
         }
         return "redirect:/struktura";
@@ -118,6 +121,7 @@ public class MainController {
 
     @PostMapping(value = "/struktura/edit/{id}", params = "zapisz")
     public String strukturaEditPost(Model model, @ModelAttribute("alkohol") Alkohol alkohol, @PathVariable("id") Long id) {
+        System.out.println(alkohol);
         return skladnikService.editAlko(id, alkohol, model);
     }
 
@@ -128,6 +132,7 @@ public class MainController {
             if (alkoholRepo.findById(id).isPresent()) {
                 Alkohol alkoholBaza = alkoholRepo.findById(id).get();
                 model.addAttribute("alkohol", alkoholBaza);
+                model.addAttribute("bottleList", butelkaRepo.findAllByAlkoholIdEquals(id));
                 return "strukturaEdit";
             }
         }
