@@ -1,9 +1,11 @@
 package pl.mrozek.inzynierka.Repo;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import pl.mrozek.inzynierka.Entity.Uzytkownik;
 
 @Repository
-public interface UserRepo extends CrudRepository<Uzytkownik,Long> {
+public interface UserRepo extends CrudRepository<Uzytkownik,Long>, JpaRepository<Uzytkownik,Long> {
+    Uzytkownik findAllByUsername(String username);
 }

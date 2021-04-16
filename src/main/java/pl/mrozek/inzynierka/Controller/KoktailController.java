@@ -1,24 +1,17 @@
 package pl.mrozek.inzynierka.Controller;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
-import pl.mrozek.inzynierka.Entity.bar.Barek;
-import pl.mrozek.inzynierka.Entity.bar.Butelka;
-import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
+import pl.mrozek.inzynierka.Entity.Uzytkownik;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
-import pl.mrozek.inzynierka.Entity.skladniki.Inny;
-import pl.mrozek.inzynierka.Entity.skladniki.Sok;
-import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
-import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("koktajl")
@@ -38,8 +31,10 @@ public class KoktailController {
     private final SyropRepo syropRepo;
     private final InnyRepo innyRepo;
     private final KoktailService koktailService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepo userRepo;
 
-    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService) {
+    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService, PasswordEncoder passwordEncoder, UserRepo userRepo) {
         this.skladnikRepo = skladnikRepo;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -49,6 +44,8 @@ public class KoktailController {
         this.syropRepo = syropRepo;
         this.innyRepo = innyRepo;
         this.koktailService = koktailService;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepo = userRepo;
     }
 
     @Transactional
@@ -137,6 +134,12 @@ public class KoktailController {
     @Transactional
     @GetMapping("/init")
     public String init() {
+
+
+//        Uzytkownik uzytkownik= new Uzytkownik();
+//        uzytkownik.setUsername("admin");
+//        uzytkownik.setPassword(passwordEncoder.encode("admin"));
+//        userRepo.save(uzytkownik);
 
 //        Alkohol alkohol = new Alkohol();
 //        alkohol.setNazwa("whyskey");

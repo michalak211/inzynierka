@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 
 
 @Controller
@@ -79,8 +80,9 @@ public class MainController {
     @ResponseBody
     void showImage(@PathVariable("id") Long id, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("image/*");
 
-        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+//        response.setContentType("image/jpeg", "image/jpg", "image/png", "image/gif");
 
         if (koktailService.getPhoto(id) != null) {
             response.getOutputStream().write(koktailService.getPhoto(id));
@@ -94,7 +96,8 @@ public class MainController {
 
 
     @GetMapping(value = "/struktura")
-    public String struktura(Model model) {
+    public String struktura(Model model, Principal principal) {
+//        System.out.println(principal.);
         model.addAttribute("alkoList", alkoholRepo.findAll());
         return "struktura";
     }

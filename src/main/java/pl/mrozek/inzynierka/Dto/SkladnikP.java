@@ -41,6 +41,8 @@ public class SkladnikP {
 // paramgmaty programowania
 
 //todo kolejnosc
+// logowanie
+// notki w struktura
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // przeniesienie metod do entity
 // wybor barku
@@ -53,7 +55,6 @@ public class SkladnikP {
 // dodawanie zapytań o drinki
 // dodwanie własnych zdjęć
 // dodawanie zdjec butelek
-// logowanie
 // paging
 
 
