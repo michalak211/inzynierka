@@ -5,13 +5,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
-import pl.mrozek.inzynierka.Entity.Uzytkownik;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
+import pl.mrozek.inzynierka.Entity.user.Authoritiy;
+import pl.mrozek.inzynierka.Entity.user.BarUser;
+import pl.mrozek.inzynierka.Entity.user.Role;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
+//import pl.mrozek.inzynierka.Service.MailSenderService;
+import pl.mrozek.inzynierka.Service.MailSenderService;
+import pl.mrozek.inzynierka.Service.UserService;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
+import javax.mail.MessagingException;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import javax.transaction.Transactional;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.Principal;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Map;
 
 @Controller
 @RequestMapping("koktajl")
@@ -32,9 +48,12 @@ public class KoktailController {
     private final InnyRepo innyRepo;
     private final KoktailService koktailService;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepo userRepo;
+    private final BarUserRepo barUserRepo;
+    private final AuthoritiyRepo authoritiyRepo;
+    private final UserService userService;
+    private final MailSenderService mailSenderService;
 
-    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService, PasswordEncoder passwordEncoder, UserRepo userRepo) {
+    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService, PasswordEncoder passwordEncoder, BarUserRepo barUserRepo, AuthoritiyRepo authoritiyRepo, UserService userService, MailSenderService mailSenderService) {
         this.skladnikRepo = skladnikRepo;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -45,7 +64,10 @@ public class KoktailController {
         this.innyRepo = innyRepo;
         this.koktailService = koktailService;
         this.passwordEncoder = passwordEncoder;
-        this.userRepo = userRepo;
+        this.barUserRepo = barUserRepo;
+        this.authoritiyRepo = authoritiyRepo;
+        this.userService = userService;
+        this.mailSenderService = mailSenderService;
     }
 
     @Transactional
@@ -81,12 +103,18 @@ public class KoktailController {
     public String test(Model model) {
 
 
-        KoktajlForm koktajlForm = new KoktajlForm();
-        model.addAttribute("skladnikList", alkoholRepo.findAll());
-        model.addAttribute("koktajlForm", koktajlForm);
-        model.addAttribute("sokList", sokRepo.findAll());
-        model.addAttribute("syropList", syropRepo.findAll());
-        model.addAttribute("innyList", innyRepo.findAll());
+//        try {
+//            mailSenderService.sendMail("Michalak211@gmail.com", "testTemat","hakunamatta",false);
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
+
+//        KoktajlForm koktajlForm = new KoktajlForm();
+//        model.addAttribute("skladnikList", alkoholRepo.findAll());
+//        model.addAttribute("koktajlForm", koktajlForm);
+//        model.addAttribute("sokList", sokRepo.findAll());
+//        model.addAttribute("syropList", syropRepo.findAll());
+//        model.addAttribute("innyList", innyRepo.findAll());
 
         return "redirect:/koktajl/add";
 
@@ -134,6 +162,24 @@ public class KoktailController {
     @Transactional
     @GetMapping("/init")
     public String init() {
+
+
+
+        if (authoritiyRepo.findAll().size()>0) return "redirect:/przegladaj";
+
+//        Authoritiy authoritiy= new Authoritiy();
+//        authoritiy.setAuthority(Role.ROLE_USER.toString());
+//        authoritiyRepo.save(authoritiy);
+//
+//        Authoritiy authoritiy1= new Authoritiy();
+//        authoritiy1.setAuthority(Role.ROLE_ADMIN.toString());
+//        authoritiyRepo.save(authoritiy1);
+//
+//        BarUser barUser= new BarUser();
+//        barUser.setUsername("admin");
+//        barUser.setPassword("admin");
+//        barUser.setEnabled(true);
+//        userService.addNewUser(barUser, null );
 
 
 //        Uzytkownik uzytkownik= new Uzytkownik();

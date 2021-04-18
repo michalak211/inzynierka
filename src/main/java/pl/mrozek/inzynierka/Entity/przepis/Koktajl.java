@@ -4,10 +4,9 @@ import com.sun.istack.Nullable;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import pl.mrozek.inzynierka.Entity.Uzytkownik;
+import pl.mrozek.inzynierka.Entity.user.BarUser;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class Koktajl {
     private byte[] zdjecie;
 
     @OneToOne
-    private Uzytkownik uzytkownik;
+    private BarUser barUser;
 
     @Nullable
     private double cena;

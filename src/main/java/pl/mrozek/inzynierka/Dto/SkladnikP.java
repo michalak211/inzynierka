@@ -42,7 +42,9 @@ public class SkladnikP {
 
 //todo kolejnosc
 // logowanie
-// notki w struktura
+// sprawdzanie czy mail prawidłowy
+// powtórz hasło
+// opis dostępów
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // przeniesienie metod do entity
 // wybor barku

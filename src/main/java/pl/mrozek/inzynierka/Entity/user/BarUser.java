@@ -1,4 +1,4 @@
-package pl.mrozek.inzynierka.Entity;
+package pl.mrozek.inzynierka.Entity.user;
 
 
 import lombok.*;
@@ -6,12 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Collection;
-import java.util.Collections;
+import javax.persistence.*;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +17,7 @@ import java.util.Collections;
 @ToString
 
 @Entity
-public class Uzytkownik implements UserDetails {
+public class BarUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,36 +25,31 @@ public class Uzytkownik implements UserDetails {
 
     private String username;
     private String password;
+    private boolean isEnabled;
+    private String mail;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Authoritiy> authorities;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+//    @OneToOne(mappedBy = "user")
+//    private VerificationToken verificationToken;
 
-    public String getPassword() {
-        return password;
-    }
+    @Enumerated(value = EnumType.STRING)
+    @Transient
+    private Role role;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton( new SimpleGrantedAuthority("ROLE_USER"));
+        Set<SimpleGrantedAuthority> simpleGrantedAuthorities = new HashSet<>();
+        for (Authoritiy a : this.authorities) {
+            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(a.getAuthority()));
+        }
+        return simpleGrantedAuthorities;
     }
 
-    @Override
-    public String getUsername() {
-        return null;
-    }
 
     @Override
     public boolean isAccountNonExpired() {

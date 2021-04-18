@@ -5,11 +5,14 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.mrozek.inzynierka.Dto.FilterSet;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
+import pl.mrozek.inzynierka.Entity.user.BarUser;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Service.KoktailService;
 import pl.mrozek.inzynierka.Service.SkladnikService;
+import pl.mrozek.inzynierka.Service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,15 +34,17 @@ public class MainController {
     private final SkladnikService skladnikService;
     private final BarekRepo barekRepo;
     private final ButelkaRepo butelkaRepo;
+    private final UserService userService;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo, ButelkaRepo butelkaRepo) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo, ButelkaRepo butelkaRepo, UserService userService) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
         this.skladnikService = skladnikService;
         this.barekRepo = barekRepo;
         this.butelkaRepo = butelkaRepo;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -147,6 +152,29 @@ public class MainController {
 
         skladnikService.addTyp(id,nowyTyp);
         return "redirect:/struktura/edit/" + id;
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "userManager/login";
+    }
+
+    @RequestMapping("/singup")
+    public ModelAndView singup() {
+        return new ModelAndView("userManager/registration", "user", new BarUser());
+    }
+
+    @RequestMapping("/register")
+    public ModelAndView register(BarUser user, HttpServletRequest request) {
+        System.out.println(user.getMail());
+        userService.addNewUser(user, request);
+        return new ModelAndView("redirect:/login");
+    }
+
+    @RequestMapping("/verify-token")
+    public ModelAndView register(@RequestParam String token) {
+        userService.verifyToken(token);
+        return new ModelAndView("redirect:/login");
     }
 
 }

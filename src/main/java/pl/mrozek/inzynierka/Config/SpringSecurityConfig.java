@@ -72,14 +72,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/struktura").hasRole("ADMIN")
                 .antMatchers("/skladniki").hasAnyRole("ADMIN","USER")
                 .and()
-                .formLogin().permitAll();
+                .formLogin().loginPage("/login").permitAll();
 
-//        http
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin().permitAll();
     }
 
 
