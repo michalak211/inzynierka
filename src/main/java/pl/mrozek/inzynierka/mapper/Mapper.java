@@ -184,8 +184,7 @@ public class Mapper {
         return koktajl;
     }
 
-    public KoktajlForm toKoktajlForm(Koktajl koktajl) {
-        KoktajlForm koktajlForm = new KoktajlForm();
+    public void setBaseInForm(KoktajlForm koktajlForm, Koktajl koktajl) {
 
         koktajlForm.setNazwa(koktajl.getNazwa());
 
@@ -214,42 +213,71 @@ public class Mapper {
         } else {
             koktajlForm.setId(0);
         }
+    }
 
+
+    public SkladnikP skladnikBToSkladnikP(SkladnikB skladnikB) {
+        SkladnikP skladnikP = toSkladnikP(skladnikB.getSkladnikId());
+
+        skladnikP.setId(skladnikB.getSkladnikId());
+        skladnikP.setIloscML(skladnikB.getIlosc());
+        skladnikP.setOpisDodatkowy(skladnikB.getOpisDodatkowy());
+
+
+        return skladnikP;
+    }
+
+
+    public KoktajlForm toKoktajlForm(Koktajl koktajl) {
+        KoktajlForm koktajlForm = new KoktajlForm();
+
+        setBaseInForm(koktajlForm, koktajl);
 
         List<SkladnikP> skladnikPList = new ArrayList<>();
 
         for (SkladnikB skladnikB : koktajl.getSkladnikBList()) {
+            if (!skladnikRepo.findById(skladnikB.getSkladnikId()).isPresent()) continue;
 
-            if (skladnikRepo.findById(skladnikB.getSkladnikId()).isPresent()) {
-                Skladnik skladnik=skladnikRepo.findById(skladnikB.getSkladnikId()).get();
-
-                SkladnikP skladnikP = new SkladnikP();
-                skladnikP.setId(skladnikB.getSkladnikId());
-                skladnikP.setIloscML(skladnikB.getIlosc());
-                skladnikP.setOpisDodatkowy(skladnikB.getOpisDodatkowy());
-
-                if (skladnik instanceof Typ) {
-                    skladnikP.setRodzaj(1);
-                    skladnikP.setTyp(skladnik.getNazwa());
-                    if (alkoholRepo.findById(((Typ) skladnik).getAlkoholID()).isPresent()) {
-                        Alkohol alkohol = alkoholRepo.findById(((Typ) skladnik).getAlkoholID()).get();
-                        skladnikP.setNazwa(alkohol.getNazwa());
-                    }
-                } else if (skladnik instanceof Sok) {
-                    skladnikP.setRodzaj(2);
-                    skladnikP.setNazwa(skladnik.getNazwa());
-                } else if (skladnik instanceof Syrop) {
-                    skladnikP.setRodzaj(3);
-                    skladnikP.setNazwa(skladnik.getNazwa());
-                } else if (skladnik instanceof Inny) {
-                    skladnikP.setRodzaj(4);
-                    skladnikP.setNazwa(skladnik.getNazwa());
-                } else {
-                    continue;
-                }
-
-                skladnikPList.add(skladnikP);
-            }
+            skladnikPList.add(skladnikBToSkladnikP(skladnikB));
+//            if (skladnikRepo.findById(skladnikB.getSkladnikId()).isPresent()) {
+//                Skladnik skladnik = skladnikRepo.findById(skladnikB.getSkladnikId()).get();
+//
+//                SkladnikP skladnikP = new SkladnikP();
+//                skladnikP.setId(skladnikB.getSkladnikId());
+//                skladnikP.setIloscML(skladnikB.getIlosc());
+//                skladnikP.setOpisDodatkowy(skladnikB.getOpisDodatkowy());
+//
+//                if (skladnik instanceof Typ) {
+//                    skladnikP.setRodzaj(1);
+//                    skladnikP.setTyp(skladnik.getNazwa());
+//                    if (alkoholRepo.findById(((Typ) skladnik).getAlkoholID()).isPresent()) {
+//                        Alkohol alkohol = alkoholRepo.findById(((Typ) skladnik).getAlkoholID()).get();
+//                        skladnikP.setNazwa(alkohol.getNazwa());
+//                    }
+//                    skladnikPList.add(skladnikP);
+//                    continue;
+//                }
+//
+//                if (skladnik instanceof Sok) {
+//                    skladnikP.setRodzaj(2);
+//                    skladnikP.setNazwa(skladnik.getNazwa());
+//                    skladnikPList.add(skladnikP);
+//                    continue;
+//                }
+//
+//                if (skladnik instanceof Syrop) {
+//                    skladnikP.setRodzaj(3);
+//                    skladnikP.setNazwa(skladnik.getNazwa());
+//                    skladnikPList.add(skladnikP);
+//                    continue;
+//                }
+//
+//                if (skladnik instanceof Inny) {
+//                    skladnikP.setRodzaj(4);
+//                    skladnikP.setNazwa(skladnik.getNazwa());
+//                    skladnikPList.add(skladnikP);
+//                }
+//            }
         }
 
         koktajlForm.setListaSkladnikow(skladnikPList);
@@ -322,21 +350,32 @@ public class Mapper {
     public SkladnikP toSkladnikP(Long id) {
         SkladnikP skladnikP = new SkladnikP();
 
+
         if (skladnikRepo.findById(id).isPresent()) {
             Skladnik skladnik = skladnikRepo.findById(id).get();
             skladnikP.setId(skladnik.getId());
             skladnikP.setNazwa(skladnik.getNazwa());
 
-            if (skladnik instanceof Sok){
+            if (skladnik instanceof Typ) {
+                skladnikP.setRodzaj(1);
+                skladnikP.setTyp(skladnik.getNazwa());
+                if (alkoholRepo.findById(((Typ) skladnik).getAlkoholID()).isPresent()) {
+                    Alkohol alkohol = alkoholRepo.findById(((Typ) skladnik).getAlkoholID()).get();
+                    skladnikP.setNazwa(alkohol.getNazwa());
+                }
+            }
+
+
+            if (skladnik instanceof Sok) {
                 skladnikP.setRodzaj(2);
                 skladnikP.setIloscML(((Sok) skladnik).getCenaZaLitr());
             }
-            if (skladnik instanceof Syrop){
+            if (skladnik instanceof Syrop) {
                 skladnikP.setRodzaj(3);
                 skladnikP.setIloscML(((Syrop) skladnik).getCenaZaLitr());
                 skladnikP.setOpisDodatkowy(((Syrop) skladnik).getPrzepis());
             }
-            if (skladnik instanceof Inny){
+            if (skladnik instanceof Inny) {
                 skladnikP.setRodzaj(4);
                 skladnikP.setIloscML(((Inny) skladnik).getCenaZaJednostke());
             }

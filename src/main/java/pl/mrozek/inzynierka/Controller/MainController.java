@@ -151,7 +151,7 @@ public class MainController {
     }
 
     @PostMapping(value = "/struktura/edit/{id}", params = "dodaj")
-    public String addTyp(Model model, @RequestParam String nowyTyp, @PathVariable("id") Long id) {
+    public String addTyp(@RequestParam String nowyTyp, @PathVariable("id") Long id) {
 
         skladnikService.addTyp(id,nowyTyp);
         return "redirect:/struktura/edit/" + id;

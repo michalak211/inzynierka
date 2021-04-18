@@ -221,7 +221,7 @@ public class KoktailService {
     public void addPhoto(String zdjecie, HttpServletRequest request){
 
         long id=Integer.parseInt(zdjecie);
-        Map<String, MultipartFile> fileMap = new HashMap<String, MultipartFile>();
+        Map<String, MultipartFile> fileMap = new HashMap<>();
         if (request instanceof MultipartHttpServletRequest) {
             MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
             fileMap = multiRequest.getFileMap();
