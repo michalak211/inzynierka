@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
 import pl.mrozek.inzynierka.Repo.BarekRepo;
-import pl.mrozek.inzynierka.Service.SkladnikService;
+import pl.mrozek.inzynierka.Services.SkladnikService;
 
 @Controller
 @RequestMapping("/bar")

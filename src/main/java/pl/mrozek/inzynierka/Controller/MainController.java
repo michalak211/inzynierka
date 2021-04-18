@@ -10,11 +10,10 @@ import pl.mrozek.inzynierka.Dto.FilterSet;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.user.BarUser;
 import pl.mrozek.inzynierka.Repo.*;
-import pl.mrozek.inzynierka.Service.KoktailService;
-import pl.mrozek.inzynierka.Service.SkladnikService;
-import pl.mrozek.inzynierka.Service.UserService;
+import pl.mrozek.inzynierka.Services.KoktailService;
+import pl.mrozek.inzynierka.Services.SkladnikService;
+import pl.mrozek.inzynierka.Services.UserService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -61,6 +60,7 @@ public class MainController {
     @GetMapping("/przegladaj")
     public String przegladanie(Model model) {
 
+
         Long defaultBarekId =barekRepo.findByNazwaEquals("barek mieszkanie").getId();
 
         model.addAttribute("bars", barekRepo.findAll());
@@ -83,26 +83,29 @@ public class MainController {
 
     @GetMapping("/image/{id}")
     @ResponseBody
-    void showImage(@PathVariable("id") Long id, HttpServletResponse response)
-            throws ServletException, IOException {
+    void showImage(@PathVariable("id") Long id, HttpServletResponse response) throws  IOException {
         response.setContentType("image/*");
 
 //        response.setContentType("image/jpeg", "image/jpg", "image/png", "image/gif");
 
         if (koktailService.getPhoto(id) != null) {
             response.getOutputStream().write(koktailService.getPhoto(id));
-        } else {
-            InputStream inputStream = getClass().getResourceAsStream("/static/img/fotka.jpg");
-            byte[] bytes = IOUtils.toByteArray(inputStream);
-            response.getOutputStream().write(bytes);
+            response.getOutputStream().close();
+            return;
         }
+        InputStream inputStream = getClass().getResourceAsStream("/static/img/fotka.jpg");
+        assert inputStream != null;
+        byte[] bytes = IOUtils.toByteArray(inputStream);
+        response.getOutputStream().write(bytes);
         response.getOutputStream().close();
+
+
     }
 
 
     @GetMapping(value = "/struktura")
     public String struktura(Model model, Principal principal) {
-//        System.out.println(principal.);
+        System.out.println(principal);
         model.addAttribute("alkoList", alkoholRepo.findAll());
         return "struktura";
     }

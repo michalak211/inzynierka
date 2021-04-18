@@ -1,5 +1,7 @@
-package pl.mrozek.inzynierka.Service;
+package pl.mrozek.inzynierka.Services;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import pl.mrozek.inzynierka.Dto.SkladnikP;
@@ -43,46 +45,99 @@ public class SkladnikService {
         this.butelkaRepo = butelkaRepo;
     }
 
+    @EventListener(ApplicationReadyEvent.class)
+    public void init() {
+
+        if (barekRepo.findByNazwaEquals("barek mieszkanie") == null) {
+            Barek barek = new Barek();
+            barek.setNazwa("barek mieszkanie");
+            barekRepo.save(barek);
+        }
+    }
+
+    public boolean saveSok(SkladnikP skladnikP) {
+
+        if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) != null) return false;
+        Sok sok = new Sok();
+        sok.setNazwa(skladnikP.getNazwa());
+        sok.setCenaZaLitr(skladnikP.getIloscML());
+        sokRepo.save(sok);
+        return true;
+
+    }
+
+    public boolean saveSyrop(SkladnikP skladnikP) {
+
+        if (syropRepo.findByNazwaEquals(skladnikP.getNazwa()) != null) return false;
+        Syrop syrop = new Syrop();
+        syrop.setNazwa(skladnikP.getNazwa());
+        syrop.setCenaZaLitr(skladnikP.getIloscML());
+        if (skladnikP.getOpisDodatkowy() != null) {
+            syrop.setPrzepis(skladnikP.getOpisDodatkowy());
+        }
+        syropRepo.save(syrop);
+        return true;
+
+    }
+
+    public boolean saveInny(SkladnikP skladnikP) {
+
+        if (innyRepo.findByNazwaEquals(skladnikP.getNazwa()) != null) return false;
+        Inny inny = new Inny();
+        inny.setNazwa(skladnikP.getNazwa());
+        inny.setCenaZaJednostke(skladnikP.getIloscML());
+        innyRepo.save(inny);
+        return true;
+
+    }
+
 
     public boolean saveSkladnik(SkladnikP skladnikP) {
-        switch (skladnikP.getRodzaj()) {
-            case 1:
-                break;
-            case 2:
-                if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-                    //else strona bledu?
-                    Sok sok = new Sok();
-                    sok.setNazwa(skladnikP.getNazwa());
-                    sok.setCenaZaLitr(skladnikP.getIloscML());
-                    sokRepo.save(sok);
-                    return true;
-                }
-                break;
-            case 3:
-
-                if (syropRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-                    Syrop syrop = new Syrop();
-                    syrop.setNazwa(skladnikP.getNazwa());
-                    syrop.setCenaZaLitr(skladnikP.getIloscML());
-                    if (skladnikP.getOpisDodatkowy() != null) {
-                        syrop.setPrzepis(skladnikP.getOpisDodatkowy());
-                    }
-                    syropRepo.save(syrop);
-                    return true;
-                }
-                break;
-            case 4:
-                if (innyRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-                    Inny inny = new Inny();
-                    inny.setNazwa(skladnikP.getNazwa());
-                    inny.setCenaZaJednostke(skladnikP.getIloscML());
-                    innyRepo.save(inny);
-                    return true;
-
-                }
-                break;
-        }
+        if (skladnikP.getRodzaj() == 1) return false;
+        if (skladnikP.getRodzaj() == 2) return saveSok(skladnikP);
+        if (skladnikP.getRodzaj() == 3) return saveSyrop(skladnikP);
+        if (skladnikP.getRodzaj() == 4) return saveInny(skladnikP);
         return false;
+
+
+//        switch (skladnikP.getRodzaj()) {
+//            case 1:
+//                break;
+//            case 2:
+//                if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
+//                    //else strona bledu?
+//                    Sok sok = new Sok();
+//                    sok.setNazwa(skladnikP.getNazwa());
+//                    sok.setCenaZaLitr(skladnikP.getIloscML());
+//                    sokRepo.save(sok);
+//                    return true;
+//                }
+//                break;
+//            case 3:
+//
+//                if (syropRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
+//                    Syrop syrop = new Syrop();
+//                    syrop.setNazwa(skladnikP.getNazwa());
+//                    syrop.setCenaZaLitr(skladnikP.getIloscML());
+//                    if (skladnikP.getOpisDodatkowy() != null) {
+//                        syrop.setPrzepis(skladnikP.getOpisDodatkowy());
+//                    }
+//                    syropRepo.save(syrop);
+//                    return true;
+//                }
+//                break;
+//            case 4:
+//                if (innyRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
+//                    Inny inny = new Inny();
+//                    inny.setNazwa(skladnikP.getNazwa());
+//                    inny.setCenaZaJednostke(skladnikP.getIloscML());
+//                    innyRepo.save(inny);
+//                    return true;
+//
+//                }
+//                break;
+//        }
+//        return false;
     }
 
     public boolean deleteBottleFromBar(long bottleId, long barId) {
@@ -196,44 +251,84 @@ public class SkladnikService {
         return false;
     }
 
+    public boolean addSokToBar(SkladnikP skladnikP, Barek barek){
+        if (!sokRepo.findById(skladnikP.getId()).isPresent()) return false;
+        Sok sok = sokRepo.findById(skladnikP.getId()).get();
+        if (!barek.getListSok().contains(sok)) {
+            barek.getListSok().add(sok);
+            barekRepo.save(barek);
+        }
+        return true;
+    }
+
+    public boolean addSyropToBar(SkladnikP skladnikP, Barek barek){
+        if (!syropRepo.findById(skladnikP.getId()).isPresent()) return false;
+        Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
+        if (!barek.getListSyrop().contains(syrop)) {
+            barek.getListSyrop().add(syrop);
+            barekRepo.save(barek);
+        }
+        return true;
+    }
+    public boolean addInnyToBar(SkladnikP skladnikP, Barek barek){
+        if (!innyRepo.findById(skladnikP.getId()).isPresent()) return false;
+        Inny inny = innyRepo.findById(skladnikP.getId()).get();
+        if (!barek.getListInny().contains(inny)) {
+            barek.getListInny().add(inny);
+            barekRepo.save(barek);
+        }
+        return true;
+    }
+
+
+
 
     public boolean addToBar(SkladnikP skladnikP, Long barId) {
-        if (barekRepo.findById(barId).isPresent()) {
-            Barek barek = barekRepo.findById(barId).get();
 
-            switch (skladnikP.getRodzaj()) {
-                case 2:
-                    if (sokRepo.findById(skladnikP.getId()).isPresent()) {
-                        Sok sok = sokRepo.findById(skladnikP.getId()).get();
-                        if (!barek.getListSok().contains(sok)) {
-                            barek.getListSok().add(sok);
-                            barekRepo.save(barek);
-                        }
-                    }
-                    break;
-                case 3:
-
-                    if (syropRepo.findById(skladnikP.getId()).isPresent()) {
-                        Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
-                        if (!barek.getListSyrop().contains(syrop)) {
-                            barek.getListSyrop().add(syrop);
-                            barekRepo.save(barek);
-                        }
-                    }
-                    break;
-                case 4:
-                    if (innyRepo.findById(skladnikP.getId()).isPresent()) {
-                        Inny inny = innyRepo.findById(skladnikP.getId()).get();
-                        if (!barek.getListInny().contains(inny)) {
-                            barek.getListInny().add(inny);
-                            barekRepo.save(barek);
-                        }
-                    }
-                    break;
-            }
-        }
+        if (!barekRepo.findById(barId).isPresent()) return false;
+        Barek barek = barekRepo.findById(barId).get();
+        if (skladnikP.getRodzaj() == 1) return false;
+        if (skladnikP.getRodzaj() == 2) return addSokToBar(skladnikP,barek);
+        if (skladnikP.getRodzaj() == 3) return addSyropToBar(skladnikP,barek);
+        if (skladnikP.getRodzaj() == 4) return addInnyToBar(skladnikP,barek);
 
         return false;
+
+//        if (barekRepo.findById(barId).isPresent()) {
+//
+//            switch (skladnikP.getRodzaj()) {
+//                case 2:
+//                    if (sokRepo.findById(skladnikP.getId()).isPresent()) {
+//                        Sok sok = sokRepo.findById(skladnikP.getId()).get();
+//                        if (!barek.getListSok().contains(sok)) {
+//                            barek.getListSok().add(sok);
+//                            barekRepo.save(barek);
+//                        }
+//                    }
+//                    break;
+//                case 3:
+//
+//                    if (syropRepo.findById(skladnikP.getId()).isPresent()) {
+//                        Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
+//                        if (!barek.getListSyrop().contains(syrop)) {
+//                            barek.getListSyrop().add(syrop);
+//                            barekRepo.save(barek);
+//                        }
+//                    }
+//                    break;
+//                case 4:
+//                    if (innyRepo.findById(skladnikP.getId()).isPresent()) {
+//                        Inny inny = innyRepo.findById(skladnikP.getId()).get();
+//                        if (!barek.getListInny().contains(inny)) {
+//                            barek.getListInny().add(inny);
+//                            barekRepo.save(barek);
+//                        }
+//                    }
+//                    break;
+//            }
+//        }
+//
+//        return false;
     }
 
     public boolean addBottleToBar(long bottleId, Long barId) {
@@ -367,37 +462,67 @@ public class SkladnikService {
         return "skladniki/skladnikManager";
     }
 
+
+    public void editSok(SkladnikP skladnikP){
+        if (!sokRepo.findById(skladnikP.getId()).isPresent()) return;
+        Sok sok = sokRepo.findById(skladnikP.getId()).get();
+        sok.setNazwa(skladnikP.getNazwa());
+        sok.setCenaZaLitr(skladnikP.getIloscML());
+        sokRepo.save(sok);
+    }
+    public void editSyrop(SkladnikP skladnikP){
+        if (!syropRepo.findById(skladnikP.getId()).isPresent()) return;
+        Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
+        syrop.setNazwa(skladnikP.getNazwa());
+        syrop.setCenaZaLitr(skladnikP.getIloscML());
+        syrop.setPrzepis(skladnikP.getOpisDodatkowy());
+        syropRepo.save(syrop);
+    }
+
+    public void editInny(SkladnikP skladnikP){
+        if (!innyRepo.findById(skladnikP.getId()).isPresent()) return;
+        Inny inny = innyRepo.findById(skladnikP.getId()).get();
+        inny.setNazwa(skladnikP.getNazwa());
+        inny.setCenaZaJednostke(skladnikP.getIloscML());
+        innyRepo.save(inny);
+    }
+
+
     public void editSkladnik(SkladnikP skladnikP) {
 
-        switch (skladnikP.getRodzaj()) {
-            case 1:
-                break;
-            case 2:
-                if (sokRepo.findById(skladnikP.getId()).isPresent()) {
-                    Sok sok = sokRepo.findById(skladnikP.getId()).get();
-                    sok.setNazwa(skladnikP.getNazwa());
-                    sok.setCenaZaLitr(skladnikP.getIloscML());
-                    sokRepo.save(sok);
-                }
-                break;
-            case 3:
-                if (syropRepo.findById(skladnikP.getId()).isPresent()) {
-                    Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
-                    syrop.setNazwa(skladnikP.getNazwa());
-                    syrop.setCenaZaLitr(skladnikP.getIloscML());
-                    syrop.setPrzepis(skladnikP.getOpisDodatkowy());
-                    syropRepo.save(syrop);
-                }
-                break;
-            case 4:
-                if (innyRepo.findById(skladnikP.getId()).isPresent()) {
-                    Inny inny = innyRepo.findById(skladnikP.getId()).get();
-                    inny.setNazwa(skladnikP.getNazwa());
-                    inny.setCenaZaJednostke(skladnikP.getIloscML());
-                    innyRepo.save(inny);
-                }
-                break;
-        }
+        if (skladnikP.getRodzaj() == 2)  editSok(skladnikP);
+        if (skladnikP.getRodzaj() == 3)  editSyrop(skladnikP);
+        if (skladnikP.getRodzaj() == 4)  editInny(skladnikP);
+
+//        switch (skladnikP.getRodzaj()) {
+//            case 1:
+//                break;
+//            case 2:
+//                if (sokRepo.findById(skladnikP.getId()).isPresent()) {
+//                    Sok sok = sokRepo.findById(skladnikP.getId()).get();
+//                    sok.setNazwa(skladnikP.getNazwa());
+//                    sok.setCenaZaLitr(skladnikP.getIloscML());
+//                    sokRepo.save(sok);
+//                }
+//                break;
+//            case 3:
+//                if (syropRepo.findById(skladnikP.getId()).isPresent()) {
+//                    Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
+//                    syrop.setNazwa(skladnikP.getNazwa());
+//                    syrop.setCenaZaLitr(skladnikP.getIloscML());
+//                    syrop.setPrzepis(skladnikP.getOpisDodatkowy());
+//                    syropRepo.save(syrop);
+//                }
+//                break;
+//            case 4:
+//                if (innyRepo.findById(skladnikP.getId()).isPresent()) {
+//                    Inny inny = innyRepo.findById(skladnikP.getId()).get();
+//                    inny.setNazwa(skladnikP.getNazwa());
+//                    inny.setCenaZaJednostke(skladnikP.getIloscML());
+//                    innyRepo.save(inny);
+//                }
+//                break;
+//        }
 
     }
 
@@ -416,7 +541,7 @@ public class SkladnikService {
         return false;
     }
 
-    public String editAlko(long alkoId, Alkohol alkohol,Model model) {
+    public String editAlko(long alkoId, Alkohol alkohol, Model model) {
 
         if (alkoholRepo.findById(alkoId).isPresent()) {
             Alkohol alkoholBaza = alkoholRepo.findById(alkoId).get();
@@ -439,7 +564,7 @@ public class SkladnikService {
 
     }
 
-    public void addTyp(long id,String nowyTyp){
+    public void addTyp(long id, String nowyTyp) {
 
         if (alkoholRepo.findById(id).isPresent()) {
             Alkohol alkohol = alkoholRepo.findById(id).get();
@@ -454,7 +579,7 @@ public class SkladnikService {
         }
     }
 
-    public void addNewAlko(String nazwa){
+    public void addNewAlko(String nazwa) {
         Alkohol alkohol = new Alkohol();
         alkohol.setNazwa(nazwa);
         Typ newTyp = new Typ();

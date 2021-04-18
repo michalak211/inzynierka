@@ -41,10 +41,18 @@ public class SkladnikP {
 // paramgmaty programowania
 
 //todo kolejnosc
-// logowanie
+// LOGOWANIE
+// przycisk singup
 // sprawdzanie czy mail prawidłowy
 // powtórz hasło
 // opis dostępów
+// BACKUP
+// tworzenie pliku txt z kolejno
+// barkami
+// userami
+// struktura i skladniki
+// butelki
+// FILTRY
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // przeniesienie metod do entity
 // wybor barku
@@ -72,13 +80,8 @@ public class SkladnikP {
 // dodawanie zapytań
 // dodwanie własnych zdjęć
 
-//todo filtry
-// wyswietlanie barkujących skałdników
-// jezeli aklkohol o typie barku ispresent to jest obecny i tyle
-
 
 //todo zasoby barku
-// workhorse dla
 // aktualizacja
 // obliczanie ceny koktajlu
 // ładne alkohole
@@ -86,7 +89,6 @@ public class SkladnikP {
 
 //todo refactor
 // mapper skladnik p do b (kolejność w if)
-// js!
 // pliki ze skryptami js
 
 

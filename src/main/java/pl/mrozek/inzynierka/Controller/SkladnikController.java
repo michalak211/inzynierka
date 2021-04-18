@@ -8,7 +8,7 @@ import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Butelka;
 import pl.mrozek.inzynierka.Repo.AlkoholRepo;
 import pl.mrozek.inzynierka.Repo.ButelkaRepo;
-import pl.mrozek.inzynierka.Service.SkladnikService;
+import pl.mrozek.inzynierka.Services.SkladnikService;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
 @Controller

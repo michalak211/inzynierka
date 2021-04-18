@@ -1,5 +1,7 @@
-package pl.mrozek.inzynierka.Service;
+package pl.mrozek.inzynierka.Services;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.mrozek.inzynierka.Entity.user.Authoritiy;
@@ -35,20 +37,36 @@ public class UserService {
         this.verificationTokenRepo = verificationTokenRepo;
     }
 
+    @EventListener(ApplicationReadyEvent.class)
+    public void init(){
+
+        if (barUserRepo.findAll().size()==0){
+            adminInit();
+        }
+
+    }
+
+
 
     public void addNewUser(BarUser barUser, HttpServletRequest request) {
 
         if (barUser.getPassword() == null) return;
         if (barUserRepo.findAll().size()<1) adminInit();
 
-        barUser.setPassword(passwordEncoder.encode(barUser.getPassword()));
+        saveUser(barUser);
+        sendToken(barUser,request);
+    }
 
+
+    public void saveUser(BarUser barUser){
+        barUser.setPassword(passwordEncoder.encode(barUser.getPassword()));
         List<Authoritiy> authoritiyList= new ArrayList<>();
         authoritiyList.add(new Authoritiy(UUID.randomUUID(),Role.ROLE_USER.toString(),barUser));
-
         barUser.setAuthorities(authoritiyList);
         barUserRepo.save(barUser);
+    }
 
+    public void sendToken(BarUser barUser,HttpServletRequest request){
         String token= UUID.randomUUID().toString();
         VerificationToken verificationToken= new VerificationToken();
         verificationToken.setBarUser(barUser);
@@ -71,6 +89,7 @@ public class UserService {
     }
 
 
+
     public void verifyToken(String token) {
         BarUser barUser = verificationTokenRepo.findByValue(token).getBarUser();
         barUser.setEnabled(true);
@@ -81,7 +100,8 @@ public class UserService {
 
         BarUser barUser = new BarUser();
         barUser.setUsername("admin");
-        barUser.setPassword("admin");
+        barUser.setPassword(passwordEncoder.encode("admin"));
+
         barUser.setEnabled(true);
         List<Authoritiy> authoritiyList= new ArrayList<>();
         authoritiyList.add(new Authoritiy(UUID.randomUUID(),Role.ROLE_USER.toString(),barUser));

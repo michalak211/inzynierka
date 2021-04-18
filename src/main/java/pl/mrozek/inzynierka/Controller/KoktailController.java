@@ -5,29 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
-import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
-import pl.mrozek.inzynierka.Entity.user.Authoritiy;
-import pl.mrozek.inzynierka.Entity.user.BarUser;
-import pl.mrozek.inzynierka.Entity.user.Role;
 import pl.mrozek.inzynierka.Repo.*;
-import pl.mrozek.inzynierka.Service.KoktailService;
+import pl.mrozek.inzynierka.Services.KoktailService;
 //import pl.mrozek.inzynierka.Service.MailSenderService;
-import pl.mrozek.inzynierka.Service.MailSenderService;
-import pl.mrozek.inzynierka.Service.UserService;
+import pl.mrozek.inzynierka.Services.MailSenderService;
+import pl.mrozek.inzynierka.Services.UserService;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
-import javax.mail.MessagingException;
-import javax.servlet.*;
-import javax.servlet.http.*;
 import javax.transaction.Transactional;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.Principal;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
 
 @Controller
 @RequestMapping("koktajl")
@@ -88,12 +73,9 @@ public class KoktailController {
 
     @Transactional
     @PostMapping("/add")
-    public String addKoktajlSubmitt(@ModelAttribute("koktajlForm") KoktajlForm koktajlForm, Model model) {
+    public String addKoktajlSubmitt(@ModelAttribute("koktajlForm") KoktajlForm koktajlForm) {
 
-
-        Koktajl koktajl = new Koktajl();
-        koktajl = mapper.toKoktajl(koktajl, koktajlForm);
-        koktailRepo.save(koktajl);
+        koktailService.addKoktajl(koktajlForm);
 
         return "redirect:/przegladaj";
 
@@ -124,15 +106,9 @@ public class KoktailController {
     @GetMapping("/edit/{id}")
     public String editKoktajl(@PathVariable Long id, Model model) {
 
-        KoktajlForm koktajlForm = new KoktajlForm();
-        if (koktailRepo.findById(id).isPresent()) {
-            Koktajl koktajl = koktailRepo.findById(id).get();
-            koktajlForm = mapper.toKoktajlForm(koktajl);
-        }
-
 
         model.addAttribute("skladnikList", alkoholRepo.findAll());
-        model.addAttribute("koktajlForm", koktajlForm);
+        model.addAttribute("koktajlForm", koktailService.getKoktajlForm(id));
         model.addAttribute("sokList", sokRepo.findAll());
         model.addAttribute("syropList", syropRepo.findAll());
         model.addAttribute("innyList", innyRepo.findAll());
@@ -145,12 +121,7 @@ public class KoktailController {
     @PostMapping("/edit/{id}")
     public String editKoktajlPost(@PathVariable Long id, @ModelAttribute("koktajlForm") KoktajlForm koktajlForm, Model model) {
 
-
-        if (koktailRepo.findById(id).isPresent()) {
-            Koktajl koktajl = koktailRepo.findById(id).get();
-            koktajl = mapper.toKoktajl(koktajl, koktajlForm);
-            koktailRepo.save(koktajl);
-        }
+        koktailService.editKoktajl(id,koktajlForm);
 
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
@@ -164,8 +135,7 @@ public class KoktailController {
     public String init() {
 
 
-
-        if (authoritiyRepo.findAll().size()>0) return "redirect:/przegladaj";
+        if (authoritiyRepo.findAll().size() > 0) return "redirect:/przegladaj";
 
 //        Authoritiy authoritiy= new Authoritiy();
 //        authoritiy.setAuthority(Role.ROLE_USER.toString());
@@ -261,8 +231,6 @@ public class KoktailController {
         return "redirect:/koktajl/add";
 
     }
-
-
 
 
 }

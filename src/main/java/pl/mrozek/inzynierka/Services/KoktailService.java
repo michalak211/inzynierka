@@ -1,4 +1,4 @@
-package pl.mrozek.inzynierka.Service;
+package pl.mrozek.inzynierka.Services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,10 +42,27 @@ public class KoktailService {
         this.alkoholRepo = alkoholRepo;
     }
 
-    public void addKoktajl(){
+    public void addKoktajl(KoktajlForm koktajlForm){
         Koktajl koktajl =new Koktajl();
-        koktajl.setNazwa("nowy");
+        koktajl = mapper.toKoktajl(koktajl, koktajlForm);
         koktailRepo.save(koktajl);
+    }
+
+    public KoktajlForm getKoktajlForm(Long id){
+        Koktajl koktajl=koktailRepo.findById(id).orElse(new Koktajl());
+        return mapper.toKoktajlForm(koktajl);
+    }
+
+    public void editKoktajl(Long id, KoktajlForm koktajlForm){
+
+        if (koktailRepo.findById(id).isPresent()) {
+            Koktajl koktajl = koktailRepo.findById(id).get();
+            koktajl = mapper.toKoktajl(koktajl, koktajlForm);
+            koktailRepo.save(koktajl);
+            return;
+        }
+        addKoktajl(koktajlForm);
+
     }
 
     public List<KoktajlForm> getAllKoktajlForms(){
