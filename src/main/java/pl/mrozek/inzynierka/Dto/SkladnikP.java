@@ -47,23 +47,24 @@ public class SkladnikP {
 // powtórz hasło
 // opis dostępów
 // BACKUP
+// dodaj zdjecie blokada jesli puste
 // tworzenie pliku txt z kolejno
-// barkami
-// userami
-// struktura i skladniki
+// skladniki
+// struktura
 // butelki
+// userami
+// barkami
+// koktajlami
 // FILTRY
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
-// przeniesienie metod do entity
+// opcje sortowania: wszystko, tylko dostępne, łatwe do uzupełnienia (docelowo), filtr pełny
 // wybor barku
 // brak filtrowania po barku
 // pozostałe filtry
-// przy dodaniu nowej butli lub usunieciu sie uzupelniaja?????
-// photo made by
 // cena
 // riff
 // dodawanie zapytań o drinki
-// dodwanie własnych zdjęć
+// dodwanie własnych zdjęć przez userów i blokowanie odpowiednie
 // dodawanie zdjec butelek
 // paging
 

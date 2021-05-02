@@ -5,15 +5,18 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import pl.mrozek.inzynierka.Dto.FilterSet;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.user.BarUser;
 import pl.mrozek.inzynierka.Repo.*;
+import pl.mrozek.inzynierka.Services.BackupService;
 import pl.mrozek.inzynierka.Services.KoktailService;
 import pl.mrozek.inzynierka.Services.SkladnikService;
 import pl.mrozek.inzynierka.Services.UserService;
 
+import javax.mail.Multipart;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -34,9 +37,10 @@ public class MainController {
     private final BarekRepo barekRepo;
     private final ButelkaRepo butelkaRepo;
     private final UserService userService;
+    private final BackupService backupService;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo, ButelkaRepo butelkaRepo, UserService userService) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo, ButelkaRepo butelkaRepo, UserService userService, BackupService backupService) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -44,11 +48,11 @@ public class MainController {
         this.barekRepo = barekRepo;
         this.butelkaRepo = butelkaRepo;
         this.userService = userService;
+        this.backupService = backupService;
     }
 
     @GetMapping("/")
     public String tytulowa() {
-        System.out.println("testy6 heroku main");
         return "tytulowa";
     }
 
@@ -60,11 +64,10 @@ public class MainController {
     @GetMapping("/przegladaj")
     public String przegladanie(Model model) {
 
-
-        Long defaultBarekId =barekRepo.findByNazwaEquals("barek mieszkanie").getId();
+        Long defaultBarekId = barekRepo.findByNazwaEquals("barek mieszkanie").getId();
 
         model.addAttribute("bars", barekRepo.findAll());
-        model.addAttribute("filterSet",new FilterSet());
+        model.addAttribute("filterSet", new FilterSet());
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
         model.addAttribute("koktajlList", koktailService.checkSkladnikAccesability(defaultBarekId));
@@ -74,19 +77,16 @@ public class MainController {
 
     @Transactional
     @PostMapping(value = "/dodZdj", consumes = {"multipart/form-data"})
-    public String addPicture(@RequestParam String zdjecie,
-                             HttpServletRequest request
-    ) {
+    public String addPicture(@RequestParam String zdjecie, HttpServletRequest request) {
         koktailService.addPhoto(zdjecie, request);
         return "redirect:/przegladaj";
     }
 
     @GetMapping("/image/{id}")
     @ResponseBody
-    void showImage(@PathVariable("id") Long id, HttpServletResponse response) throws  IOException {
+    void showImage(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
         response.setContentType("image/*");
 
-//        response.setContentType("image/jpeg", "image/jpg", "image/png", "image/gif");
 
         if (koktailService.getPhoto(id) != null) {
             response.getOutputStream().write(koktailService.getPhoto(id));
@@ -105,18 +105,34 @@ public class MainController {
 
     @GetMapping(value = "/struktura")
     public String struktura(Model model, Principal principal) {
-        System.out.println(principal);
+
+//        System.out.println(principal);
         model.addAttribute("alkoList", alkoholRepo.findAll());
         return "struktura";
     }
 
     @PostMapping(value = "/struktura", params = "dodaj")
-    public String strukturaAdd(Model model,@RequestParam String nowyAlko) {
+    public String strukturaAdd(Model model, @RequestParam String nowyAlko) {
 
         skladnikService.addNewAlko(nowyAlko);
         model.addAttribute("alkoList", alkoholRepo.findAll());
         return "struktura";
     }
+
+    @PostMapping(value = "/struktura", params = "download")
+    public void dowloadJson(HttpServletResponse response) {
+        backupService.generateBackup(response);
+    }
+
+
+    @PostMapping(value = "/struktura", params = "update")
+    public String updateDatabase(@RequestParam("uploadFile") MultipartFile multipartFile) {
+        if (!multipartFile.isEmpty()) {
+            backupService.getFiletoUpdate(multipartFile);
+        }
+        return "redirect:/struktura";
+    }
+
 
     @GetMapping(value = "/struktura/edit/{id}")
     public String strukturaEdit(Model model, @PathVariable("id") Long id) {
@@ -132,7 +148,6 @@ public class MainController {
 
     @PostMapping(value = "/struktura/edit/{id}", params = "zapisz")
     public String strukturaEditPost(Model model, @ModelAttribute("alkohol") Alkohol alkohol, @PathVariable("id") Long id) {
-        System.out.println(alkohol);
         return skladnikService.editAlko(id, alkohol, model);
     }
 
@@ -153,7 +168,7 @@ public class MainController {
     @PostMapping(value = "/struktura/edit/{id}", params = "dodaj")
     public String addTyp(@RequestParam String nowyTyp, @PathVariable("id") Long id) {
 
-        skladnikService.addTyp(id,nowyTyp);
+        skladnikService.addTyp(id, nowyTyp);
         return "redirect:/struktura/edit/" + id;
     }
 

@@ -41,6 +41,7 @@ public class KoktailService {
         this.barekRepo = barekRepo;
         this.alkoholRepo = alkoholRepo;
     }
+    public List<Koktajl> getAllKoktajls() {return (List<Koktajl>) koktailRepo.findAll();}
 
     public void addKoktajl(KoktajlForm koktajlForm){
         Koktajl koktajl =new Koktajl();
@@ -200,6 +201,7 @@ public class KoktailService {
 
         try {
             byte[] bytes = file.getBytes();
+            if (bytes.length<1000) return;
             if (koktailRepo.findById(id).isPresent()){
                 Koktajl koktajl= koktailRepo.findById(id).get();
                 koktajl.setZdjecie(bytes);

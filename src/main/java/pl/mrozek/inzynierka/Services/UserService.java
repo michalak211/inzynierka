@@ -39,11 +39,7 @@ public class UserService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
-
-        if (barUserRepo.findAll().size()==0){
-            adminInit();
-        }
-
+        if (barUserRepo.findAll().size()==0){adminInit();}
     }
 
 

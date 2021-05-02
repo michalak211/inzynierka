@@ -24,7 +24,7 @@
 
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal row-border" action=""
+                        <form class="form-horizontal row-border" action="" enctype="multipart/form-data"
                               th:object="${skladnikP}" method="post">
 
 
@@ -44,6 +44,31 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="container-fluid">
+
+                                            <table id="BackupTable" class=" table order-list table-bordered">
+                                                <tfoot>
+                                                <tr>
+                                                    <td><input type="file" name="uploadFile"></td>
+                                                    <td>
+                                                        <button type="submit" class="btn btn-primary" name="update"
+                                                                th:value="update">Wgraj json
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                                </tfoot>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </form>
                     </div>
@@ -173,6 +198,28 @@
 
     }
 
+    let backups = function (elementName) {
+        let row = document.createElement('tr');
+
+        let colDown = document.createElement('td');
+        colDown.classList.add('col-sm-2');
+        let downButton = document.createElement("BUTTON");
+        downButton.innerHTML = "pobierz backup";
+        downButton.classList.add("btn");
+        downButton.classList.add("btn-default");
+        downButton.type = "submit";
+
+        downButton.classList.add("form-control");
+        downButton.name = "download";
+
+
+        colDown.appendChild(downButton);
+        row.appendChild(colDown);
+
+        document.getElementById(elementName).appendChild(row);
+
+    }
+
     let creator = function (elementName) {
         firstRow(elementName);
         alkoList.forEach((alkohol) => {
@@ -182,6 +229,7 @@
     }
 
     creator('MainTable');
+    backups('BackupTable');
 
 
 </script>
