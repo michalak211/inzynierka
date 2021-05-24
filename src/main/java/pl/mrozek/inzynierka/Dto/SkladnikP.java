@@ -56,6 +56,8 @@ public class SkladnikP {
 // barkami
 // koktajlami
 // FILTRY
+// W pracy zapytanie o skladniki
+// lista skladnikId pasujacych- alko lub typ
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // opcje sortowania: wszystko, tylko dostępne, łatwe do uzupełnienia (docelowo), filtr pełny
 // wybor barku

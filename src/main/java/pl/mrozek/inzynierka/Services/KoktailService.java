@@ -1,5 +1,8 @@
 package pl.mrozek.inzynierka.Services;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -19,6 +22,10 @@ import pl.mrozek.inzynierka.Repo.BarekRepo;
 import pl.mrozek.inzynierka.Repo.KoktailRepo;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,20 +48,23 @@ public class KoktailService {
         this.barekRepo = barekRepo;
         this.alkoholRepo = alkoholRepo;
     }
-    public List<Koktajl> getAllKoktajls() {return (List<Koktajl>) koktailRepo.findAll();}
 
-    public void addKoktajl(KoktajlForm koktajlForm){
-        Koktajl koktajl =new Koktajl();
+    public List<Koktajl> getAllKoktajls() {
+        return (List<Koktajl>) koktailRepo.findAll();
+    }
+
+    public void addKoktajl(KoktajlForm koktajlForm) {
+        Koktajl koktajl = new Koktajl();
         koktajl = mapper.toKoktajl(koktajl, koktajlForm);
         koktailRepo.save(koktajl);
     }
 
-    public KoktajlForm getKoktajlForm(Long id){
-        Koktajl koktajl=koktailRepo.findById(id).orElse(new Koktajl());
+    public KoktajlForm getKoktajlForm(Long id) {
+        Koktajl koktajl = koktailRepo.findById(id).orElse(new Koktajl());
         return mapper.toKoktajlForm(koktajl);
     }
 
-    public void editKoktajl(Long id, KoktajlForm koktajlForm){
+    public void editKoktajl(Long id, KoktajlForm koktajlForm) {
 
         if (koktailRepo.findById(id).isPresent()) {
             Koktajl koktajl = koktailRepo.findById(id).get();
@@ -66,144 +76,36 @@ public class KoktailService {
 
     }
 
-    public List<KoktajlForm> getAllKoktajlForms(){
+    public List<KoktajlForm> getAllKoktajlForms() {
 
         ArrayList<Koktajl> list = (ArrayList<Koktajl>) koktailRepo.findAll();
-        List<KoktajlForm> koktajlFormList= new ArrayList<>();
-        for (Koktajl koktajl:list){
+        List<KoktajlForm> koktajlFormList = new ArrayList<>();
+        for (Koktajl koktajl : list) {
             koktajlFormList.add(mapper.toKoktajlForm(koktajl));
         }
 
         return koktajlFormList;
     }
 
-    public List<KoktajlForm> getFormByBarek(Long barekId){
-        List<KoktajlForm> koktajlFormList= new ArrayList<>();
-        List<Koktajl> koktajlList= (List<Koktajl>) koktailRepo.findAll();
+    @EventListener(ApplicationReadyEvent.class)
+    public void init() {
 
-        Barek barek= barekRepo.findById(barekId).orElse(null);
-        if (barek==null) return koktajlFormList;
-
-        for (Koktajl koktajl:koktajlList){
-            if (checkKoktailPossibility(barek,koktajl)) {
-                koktajlFormList.add(mapper.toKoktajlForm(koktajl));
-            }
+        if (barekRepo.findByNazwaEquals("barek mieszkanie") == null) {
+            Barek barek = new Barek();
+            barek.setNazwa("barek mieszkanie");
+            barekRepo.save(barek);
         }
-        return koktajlFormList;
     }
 
 
-    public List<KoktajlForm> checkSkladnikAccesability(Long barId){
-        List<KoktajlForm> koktajlFormList= getAllKoktajlForms();
 
-
-        Barek barek= barekRepo.findById(barId).orElse(null);
-        if (barek==null) return null;
-        List<Long> typList=getBarekTypesId(barek);
-        typList.addAll(addDowolnyId(barek,typList));
-
-        List<Long> sokIds= new ArrayList<>();
-        for (Sok sok:barek.getListSok()){
-            sokIds.add(sok.getId());
-        }
-
-        List<Long> syropIds= new ArrayList<>();
-        for (Syrop syrop:barek.getListSyrop()){
-            syropIds.add(syrop.getId());
-        }
-
-        List<Long> innyIds= new ArrayList<>();
-        for (Inny inny:barek.getListInny()){
-            innyIds.add(inny.getId());
-        }
-
-        for (KoktajlForm koktajlForm:koktajlFormList){
-            for (SkladnikP skladnikP:koktajlForm.getListaSkladnikow()){
-                skladnikP.setPresent(setSkladnikPresence(skladnikP,typList,sokIds,syropIds,innyIds));
-            }
-        }
-        return koktajlFormList;
-    }
-
-
-    private boolean setSkladnikPresence(SkladnikP skladnikP,List<Long> typList,List<Long> sokIds,
-                                        List<Long> syropIds,List<Long> innyIds){
-        if (typList.contains(skladnikP.getId())) return true;
-        if (sokIds.contains(skladnikP.getId())) return true;
-        if (syropIds.contains(skladnikP.getId())) return true;
-        return innyIds.contains(skladnikP.getId());
-    }
-
-    private boolean checkKoktailPossibility(Barek barek, Koktajl koktajl){
-
-        List<Long> typList=getBarekTypesId(barek);
-        typList.addAll(addDowolnyId(barek,typList));
-        List<Long> sokIds= new ArrayList<>();
-        List<Long> syropIds= new ArrayList<>();
-        List<Long> innyIds= new ArrayList<>();
-
-        for (Sok sok:barek.getListSok()){
-            sokIds.add(sok.getId());
-        }
-        for (Syrop syrop:barek.getListSyrop()){
-            syropIds.add(syrop.getId());
-        }
-        for (Inny inny:barek.getListInny()){
-            innyIds.add(inny.getId());
-        }
-
-        for (SkladnikB skladnikB:koktajl.getSkladnikBList()){
-            if (sokIds.contains(skladnikB.getSkladnikId())) continue;
-            if (syropIds.contains(skladnikB.getSkladnikId())) continue;
-            if (innyIds.contains(skladnikB.getSkladnikId())) continue;
-            if (typList.contains(skladnikB.getSkladnikId())) continue;
-            return false;
-        }
-        return true;
-    }
-
-
-    private List<Long> getBarekTypesId(Barek barek){
-        List<Long> typList= new ArrayList<>();
-
-        for (Butelka butelka:barek.getButelkaList()){
-            if (!typList.contains(butelka.getTypId())) {
-                typList.add(butelka.getTypId());
-            }
-        }
-        return typList;
-    }
-
-    private List<Long> addDowolnyId(Barek barek, List<Long> alkoList){
-
-        List<Long> checkedAlko= new ArrayList<>();
-
-        for (Butelka butelka:barek.getButelkaList()){
-            if (checkedAlko.contains(butelka.getAlkoholId())) continue;
-            Alkohol alkohol= alkoholRepo.findById(butelka.getAlkoholId()).orElse(new Alkohol());
-
-            for (Typ typ:alkohol.getTypList()){
-
-                if (typ.getNazwa().equals("Dowolny")){
-                    if (!alkoList.contains(typ.getId())) {
-                        alkoList.add(typ.getId());
-                        checkedAlko.add(typ.getAlkoholID());
-                    }
-                    break;
-                }
-            }
-        }
-
-        return alkoList;
-    }
-
-    private void addPictureToKoktajl(MultipartFile file, long id){
+    private void addPictureToKoktajl(MultipartFile file, long id) {
 
         try {
             byte[] bytes = file.getBytes();
-            if (bytes.length<1000) return;
-            if (koktailRepo.findById(id).isPresent()){
-                Koktajl koktajl= koktailRepo.findById(id).get();
+            if (bytes.length < 1000) return;
+            if (koktailRepo.findById(id).isPresent()) {
+                Koktajl koktajl = koktailRepo.findById(id).get();
                 koktajl.setZdjecie(bytes);
             }
         } catch (IOException e) {
@@ -211,33 +113,34 @@ public class KoktailService {
         }
     }
 
-    public byte[] getPhoto(long id){
-        if (koktailRepo.findById(id).isPresent()){
-            Koktajl koktajl= koktailRepo.findById(id).get();
+    public byte[] getPhoto(long id) {
+        if (koktailRepo.findById(id).isPresent()) {
+            Koktajl koktajl = koktailRepo.findById(id).get();
             return koktajl.getZdjecie();
-        }else {
+        } else {
             return null;
         }
     }
 
-    public void addPhoto(String zdjecie, HttpServletRequest request){
+    public void addPhoto(String zdjecie, HttpServletRequest request) {
 
-        long id=Integer.parseInt(zdjecie);
+        long id = Integer.parseInt(zdjecie);
         Map<String, MultipartFile> fileMap = new HashMap<>();
         if (request instanceof MultipartHttpServletRequest) {
             MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
             fileMap = multiRequest.getFileMap();
         }
 
-        for (Map.Entry<String, MultipartFile> entry: fileMap.entrySet()){
-            if (id==Integer.parseInt(entry.getKey())){
-                addPictureToKoktajl(entry.getValue(),id);
+        for (Map.Entry<String, MultipartFile> entry : fileMap.entrySet()) {
+            if (id == Integer.parseInt(entry.getKey())) {
+                addPictureToKoktajl(entry.getValue(), id);
                 break;
             }
         }
     }
 
 
+    //QUERRIES
 
 
 

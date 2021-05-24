@@ -178,9 +178,6 @@ public class BackupService {
         try {
             List<Koktajl> koktajlList = objectMapper.readValue(json, new TypeReference<List<Koktajl>>() {
             });
-            for (Koktajl koktajl:koktajlList){
-                System.out.println(koktajl);
-            }
             koktailRepo.saveAll(koktajlList);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

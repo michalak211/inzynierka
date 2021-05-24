@@ -99,46 +99,7 @@ public class SkladnikService {
         if (skladnikP.getRodzaj() == 4) return saveInny(skladnikP);
         return false;
 
-
-//        switch (skladnikP.getRodzaj()) {
-//            case 1:
-//                break;
-//            case 2:
-//                if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-//                    //else strona bledu?
-//                    Sok sok = new Sok();
-//                    sok.setNazwa(skladnikP.getNazwa());
-//                    sok.setCenaZaLitr(skladnikP.getIloscML());
-//                    sokRepo.save(sok);
-//                    return true;
-//                }
-//                break;
-//            case 3:
-//
-//                if (syropRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-//                    Syrop syrop = new Syrop();
-//                    syrop.setNazwa(skladnikP.getNazwa());
-//                    syrop.setCenaZaLitr(skladnikP.getIloscML());
-//                    if (skladnikP.getOpisDodatkowy() != null) {
-//                        syrop.setPrzepis(skladnikP.getOpisDodatkowy());
-//                    }
-//                    syropRepo.save(syrop);
-//                    return true;
-//                }
-//                break;
-//            case 4:
-//                if (innyRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-//                    Inny inny = new Inny();
-//                    inny.setNazwa(skladnikP.getNazwa());
-//                    inny.setCenaZaJednostke(skladnikP.getIloscML());
-//                    innyRepo.save(inny);
-//                    return true;
-//
-//                }
-//                break;
-//        }
-//        return false;
-    }
+   }
 
     public boolean deleteBottleFromBar(long bottleId, long barId) {
 
@@ -293,42 +254,6 @@ public class SkladnikService {
         if (skladnikP.getRodzaj() == 4) return addInnyToBar(skladnikP,barek);
 
         return false;
-
-//        if (barekRepo.findById(barId).isPresent()) {
-//
-//            switch (skladnikP.getRodzaj()) {
-//                case 2:
-//                    if (sokRepo.findById(skladnikP.getId()).isPresent()) {
-//                        Sok sok = sokRepo.findById(skladnikP.getId()).get();
-//                        if (!barek.getListSok().contains(sok)) {
-//                            barek.getListSok().add(sok);
-//                            barekRepo.save(barek);
-//                        }
-//                    }
-//                    break;
-//                case 3:
-//
-//                    if (syropRepo.findById(skladnikP.getId()).isPresent()) {
-//                        Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
-//                        if (!barek.getListSyrop().contains(syrop)) {
-//                            barek.getListSyrop().add(syrop);
-//                            barekRepo.save(barek);
-//                        }
-//                    }
-//                    break;
-//                case 4:
-//                    if (innyRepo.findById(skladnikP.getId()).isPresent()) {
-//                        Inny inny = innyRepo.findById(skladnikP.getId()).get();
-//                        if (!barek.getListInny().contains(inny)) {
-//                            barek.getListInny().add(inny);
-//                            barekRepo.save(barek);
-//                        }
-//                    }
-//                    break;
-//            }
-//        }
-//
-//        return false;
     }
 
     public boolean addBottleToBar(long bottleId, Long barId) {

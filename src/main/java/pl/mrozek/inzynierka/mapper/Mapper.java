@@ -41,6 +41,18 @@ public class Mapper {
     }
 
 
+    public List<KoktajlForm> toForms(List<Koktajl> koktajlList){
+        List<KoktajlForm> koktajlFormList= new ArrayList<>();
+
+        for (Koktajl koktajl:koktajlList){
+            koktajlFormList.add(toKoktajlForm(koktajl));
+        }
+
+        return koktajlFormList;
+    }
+
+
+
     public Koktajl toKoktajl(Koktajl koktajl, KoktajlForm koktajlForm) {
 
         koktajl.setNazwa(koktajlForm.getNazwa());
@@ -239,45 +251,7 @@ public class Mapper {
             if (!skladnikRepo.findById(skladnikB.getSkladnikId()).isPresent()) continue;
 
             skladnikPList.add(skladnikBToSkladnikP(skladnikB));
-//            if (skladnikRepo.findById(skladnikB.getSkladnikId()).isPresent()) {
-//                Skladnik skladnik = skladnikRepo.findById(skladnikB.getSkladnikId()).get();
-//
-//                SkladnikP skladnikP = new SkladnikP();
-//                skladnikP.setId(skladnikB.getSkladnikId());
-//                skladnikP.setIloscML(skladnikB.getIlosc());
-//                skladnikP.setOpisDodatkowy(skladnikB.getOpisDodatkowy());
-//
-//                if (skladnik instanceof Typ) {
-//                    skladnikP.setRodzaj(1);
-//                    skladnikP.setTyp(skladnik.getNazwa());
-//                    if (alkoholRepo.findById(((Typ) skladnik).getAlkoholID()).isPresent()) {
-//                        Alkohol alkohol = alkoholRepo.findById(((Typ) skladnik).getAlkoholID()).get();
-//                        skladnikP.setNazwa(alkohol.getNazwa());
-//                    }
-//                    skladnikPList.add(skladnikP);
-//                    continue;
-//                }
-//
-//                if (skladnik instanceof Sok) {
-//                    skladnikP.setRodzaj(2);
-//                    skladnikP.setNazwa(skladnik.getNazwa());
-//                    skladnikPList.add(skladnikP);
-//                    continue;
-//                }
-//
-//                if (skladnik instanceof Syrop) {
-//                    skladnikP.setRodzaj(3);
-//                    skladnikP.setNazwa(skladnik.getNazwa());
-//                    skladnikPList.add(skladnikP);
-//                    continue;
-//                }
-//
-//                if (skladnik instanceof Inny) {
-//                    skladnikP.setRodzaj(4);
-//                    skladnikP.setNazwa(skladnik.getNazwa());
-//                    skladnikPList.add(skladnikP);
-//                }
-//            }
+
         }
 
         koktajlForm.setListaSkladnikow(skladnikPList);

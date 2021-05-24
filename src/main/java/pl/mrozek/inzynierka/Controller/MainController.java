@@ -70,7 +70,7 @@ public class MainController {
         model.addAttribute("filterSet", new FilterSet());
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
-        model.addAttribute("koktajlList", koktailService.checkSkladnikAccesability(defaultBarekId));
+//        model.addAttribute("koktajlList", koktailService.checkSkladnikAccesability(defaultBarekId));
         return "wyswietl";
     }
 

@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
+import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Repo.*;
+import pl.mrozek.inzynierka.Services.FilterService;
 import pl.mrozek.inzynierka.Services.KoktailService;
 //import pl.mrozek.inzynierka.Service.MailSenderService;
 import pl.mrozek.inzynierka.Services.MailSenderService;
@@ -13,6 +15,7 @@ import pl.mrozek.inzynierka.Services.UserService;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Controller
 @RequestMapping("koktajl")
@@ -21,38 +24,25 @@ public class KoktailController {
 
 
     private final
-    SkladnikRepo skladnikRepo;
-    private final
     AlkoholRepo alkoholRepo;
     private final
     TypRepo typRepo;
-    private final Mapper mapper;
-    private final KoktailRepo koktailRepo;
     private final SokRepo sokRepo;
     private final SyropRepo syropRepo;
     private final InnyRepo innyRepo;
     private final KoktailService koktailService;
-    private final PasswordEncoder passwordEncoder;
-    private final BarUserRepo barUserRepo;
     private final AuthoritiyRepo authoritiyRepo;
-    private final UserService userService;
-    private final MailSenderService mailSenderService;
+    private final FilterService filterService;
 
-    public KoktailController(SkladnikRepo skladnikRepo, AlkoholRepo alkoholRepo, TypRepo typRepo, Mapper mapper, KoktailRepo koktailRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService, PasswordEncoder passwordEncoder, BarUserRepo barUserRepo, AuthoritiyRepo authoritiyRepo, UserService userService, MailSenderService mailSenderService) {
-        this.skladnikRepo = skladnikRepo;
+    public KoktailController(AlkoholRepo alkoholRepo, TypRepo typRepo,  SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, KoktailService koktailService,  AuthoritiyRepo authoritiyRepo, FilterService filterService) {
+        this.filterService = filterService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
-        this.mapper = mapper;
-        this.koktailRepo = koktailRepo;
         this.sokRepo = sokRepo;
         this.syropRepo = syropRepo;
         this.innyRepo = innyRepo;
         this.koktailService = koktailService;
-        this.passwordEncoder = passwordEncoder;
-        this.barUserRepo = barUserRepo;
         this.authoritiyRepo = authoritiyRepo;
-        this.userService = userService;
-        this.mailSenderService = mailSenderService;
     }
 
     @Transactional
@@ -85,6 +75,13 @@ public class KoktailController {
     public String test(Model model) {
 
 
+        List<Koktajl> koktajls= filterService.findBySet(new Koktajl());
+
+
+        System.out.println("proba");
+        for (Koktajl koktajl:koktajls){
+            System.out.println(koktajl.getNazwa());
+        }
 //        try {
 //            mailSenderService.sendMail("Michalak211@gmail.com", "testTemat","hakunamatta",false);
 //        } catch (MessagingException e) {
