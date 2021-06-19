@@ -1,15 +1,6 @@
 package pl.mrozek.inzynierka.Dto;
 
 import lombok.*;
-import org.springframework.data.annotation.Transient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,30 +18,61 @@ public class SkladnikP {
     private boolean nowy;
     private boolean nowyAlko;
 
+    private boolean present=false;
 
 
 }
 
+
+// opcja dla is prezent
+
+//    Foo foo = repository.findById(id)
+//            .orElse(new Foo());
+
+//dynamic querry
+//https://javadeveloperzone.com/spring/spring-jpa-dynamic-query-example/
+// ogarnąć extract method
+// metody w encjach?
+
+//wiedza
+// ogarniecie put, delete, patch
+// modelmapper zamiana na np dto loombok tez ma!
+// garbage colector??? co to
+// paramgmaty programowania
+
 //todo kolejnosc
-// większa nazwa butli przy wpisywnaiu/wyswietlaniu i ogólnie innych pól/nazw
-// pokazanie w jakiej kategorii jesteśmy
-// edycja skladnikow
-// edycja struktury skladnikow (alkohol-typ)
-// kontroler do baru
-// usun skladnik
-// edit skladnik
-// aktywacja rodzaju w managerach
-// filtry po barze
-// kolorowanie po barze i brakujace skladniki
-// workhorse
+// LOGOWANIE
+// przycisk singup
+// sprawdzanie czy mail prawidłowy
+// powtórz hasło
+// opis dostępów
+// BACKUP
+// dodaj zdjecie blokada jesli puste
+// tworzenie pliku txt z kolejno
+// skladniki
+// struktura
+// butelki
+// userami
+// barkami
+// koktajlami
+// FILTRY
+// W pracy zapytanie o skladniki
+// lista skladnikId pasujacych- alko lub typ
+// filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
+// opcje sortowania: wszystko, tylko dostępne, łatwe do uzupełnienia (docelowo), filtr pełny
+// wybor barku
+// brak filtrowania po barku
 // pozostałe filtry
 // cena
 // riff
 // dodawanie zapytań o drinki
-// dodwanie własnych zdjęć
+// dodwanie własnych zdjęć przez userów i blokowanie odpowiednie
 // dodawanie zdjec butelek
-// logowanie
+// paging
 
+
+//todo settings
+// defaultBar
 
 
 //todo edycja
@@ -61,16 +83,8 @@ public class SkladnikP {
 // dodawanie zapytań
 // dodwanie własnych zdjęć
 
-//todo filtry
-// wyswietlanie barkujących skałdników
-// jezeli aklkohol o typie barku ispresent to jest obecny i tyle
-
 
 //todo zasoby barku
-// delete from bar rodzaj przekazywany?
-// edit skladnik
-// konkretny składink dla przepisów?
-// workhorse dla
 // aktualizacja
 // obliczanie ceny koktajlu
 // ładne alkohole
@@ -78,7 +92,6 @@ public class SkladnikP {
 
 //todo refactor
 // mapper skladnik p do b (kolejność w if)
-// js!
 // pliki ze skryptami js
 
 

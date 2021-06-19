@@ -18,7 +18,7 @@
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
                             <div class="row">
-                                <label class="col-md-9 control-label">Przegląd składników</label>
+                                <label id="tytul" class="col-md-9 control-label">Przegląd składników</label>
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
 <script th:inline="javascript">
 
 
-    let butlaList=[[${butlaList}]]
+    let butlaList = [[${butlaList}]];
     // var skladnikList = [[${skladnikList}]];
     var sokList = [[${sokList}]];
     var syropList = [[${syropList}]];
@@ -113,17 +113,19 @@
         let head1text = document.createElement('output');
         head1text.value = "nazwa";
         if (rodzaj == 1) {
+            head1text.value = "typ alkoholu";
+
             let head4 = document.createElement('td');
             head4.classList.add('col-sm-2');
             let head4text = document.createElement('output');
-            head4text.value = "Alkohol";
+            head4text.value = "Butelka";
             head4.appendChild(head4text);
             headRow.appendChild(head4);
 
             let head3 = document.createElement('td');
             head3.classList.add('col-sm-2');
             let head3text = document.createElement('output');
-            head3text.value = "Typ";
+            head3text.value = "Rodzaj alkoholu";
             head3.appendChild(head3text);
             headRow.appendChild(head3);
         }
@@ -170,19 +172,19 @@
         colName.appendChild(nameText);
         row.appendChild(colName);
 
-        if (rodzaj==1){
+        if (rodzaj == 1) {
 
-            let colAlko= document.createElement('td');
+            let colAlko = document.createElement('td');
             colAlko.classList.add('col-sm-2');
-            let aplkoText= document.createElement('output');
-            aplkoText.value=obj.alkoholNazwa;
+            let aplkoText = document.createElement('output');
+            aplkoText.value = obj.alkoholNazwa;
             colAlko.appendChild(aplkoText);
             row.appendChild(colAlko);
 
-            let colTyp= document.createElement('td');
+            let colTyp = document.createElement('td');
             colTyp.classList.add('col-sm-2');
-            let typText= document.createElement('output');
-            typText.value=obj.typNazwa;
+            let typText = document.createElement('output');
+            typText.value = obj.typNazwa;
             colTyp.appendChild(typText);
             row.appendChild(colTyp);
         }
@@ -237,48 +239,67 @@
         usunbutton.innerHTML = "usun";
         usunbutton.classList.add("btn");
         usunbutton.classList.add("btn-default");
-        usunbutton.type = "button";
+        usunbutton.type = "submit";
 
-        usunbutton.addEventListener("click", function () {
-            usunSkladnik(rodzaj, obj);
-        }, true);
+        usunbutton.classList.add("form-control");
+        usunbutton.value=obj.id;
+
+
+        switch (rodzaj) {
+            case 1:
+                usunbutton.name="usunButla";
+                break;
+            case 2:
+                usunbutton.name="usunSok";
+                break;
+            case 3:
+                usunbutton.name="usunSyrop";
+                break;
+            case 4:
+                usunbutton.name="usunInny";
+                break;
+        }
+
+        // usunbutton.addEventListener("click", function () {
+        //     usunSkladnik(rodzaj, obj);
+        // }, true);
 
         colUsun.appendChild(usunbutton);
         row.appendChild(colUsun);
         document.getElementById(elementName).appendChild(row);
 
 
-        function usunSkladnik(rodzaj,obj) {
-
-            switch (rodzaj) {
-                case 1:
-                    window.location.href = '/butelka/delete/' + obj.id;
-                    break;
-                case 2:
-                    window.location.href = '/sok/delete/' + obj.id;
-                    break;
-                case 3:
-                    window.location.href = '/syrop/delete/' + obj.id;
-                    break;
-                case 4:
-                    window.location.href = '/inny/delete/' + obj.id;
-                    break;
-            }
-        }
+        // function usunSkladnik(rodzaj, obj) {
+        //
+        //     switch (rodzaj) {
+        //         case 1:
+        //             window.location.href = '/butelka/delete/' + obj.id;
+        //             break;
+        //         case 2:
+        //             window.location.href = '/sok/delete/' + obj.id;
+        //             break;
+        //         case 3:
+        //             window.location.href = '/syrop/delete/' + obj.id;
+        //             break;
+        //         case 4:
+        //             window.location.href = '/inny/delete/' + obj.id;
+        //             break;
+        //     }
+        // }
 
         function toEdit(rodzaj, obj) {
             switch (rodzaj) {
                 case 1:
-                    window.location.href = '/butelka/edit/' + obj.id;
+                    window.location.href = '/skladniki/butelka/edit/' + obj.id;
                     break;
                 case 2:
-                    window.location.href = '/sok/edit/' + obj.id;
+                    window.location.href = '/skladniki/edit/' + obj.id;
                     break;
                 case 3:
-                    window.location.href = '/syrop/edit/' + obj.id;
+                    window.location.href = '/skladniki/edit/' + obj.id;
                     break;
                 case 4:
-                    window.location.href = '/inny/edit/' + obj.id;
+                    window.location.href = '/skladniki/edit/' + obj.id;
                     break;
             }
         }
@@ -303,9 +324,9 @@
         let inputNewName = document.createElement('input');
         inputNewName.type = 'text';
         inputNewName.classList.add('form-control');
-        inputNewName.setAttribute('name','nazwa');
+        inputNewName.setAttribute('name', 'nazwa');
         inputNewName.placeholder = "Nowa nazwa";
-        inputNewName.required=true;
+        // inputNewName.required = true;
         colNewName.appendChild(inputNewName);
         row.appendChild(colNewName);
 
@@ -316,17 +337,17 @@
         // inputNewPrice.step = "0.5";
         inputNewPrice.value = "0";
         inputNewPrice.classList.add('form-control');
-        inputNewPrice.setAttribute('name','iloscML');
+        inputNewPrice.setAttribute('name', 'iloscML');
         colNewprice.appendChild(inputNewPrice);
         row.appendChild(colNewprice);
 
-        if (rodzaj==3){
+        if (rodzaj == 3) {
             let colNewName = document.createElement('td');
             colNewName.classList.add('col-sm-2');
             let inputNewName = document.createElement('input');
             inputNewName.type = 'text';
             inputNewName.classList.add('form-control');
-            inputNewName.setAttribute('name','opisDodatkowy');
+            inputNewName.setAttribute('name', 'opisDodatkowy');
             inputNewName.placeholder = "Przepis";
             colNewName.appendChild(inputNewName);
             row.appendChild(colNewName);
@@ -349,7 +370,7 @@
     };
 
 
-    let addEndRowBottle= function(elementName){
+    let addEndRowBottle = function (elementName) {
         let rowIndexSelector = '.hgw';
 
 
@@ -383,13 +404,15 @@
         }, true);
 
         function dodajNowaButla() {
-                window.location.href = '/skladniki/dodajbutle/';
+            window.location.href = '/skladniki/dodajbutle/';
         }
 
     };
+    let tytul = document.getElementById('tytul');
 
 
     let bootleTable = function (elementName) {
+        tytul.innerText = 'Przegląd składników: butelki';
         starter(elementName, 1);
         butlaList.forEach(function (butelka) {
             inRowIteration(elementName, 1, butelka);
@@ -398,6 +421,7 @@
     };
 
     let sokiTable = function (elementName) {
+        tytul.innerText = 'Przegląd składników: soki';
         starter(elementName, 2);
         sokList.forEach(function (sok) {
             inRowIteration(elementName, 2, sok);
@@ -406,7 +430,7 @@
     };
 
     let syropTable = function (elementName) {
-
+        tytul.innerText = 'Przegląd składników: syropy';
         starter(elementName, 3);
         syropList.forEach(function (syrop) {
             inRowIteration(elementName, 3, syrop);
@@ -415,7 +439,7 @@
     };
 
     let inneTable = function (elementName) {
-
+        tytul.innerText = 'Przegląd składników: inne';
         starter(elementName, 4);
         innyList.forEach(function (inny) {
             inRowIteration(elementName, 4, inny);
@@ -424,7 +448,7 @@
     };
 
 
-    let toClick=[[${toClick}]];
+    let toClick = [[${toClick}]];
     switch (toClick) {
         case 1:
             bootleTable('SkladTable');

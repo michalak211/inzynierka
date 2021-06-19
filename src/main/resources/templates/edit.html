@@ -48,7 +48,7 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr>
-                                                    <td class="col-sm-2">
+                                                    <td class="col-sm-4">
                                                         <input th:field="*{nazwa}" type="text" class="form-control"
                                                                placeholder="Nazwa" required>
                                                     </td>
@@ -1022,7 +1022,6 @@
         selectList.id = listName + rowIndex + '.' + 'rodzaj';
         selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'rodzaj');
 
-
         col.appendChild(selectList);
         row.appendChild(col);
 
@@ -1067,7 +1066,7 @@
 
             let rowIndexSelector = '.skladnikTable';
             let listName = 'listaSkladnikow';
-            let elementName = 'SkladTable'
+            let elementName = 'SkladTable';
 
             let rowIndex = document.querySelectorAll(rowIndexSelector).length;
             let row = document.createElement('tr');

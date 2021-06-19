@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!--<html lang="en">-->
+<head>
+    <div th:replace="fragments/header :: header-css"></div>
+    <title>Składnik Edytor</title>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container-fluid">
+    <div class="starter-template">
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <label th:text="${skladnikP.nazwa}" class="col-md-9 control-label"></label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal row-border" action="#"
+                              th:object="${skladnikP}" method="post">
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="container-fluid">
+                                            <table class=" table order-list">
+                                                <tbody>
+
+                                                <tr>
+                                                    <td class="col-sm-2">Rodzaj:</td>
+                                                    <td class="col-sm-2">
+                                                        <input th:field="*{rodzaj}" type="text" class="form-control"
+                                                               readonly>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-sm-2">Nazwa</td>
+                                                    <td class="col-sm-8">
+                                                        <input th:field="*{nazwa}" type="text" class="form-control"
+                                                               required>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td th:unless="${skladnikP.rodzaj}==4" class="col-sm-2">Cena za
+                                                        litr
+                                                    </td>
+                                                    <td th:if="${skladnikP.rodzaj}==4" class="col-sm-2">Cena</td>
+
+                                                    <td class="col-sm-8">
+                                                        <input th:field="*{iloscML}" type="number" step="1"
+                                                               class="form-control" required>
+                                                    </td>
+                                                </tr>
+                                                <tr th:if="${skladnikP.rodzaj}==3">
+
+                                                    <td class="col-sm-2">Przepis</td>
+                                                    <td class="col-sm-8">
+                                                        <textarea th:field="*{opisDodatkowy}" type="text"
+                                                                  class="form-control" rows="3"></textarea>
+                                                    </td>
+                                                </tr>
+
+
+
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" name="zapisz">Zapisz</button>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

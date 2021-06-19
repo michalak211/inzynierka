@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!--<html lang="en">-->
+<head>
+    <div th:replace="fragments/header :: header-css"></div>
+    <title>Alkohol Edycja</title>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="container-fluid">
+    <div class="starter-template">
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <label id="tytul" class="col-md-9 control-label " th:text="${alkohol.nazwa}"></label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal row-border" action=""
+                              th:object="${alkohol}" method="post">
+
+
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="container-fluid">
+
+                                            <table id="MainTable" class=" table order-list table-bordered">
+                                                <tfoot>
+
+
+                                                </tfoot>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" name="zapisz">Zapisz</button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+<script th:inline="javascript">
+
+    let alkohol= [[${alkohol}]];
+    let rowIndexSelector = '.selector';
+    let bottleList= [[${bottleList}]];
+
+    let insertBottles= function (typ,selectList){
+        let tempBottleList= [];
+
+
+        if (typ.nazwa=="Dowolny"){
+            tempBottleList=bottleList;
+
+        }else {
+            bottleList.forEach((bottle) =>{
+                if (bottle.typId==typ.id) {
+                    tempBottleList.push(bottle);
+                }
+            });
+        }
+
+        tempBottleList.forEach((bottle) =>{
+
+            let option = document.createElement("option");
+            option.value = bottle.id;
+            option.text = bottle.nazwa;
+            selectList.appendChild(option);
+
+            // selectList.value=bottle.id;
+
+            // option.selected;
+        })
+
+        console.log(typ);
+        selectList.value=typ.butelkaId;
+
+
+        // console.log(tempBottleList);
+
+
+
+    }
+
+    let firstRow=function (elementName){
+
+        let headRow = document.createElement('tr');
+
+        let head1 = document.createElement('td');
+        head1.classList.add('col-sm-2');
+        let head1text = document.createElement('output');
+        head1text.value = "Alkohol";
+        head1.appendChild(head1text);
+        headRow.appendChild(head1);
+        document.getElementById(elementName).appendChild(headRow);
+
+
+        let row = document.createElement('tr');
+        let colNazwa=document.createElement('td');
+        colNazwa.classList.add('col-sm-4');
+        let outputNazwa = document.createElement('input');
+        outputNazwa.type = 'text';
+        outputNazwa.value=alkohol.nazwa;
+
+        outputNazwa.classList.add('form-control');
+        outputNazwa.id = 'alkohol';
+        outputNazwa.setAttribute('name', 'nazwa');
+        colNazwa.appendChild(outputNazwa);
+        row.appendChild(colNazwa);
+
+
+        document.getElementById(elementName).appendChild(row);
+
+
+        let headRow2 = document.createElement('tr');
+
+        let head4 = document.createElement('td');
+        head4.classList.add('col-sm-2');
+        let head4text = document.createElement('output');
+        head4text.value = "Typ";
+        head4.appendChild(head4text);
+        headRow2.appendChild(head4);
+
+
+
+        let head2 = document.createElement('td');
+        head2.classList.add('col-sm-2');
+        let head2text = document.createElement('output');
+        head2text.value = "Workhorse";
+        head2.appendChild(head2text);
+        headRow2.appendChild(head2);
+
+
+        let head3 = document.createElement('td');
+        head3.classList.add('col-sm-2');
+        let head3text = document.createElement('output');
+        head3text.value = "Typ";
+        head3.appendChild(head3text);
+        headRow2.appendChild(head3);
+
+
+        document.getElementById(elementName).appendChild(headRow2);
+
+
+
+    };
+
+    let addRow= function (elementName,typ){
+        let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+        let colTyp = document.createElement('td');
+        colTyp.classList.add('col-sm-4');
+        let outputTyp = document.createElement('input');
+        outputTyp.type = 'text';
+        outputTyp.value=typ.nazwa;
+
+        outputTyp.classList.add('form-control');
+        outputTyp.id = 'typ';
+        outputTyp.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'nazwa');
+        colTyp.appendChild(outputTyp);
+        row.appendChild(colTyp);
+        outputTyp.readOnly=true;
+
+        let colWorkhorse= document.createElement('td');
+        colWorkhorse.classList.add('col-sm-2');
+
+        let selectList = document.createElement('select');
+        let option = document.createElement("option");
+        option.value = "0";
+        option.text = "-----";
+        selectList.appendChild(option);
+        colWorkhorse.appendChild(selectList);
+
+        selectList.classList.add('form-control');
+        selectList.id = 'typList' + '[' + rowIndex + '].' + 'butelkaId';
+        selectList.setAttribute('name', 'typList' + '[' + rowIndex + '].' + 'butelkaId');
+
+        row.appendChild(selectList);
+
+        insertBottles(typ,selectList);
+
+
+
+        if (outputTyp.value!=='Dowolny') {
+
+            outputTyp.readOnly=false;
+
+            let colUsun = document.createElement('td');
+            colUsun.classList.add('col-sm-2');
+            let usunbutton = document.createElement("BUTTON");
+            usunbutton.innerHTML = "usun";
+            usunbutton.classList.add("btn");
+            usunbutton.classList.add("btn-default");
+            usunbutton.type = "submit";
+
+            usunbutton.classList.add("form-control");
+            usunbutton.value = typ.id;
+            usunbutton.name = "usunTyp";
+
+            colUsun.appendChild(usunbutton);
+            row.appendChild(colUsun);
+        }
+
+        document.getElementById(elementName).appendChild(row);
+
+    };
+
+    let endRow= function(elementName){
+
+        let headRow = document.createElement('tr');
+
+        let head1 = document.createElement('td');
+        head1.classList.add('col-sm-2');
+        let head1text = document.createElement('output');
+        head1text.value = "Dodaj nowy typ";
+        head1.appendChild(head1text);
+        headRow.appendChild(head1);
+        document.getElementById(elementName).appendChild(headRow);
+
+        let row = document.createElement('tr');
+        let colTyp = document.createElement('td');
+        colTyp.classList.add('col-sm-4');
+        let outputTyp = document.createElement('input');
+        outputTyp.type = 'text';
+        outputTyp.placeholder="nowy typ";
+        outputTyp.classList.add('form-control');
+        outputTyp.id = 'nowyTyp';
+        outputTyp.name="nowyTyp";
+
+        colTyp.appendChild(outputTyp);
+        row.appendChild(colTyp);
+
+        let colUsun = document.createElement('td');
+        colUsun.classList.add('col-sm-2');
+        let usunbutton = document.createElement("BUTTON");
+        usunbutton.innerHTML = "dodaj typ";
+        usunbutton.classList.add("btn");
+        usunbutton.classList.add("btn-default");
+        usunbutton.type = "submit";
+
+        usunbutton.classList.add("form-control");
+        usunbutton.name="dodaj";
+
+        colUsun.appendChild(usunbutton);
+        row.appendChild(colUsun);
+        document.getElementById(elementName).appendChild(row);
+
+
+    };
+
+    let creator = function (elementName) {
+        firstRow(elementName);
+
+        alkohol.typList.forEach((typ) => {
+            addRow(elementName,typ);
+        });
+        endRow(elementName);
+
+    };
+
+    creator('MainTable');
+
+</script>
+</html>

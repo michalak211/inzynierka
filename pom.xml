@@ -24,6 +24,22 @@
     </properties>
 
     <dependencies>
+
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
@@ -96,17 +112,17 @@
         </dependency>
 
         <!--        <dependency>-->
-<!--            <groupId>org.thymeleaf.extras</groupId>-->
-<!--            <artifactId>thymeleaf-extras-springsecurity4</artifactId>-->
-<!--        </dependency>-->
+        <!--            <groupId>org.thymeleaf.extras</groupId>-->
+        <!--            <artifactId>thymeleaf-extras-springsecurity4</artifactId>-->
+        <!--        </dependency>-->
 
 
 
         <!--        <dependency>-->
-<!--            <groupId>javax.persistence</groupId>-->
-<!--            <artifactId>javax.persistence-api</artifactId>-->
-<!--            <version>2.2</version>-->
-<!--        </dependency>-->
+        <!--            <groupId>javax.persistence</groupId>-->
+        <!--            <artifactId>javax.persistence-api</artifactId>-->
+        <!--            <version>2.2</version>-->
+        <!--        </dependency>-->
 
     </dependencies>
 

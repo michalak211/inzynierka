@@ -18,8 +18,8 @@
                     <div class="panel-heading clearfix">
                         <div class="container-fluid">
                             <div class="row">
-                                <label th:if="${butelka.nazwa}!=null" class="col-md-9 control-label" th:text="'butelka '+${butelka.nazwa}+' już istnieje'"></label>
-                                <label th:unless="${butelka.nazwa}!=null" class="col-md-9 control-label">Utwórz nową butelkę</label>
+                                <label th:if="${butelka.nazwa}!=null" class="col-md-12 control-label" th:text="'butelka '+${butelka.nazwa}+' już istnieje'"></label>
+                                <label th:unless="${butelka.nazwa}!=null" class="col-md-12 control-label">Utwórz nową butelkę</label>
                             </div>
                         </div>
 
@@ -318,7 +318,7 @@
     row.classList.add(rowIndexSelector.substr(1));
 
     let colNazwa = document.createElement('td');
-    colNazwa.classList.add('col-sm-2');
+    colNazwa.classList.add('col-sm-4');
     let inputNazwa = document.createElement('input');
     inputNazwa.type = 'text';
     inputNazwa.classList.add('form-control');
@@ -326,7 +326,6 @@
     inputNazwa.setAttribute('name', 'nazwa');
     inputNazwa.placeholder = "Nazwa butelki";
     let  butelkalol= [[${butelka}]];
-    console.log(butelkalol);
     inputNazwa.value=butelkalol.nazwa;
     //
     // if (butelkalol.nazwa==null){
@@ -395,8 +394,6 @@
     checkbox.setAttribute('name', 'newTyp');
     colNew.appendChild(checkbox);
     row.appendChild(colNew);
-
-
 
 
     // alkoList.forEach((skladnik) => {

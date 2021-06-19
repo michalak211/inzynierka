@@ -1,9 +1,13 @@
 package pl.mrozek.inzynierka.Dto;
 
 import lombok.*;
+import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
+import pl.mrozek.inzynierka.Entity.przepis.SkladnikB;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,7 +21,7 @@ public class KoktajlForm {
     private String nazwa;
     private String klasa;
     private String szklo;
-//    private String skladnikTyp;
+    //    private String skladnikTyp;
     private String vegan;
     private String opisPrzyrzadzenia;
     private String zdobienie;
@@ -25,7 +29,6 @@ public class KoktajlForm {
     private List<SkladnikP> listaSkladnikow;
 
     private Long ocena;
-//    private File zdjecie;
-//    private byte[] zdjecie;
+
 
 }
