@@ -40,13 +40,11 @@ public class SkladnikP {
 // garbage colector??? co to
 // paramgmaty programowania
 
-//todo kolejnosc
-// LOGOWANIE
-// przycisk singup
+//TODO logowanie
 // sprawdzanie czy mail prawidłowy
 // powtórz hasło
-// opis dostępów
-// BACKUP
+
+//TODO backup
 // dodaj zdjecie blokada jesli puste
 // tworzenie pliku txt z kolejno
 // skladniki
@@ -55,14 +53,19 @@ public class SkladnikP {
 // userami
 // barkami
 // koktajlami
-// FILTRY
-// W pracy zapytanie o skladniki
+
+//TODO FILTRY
 // lista skladnikId pasujacych- alko lub typ
 // filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
 // opcje sortowania: wszystko, tylko dostępne, łatwe do uzupełnienia (docelowo), filtr pełny
 // wybor barku
 // brak filtrowania po barku
 // pozostałe filtry
+
+
+//todo kolejnosc
+// skończyć filtry
+// przetestować backup
 // cena
 // riff
 // dodawanie zapytań o drinki
