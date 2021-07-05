@@ -14,9 +14,7 @@ import pl.mrozek.inzynierka.Entity.skladniki.Inny;
 import pl.mrozek.inzynierka.Entity.skladniki.Sok;
 import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
 import pl.mrozek.inzynierka.Entity.skladniki.Typ;
-import pl.mrozek.inzynierka.Repo.AlkoholRepo;
-import pl.mrozek.inzynierka.Repo.BarekRepo;
-import pl.mrozek.inzynierka.Repo.KoktailRepo;
+import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -34,12 +32,18 @@ public class FilterService {
     private final Mapper mapper;
     private final BarekRepo barekRepo;
     private final AlkoholRepo alkoholRepo;
+    private final SokRepo sokRepo;
+    private final SyropRepo syropRepo;
+    private final InnyRepo innyRepo;
 
-    public FilterService(KoktailRepo koktailRepo, Mapper mapper, BarekRepo barekRepo, AlkoholRepo alkoholRepo) {
+    public FilterService(KoktailRepo koktailRepo, Mapper mapper, BarekRepo barekRepo, AlkoholRepo alkoholRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo) {
         this.koktailRepo = koktailRepo;
         this.mapper = mapper;
         this.barekRepo = barekRepo;
         this.alkoholRepo = alkoholRepo;
+        this.sokRepo = sokRepo;
+        this.syropRepo = syropRepo;
+        this.innyRepo = innyRepo;
     }
 
 
@@ -145,6 +149,23 @@ public class FilterService {
         }
 
         return alkoList;
+    }
+
+    public List<SkladnikP> getSkladniksForFilters(){
+        List<SkladnikP> skladnikPList= new ArrayList<>();
+
+        for (Sok sok: sokRepo.findAll()){
+            SkladnikP skladnikP= new SkladnikP();
+            skladnikP.setId(sok.getId());
+            skladnikP.setNazwa(sok.getNazwa());
+            skladnikPList.add(skladnikP);
+        }
+
+
+
+
+
+         return skladnikPList;
     }
 
 

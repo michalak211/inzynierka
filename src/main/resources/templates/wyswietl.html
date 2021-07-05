@@ -21,7 +21,7 @@
 
                             <div class="container-fluid">
                                 <div class="row">
-                                    <label>Fitry</label>
+                                    <label>Filtry</label>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,8 @@
 
                             </table>
                         </div>
-                        <button class="btn btn-lg btn-block" onclick="showFilters('filertTable')"
+                        <button type="button" class="btn btn-lg btn-block"
+                                onclick="showFilters('filertTable','.skladnikTable')"
                                 id="pokazButton">Pokaż filtry
                         </button>
 
@@ -174,9 +175,108 @@
 
 <script th:inline="javascript">
 
-    let showFilters = function (elementName) {
+    let showFilters = function (elementName,rowIndexSelector) {
+
+        let rowIndex = document.querySelectorAll(rowIndexSelector).length;
+        let row = document.createElement('tr');
+        row.classList.add(rowIndexSelector.substr(1));
+
+        let col = document.createElement('td');
+        col.classList.add('col-sm-2');
+
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.classList.add('form-control');
+        input.id= "nazwa";
+        input.setAttribute('name', "nazwa");
+        input.placeholder = "Nazwa";
+
+        col.appendChild(input);
+        row.appendChild(col);
+
+        let col1 = document.createElement('td');
+        col1.classList.add('col-sm-2');
+
+        let input1 = document.createElement('input');
+        input1.type = 'text';
+        input1.classList.add('form-control');
+        input1.id= 'klasa';
+        input1.setAttribute('name', 'klasa');
+        input1.placeholder = "klasa";
+
+        col1.appendChild(input1);
+        row.appendChild(col1);
+
+
+        let col2 = document.createElement('td');
+        col2.classList.add('col-sm-2');
+
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.classList.add('form-control');
+        input2.id= 'szklo';
+        input2.setAttribute('name', 'szklo');
+        input2.placeholder = "szklo";
+
+        col2.appendChild(input2);
+        row.appendChild(col2);
+
+        let col3 = document.createElement('td');
+        col3.classList.add('col-sm-2');
+
+        let input3 = document.createElement('input');
+        input3.type = 'text';
+        input3.classList.add('form-control');
+        input3.id= 'zdobienie';
+        input3.setAttribute('name', 'zdobienie');
+        input3.placeholder = "zdobienie";
+
+        col3.appendChild(input3);
+        row.appendChild(col3);
+
+
+        let col4 = document.createElement('td');
+        col4.classList.add('col-sm-2');
+
+        let input4 = document.createElement('input');
+        input4.type = 'checkbox';
+        input4.classList.add('form-control');
+        input4.id= 'vegan';
+        input4.setAttribute('name', 'vegan');
+        input4.placeholder = "vegan";
+
+        col4.appendChild(input4);
+        row.appendChild(col4);
+
+
+
+        document.getElementById(elementName).appendChild(row);
+
+
+        let endRow =document.createElement('tr');
+
+        let colDown = document.createElement('td');
+        colDown.classList.add('col-sm-2');
+        let downButton = document.createElement("BUTTON");
+        downButton.innerHTML = "pobierz backup";
+        downButton.classList.add("btn");
+        downButton.classList.add("btn-default");
+        downButton.type = "submit";
+
+        downButton.classList.add("form-control");
+        downButton.name = "filtruj";
+
+
+        colDown.appendChild(downButton);
+        endRow.appendChild(colDown);
+
+
+
+        document.getElementById(elementName).appendChild(row);
+        document.getElementById(elementName).appendChild(endRow);
 
     }
+
 
 
 </script>

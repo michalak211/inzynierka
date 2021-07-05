@@ -7,8 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import pl.mrozek.inzynierka.Dto.FilterSet;
+import pl.mrozek.inzynierka.Dto.KoktajlForm;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
+import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
+import pl.mrozek.inzynierka.Entity.skladniki.Skladnik;
 import pl.mrozek.inzynierka.Entity.user.BarUser;
 import pl.mrozek.inzynierka.Repo.*;
 import pl.mrozek.inzynierka.Services.BackupService;
@@ -16,7 +18,6 @@ import pl.mrozek.inzynierka.Services.KoktailService;
 import pl.mrozek.inzynierka.Services.SkladnikService;
 import pl.mrozek.inzynierka.Services.UserService;
 
-import javax.mail.Multipart;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -38,9 +39,10 @@ public class MainController {
     private final ButelkaRepo butelkaRepo;
     private final UserService userService;
     private final BackupService backupService;
+    private final SkladnikRepo skladnikRepo;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo, ButelkaRepo butelkaRepo, UserService userService, BackupService backupService) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo, ButelkaRepo butelkaRepo, UserService userService, BackupService backupService, SkladnikRepo skladnikRepo) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -49,6 +51,7 @@ public class MainController {
         this.butelkaRepo = butelkaRepo;
         this.userService = userService;
         this.backupService = backupService;
+        this.skladnikRepo = skladnikRepo;
     }
 
     @GetMapping("/")
@@ -67,12 +70,23 @@ public class MainController {
         Long defaultBarekId = barekRepo.findByNazwaEquals("barek mieszkanie").getId();
 
         model.addAttribute("bars", barekRepo.findAll());
-        model.addAttribute("filterSet", new FilterSet());
+        model.addAttribute("filterSet", new KoktajlForm());
         model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
         model.addAttribute("koktajlList", koktailService.getAllKoktajlForms());
         return "wyswietl";
     }
+
+    @PostMapping(value = "/przegladaj", params = "filtruj")
+    public String filtrowanie(Model model,@ModelAttribute("filterSet") Koktajl filterSet){
+
+        System.out.println("test");
+        System.out.println(filterSet);
+
+        return "redirect:/przegladaj";
+
+    }
+
 
 
     @Transactional
