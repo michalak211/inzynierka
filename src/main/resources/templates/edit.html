@@ -164,16 +164,16 @@
     var listaSyrop = [[${syropList}]];
     var listaInny = [[${innyList}]];
 
-    let addRowDeleteButton= function (row,listName,rowIndex){
+    let addRowDeleteButton = function (row, listName, rowIndex) {
         let colusun = document.createElement('td');
         colusun.classList.add('col-sm-1');
         var btn = document.createElement("BUTTON");
         btn.id = listName + rowIndex + '.' + 'remove';
         btn.innerHTML = "Usuń";
-        btn.className = "removeRowBtn"
+        btn.className = "removeRowBtn";
         colusun.appendChild(btn);
         row.appendChild(colusun);
-    }
+    };
 
     let AddMainRow = function (listName, rowIndexSelector, elementName) {
         let rowIndex = document.querySelectorAll(rowIndexSelector).length;
@@ -217,7 +217,7 @@
         col.appendChild(selectList);
         row.appendChild(col);
 
-        addRowDeleteButton(row,listName,rowIndex);
+        addRowDeleteButton(row, listName, rowIndex);
 
         selectList.addEventListener("change", function () {
             mainChanger(row, listName, rowIndex, selectList, elementName)
@@ -238,7 +238,7 @@
 
         switch (rodzaj) {
             case '1':
-                addAlkoRowEdit(listName, rowIndex, elementName, row,null);
+                addAlkoRowEdit(listName, rowIndex, elementName, row, null);
                 break;
 
             default:
@@ -402,7 +402,7 @@
             } while (x.length > 0)
 
             if (!(selectList.value === "-----")) {
-                insertTypes(selectList,x);
+                insertTypes(selectList, x);
 
             }
         }
@@ -673,7 +673,7 @@
 
     // EDIT EDIT
 
-    let addSyropRowEdit = function (listName, rowIndex, elementName, row, rodzaj,starySkladnik) {
+    let addSyropRowEdit = function (listName, rowIndex, elementName, row, rodzaj, starySkladnik) {
 
         // document.getElementById(listName + rowIndex + '.' + 'remove').parentElement.remove();
 
@@ -682,9 +682,9 @@
         let input = document.createElement('input');
         input.type = 'number';
         input.step = "0.5";
-        if (starySkladnik!=null){
-            input.value=starySkladnik.iloscML
-        }else {
+        if (starySkladnik != null) {
+            input.value = starySkladnik.iloscML
+        } else {
             input.value = "0";
         }
 
@@ -699,8 +699,8 @@
         let input2 = document.createElement('input');
         input2.type = 'text';
         input2.classList.add('form-control');
-        if (starySkladnik!=null){
-            input2.value=starySkladnik.opisDodatkowy;
+        if (starySkladnik != null) {
+            input2.value = starySkladnik.opisDodatkowy;
         }
         input2.id = listName + rowIndex + '.' + 'opisDodatkowy';
         input2.setAttribute('name', listName + '[' + rowIndex + '].' + 'opisDodatkowy');
@@ -737,7 +737,7 @@
         input3.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
         col6.appendChild(input3);
         row.appendChild(col6);
-        if (starySkladnik!=null) {
+        if (starySkladnik != null) {
             input3.value = starySkladnik.nazwa;
         }
 
@@ -767,8 +767,7 @@
     };
 
 
-
-    let  insertTypes= function (selectList,selectList2){
+    let insertTypes = function (selectList, selectList2) {
 
         var parent = selectList.value;
         var skladniki = [[${skladnikList}]];
@@ -789,12 +788,9 @@
     }
 
 
-
-
-
-    function alkoChangerEdit(row, listName, rowIndex, selectList,selectList2, starySkladnik) {
-        insertTypes(selectList,selectList2);
-        selectList2.value=starySkladnik.typ;
+    function alkoChangerEdit(row, listName, rowIndex, selectList, selectList2, starySkladnik) {
+        insertTypes(selectList, selectList2);
+        selectList2.value = starySkladnik.typ;
     }
 
 
@@ -805,7 +801,7 @@
         let input = document.createElement('input');
         input.type = 'number';
         input.step = "7.5";
-        if (starySkladnik!=null) {
+        if (starySkladnik != null) {
             input.value = starySkladnik.iloscML;
         } else {
             input.value = "0";
@@ -820,7 +816,7 @@
         col5.classList.add('col-sm-2');
         let input2 = document.createElement('input');
         input2.type = 'text';
-        if (starySkladnik!=null) {
+        if (starySkladnik != null) {
             input2.value = starySkladnik.opisDodatkowy;
         }
         input2.classList.add('form-control');
@@ -848,7 +844,7 @@
 
         selectList.classList.add('form-control');
         selectList.id = listName + rowIndex + '.' + 'nazwa';
-        if (starySkladnik!=null) {
+        if (starySkladnik != null) {
             selectList.value = starySkladnik.nazwa;
         }
         selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'nazwa');
@@ -892,7 +888,7 @@
         col3.appendChild(btn);
         row.appendChild(col3);
 
-        if (starySkladnik!=null) {
+        if (starySkladnik != null) {
             alkoChangerEdit(row, listName, rowIndex, selectList, selectList2, starySkladnik)
         }
 
@@ -926,12 +922,12 @@
                 break;
 
             default:
-                addSyropRowEdit(listName, rowIndex, elementName, row, rodzaj,starySkladnik);
+                addSyropRowEdit(listName, rowIndex, elementName, row, rodzaj, starySkladnik);
 
         }
     }
 
-    let addRodzajchoice= function (selectList){
+    let addRodzajchoice = function (selectList) {
 
         var option = document.createElement("option");
         option.value = "-----";
@@ -963,7 +959,6 @@
         selectList.setAttribute('name', listName + '[' + rowIndex + '].' + 'rodzaj');
 
 
-
         let rodzaj = starySkladnik.rodzaj;
         switch (rodzaj) {
             case 1:
@@ -979,7 +974,6 @@
                 selectList.value = "4";
                 break;
         }
-
 
 
     }
@@ -1045,7 +1039,7 @@
         col.appendChild(selectList);
         row.appendChild(col);
 
-        addRowDeleteButton(row,listName,rowIndex);
+        addRowDeleteButton(row, listName, rowIndex);
 
         selectList.addEventListener("change", function () {
             mainChanger(row, listName, rowIndex, selectList, elementName)
@@ -1061,7 +1055,7 @@
 
     var stareSkladniki = [[${koktajlForm.listaSkladnikow}]];
 
-    if (stareSkladniki!=null) {
+    if (stareSkladniki != null) {
         stareSkladniki.forEach(function (starySkladnik, index, array) {
 
             let rowIndexSelector = '.skladnikTable';
