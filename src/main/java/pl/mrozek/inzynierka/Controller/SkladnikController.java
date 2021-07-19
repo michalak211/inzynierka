@@ -91,8 +91,9 @@ public class SkladnikController {
     public String addBottle(Model model, @ModelAttribute("butelka") Butelka butelka) {
 
         if (butelkaRepo.findByNazwaEquals(butelka.getNazwa()) == null) {
-            butelkaRepo.save(mapper.butlaToBase(butelka));
-            return skladnikService.completeSkladnikiModel(model, 1);
+            butelkaRepo.save(skladnikService.butlaToBase(butelka));
+            return "redirect:/skladniki";
+//            return skladnikService.completeSkladnikiModel(model, 1);
         } else {
             model.addAttribute("skladnikList", alkoholRepo.findAll());
             model.addAttribute("alkoList", alkoholRepo.findAll());
@@ -118,7 +119,7 @@ public class SkladnikController {
     public String editBottlePost(@PathVariable("id") long id, @ModelAttribute("butelka") Butelka butelka) {
 
         butelka.setId(id);
-        butelkaRepo.save(mapper.butlaToBase(butelka));
+        butelkaRepo.save(skladnikService.butlaToBase(butelka));
         return "redirect:/skladniki";
     }
 
@@ -136,7 +137,7 @@ public class SkladnikController {
     public String addBottletoBar(Model model, @ModelAttribute("butelka") Butelka butelka, @PathVariable("id") Long id) {
 
         if (butelkaRepo.findByNazwaEquals(butelka.getNazwa()) == null) {
-            butelkaRepo.save(mapper.butlaToBase(butelka));
+            butelkaRepo.save(skladnikService.butlaToBase(butelka));
             Butelka butelka1 = butelkaRepo.findByNazwaEquals(butelka.getNazwa());
             skladnikService.addBottleToBar(butelka1.getId(), id);
         } else {
@@ -162,10 +163,6 @@ public class SkladnikController {
         skladnikService.editSkladnik(skladnikP);
         return skladnikService.completeSkladnikiModel(model, skladnikP.getRodzaj());
     }
-
-
-
-
 
 
 }

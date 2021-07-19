@@ -53,8 +53,8 @@ public class Koktajl {
     @Lob
     private byte[] zdjecie;
 
-    @OneToOne
-    private BarUser barUser;
+//    @OneToOne
+//    private BarUser barUser;
 
     @Nullable
     private double cena;

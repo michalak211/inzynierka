@@ -99,7 +99,7 @@ public class SkladnikService {
         if (skladnikP.getRodzaj() == 4) return saveInny(skladnikP);
         return false;
 
-   }
+    }
 
     public boolean deleteBottleFromBar(long bottleId, long barId) {
 
@@ -212,7 +212,7 @@ public class SkladnikService {
         return false;
     }
 
-    public boolean addSokToBar(SkladnikP skladnikP, Barek barek){
+    public boolean addSokToBar(SkladnikP skladnikP, Barek barek) {
         if (!sokRepo.findById(skladnikP.getId()).isPresent()) return false;
         Sok sok = sokRepo.findById(skladnikP.getId()).get();
         if (!barek.getListSok().contains(sok)) {
@@ -222,7 +222,7 @@ public class SkladnikService {
         return true;
     }
 
-    public boolean addSyropToBar(SkladnikP skladnikP, Barek barek){
+    public boolean addSyropToBar(SkladnikP skladnikP, Barek barek) {
         if (!syropRepo.findById(skladnikP.getId()).isPresent()) return false;
         Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
         if (!barek.getListSyrop().contains(syrop)) {
@@ -231,7 +231,8 @@ public class SkladnikService {
         }
         return true;
     }
-    public boolean addInnyToBar(SkladnikP skladnikP, Barek barek){
+
+    public boolean addInnyToBar(SkladnikP skladnikP, Barek barek) {
         if (!innyRepo.findById(skladnikP.getId()).isPresent()) return false;
         Inny inny = innyRepo.findById(skladnikP.getId()).get();
         if (!barek.getListInny().contains(inny)) {
@@ -242,16 +243,14 @@ public class SkladnikService {
     }
 
 
-
-
     public boolean addToBar(SkladnikP skladnikP, Long barId) {
 
         if (!barekRepo.findById(barId).isPresent()) return false;
         Barek barek = barekRepo.findById(barId).get();
         if (skladnikP.getRodzaj() == 1) return false;
-        if (skladnikP.getRodzaj() == 2) return addSokToBar(skladnikP,barek);
-        if (skladnikP.getRodzaj() == 3) return addSyropToBar(skladnikP,barek);
-        if (skladnikP.getRodzaj() == 4) return addInnyToBar(skladnikP,barek);
+        if (skladnikP.getRodzaj() == 2) return addSokToBar(skladnikP, barek);
+        if (skladnikP.getRodzaj() == 3) return addSyropToBar(skladnikP, barek);
+        if (skladnikP.getRodzaj() == 4) return addInnyToBar(skladnikP, barek);
 
         return false;
     }
@@ -388,14 +387,15 @@ public class SkladnikService {
     }
 
 
-    public void editSok(SkladnikP skladnikP){
+    public void editSok(SkladnikP skladnikP) {
         if (!sokRepo.findById(skladnikP.getId()).isPresent()) return;
         Sok sok = sokRepo.findById(skladnikP.getId()).get();
         sok.setNazwa(skladnikP.getNazwa());
         sok.setCenaZaLitr(skladnikP.getIloscML());
         sokRepo.save(sok);
     }
-    public void editSyrop(SkladnikP skladnikP){
+
+    public void editSyrop(SkladnikP skladnikP) {
         if (!syropRepo.findById(skladnikP.getId()).isPresent()) return;
         Syrop syrop = syropRepo.findById(skladnikP.getId()).get();
         syrop.setNazwa(skladnikP.getNazwa());
@@ -404,7 +404,7 @@ public class SkladnikService {
         syropRepo.save(syrop);
     }
 
-    public void editInny(SkladnikP skladnikP){
+    public void editInny(SkladnikP skladnikP) {
         if (!innyRepo.findById(skladnikP.getId()).isPresent()) return;
         Inny inny = innyRepo.findById(skladnikP.getId()).get();
         inny.setNazwa(skladnikP.getNazwa());
@@ -415,9 +415,9 @@ public class SkladnikService {
 
     public void editSkladnik(SkladnikP skladnikP) {
 
-        if (skladnikP.getRodzaj() == 2)  editSok(skladnikP);
-        if (skladnikP.getRodzaj() == 3)  editSyrop(skladnikP);
-        if (skladnikP.getRodzaj() == 4)  editInny(skladnikP);
+        if (skladnikP.getRodzaj() == 2) editSok(skladnikP);
+        if (skladnikP.getRodzaj() == 3) editSyrop(skladnikP);
+        if (skladnikP.getRodzaj() == 4) editInny(skladnikP);
 
 //        switch (skladnikP.getRodzaj()) {
 //            case 1:
@@ -491,17 +491,16 @@ public class SkladnikService {
 
     public void addTyp(long id, String nowyTyp) {
 
-        if (alkoholRepo.findById(id).isPresent()) {
-            Alkohol alkohol = alkoholRepo.findById(id).get();
-            if (typRepo.findByNazwaEquals(nowyTyp) == null) {
-                Typ newTyp = new Typ();
-                newTyp.setNazwa(nowyTyp);
-                newTyp.setAlkoholID(alkohol.getId());
-                typRepo.save(newTyp);
-                alkohol.getTypList().add(newTyp);
-                alkoholRepo.save(alkohol);
-            }
-        }
+        if (!alkoholRepo.findById(id).isPresent()) return;
+        Alkohol alkohol = alkoholRepo.findById(id).get();
+        if (typRepo.findByNazwaEquals(nowyTyp) != null) return;
+
+        Typ newTyp = new Typ();
+        newTyp.setNazwa(nowyTyp);
+        newTyp.setAlkoholID(alkohol.getId());
+        typRepo.save(newTyp);
+        alkohol.getTypList().add(newTyp);
+        alkoholRepo.save(alkohol);
     }
 
     public void addNewAlko(String nazwa) {
@@ -518,5 +517,57 @@ public class SkladnikService {
         alkohol.setTypList(alkolist);
         alkoholRepo.save(alkohol);
     }
+
+
+    public Butelka butlaToBase(Butelka butelka) {
+
+        if (butelka.isNewAlko()) return newAlkoButelka(butelka);
+        if (butelka.isNewTyp()) return newTypButelka(butelka);
+
+        Alkohol alkohol=alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa());
+        butelka.setAlkoholId(alkohol.getId());
+
+        Typ typ= alkohol.getTypList().stream().filter(o->o.getNazwa().equals(butelka.getTypNazwa())).findFirst().orElse(null);
+        if (typ== null) return null;
+        butelka.setTypId(typ.getId());
+        return butelka;
+    }
+
+    private Butelka newAlkoButelka(Butelka butelka) {
+        if (alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa()) != null) {
+            butelka.setAlkoholId(alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa()).getId());
+            return butelka;
+        }
+
+        addNewAlko(butelka.getAlkoholNazwa());
+        Alkohol alkohol = alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa());
+        butelka.setAlkoholId(alkohol.getId());
+
+        Typ typ = new Typ();
+        typ.setAlkoholID(alkohol.getId());
+        typ.setNazwa(butelka.getTypNazwa());
+        typRepo.save(typ);
+        alkohol.getTypList().add(typ);
+        alkoholRepo.save(alkohol);
+        butelka.setTypId(typ.getId());
+        return butelka;
+    }
+
+
+    private Butelka newTypButelka(Butelka butelka) {
+        Alkohol alkohol = alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa());
+        butelka.setAlkoholId(alkohol.getId());
+
+        Typ typ = new Typ();
+        typ.setAlkoholID(alkohol.getId());
+        typ.setNazwa(butelka.getTypNazwa());
+        typRepo.save(typ);
+
+        alkohol.getTypList().add(typ);
+        alkoholRepo.save(alkohol);
+        butelka.setTypId(typ.getId());
+        return butelka;
+    }
+
 
 }

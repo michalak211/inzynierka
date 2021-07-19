@@ -40,6 +40,10 @@ public class SkladnikP {
 // garbage colector??? co to
 // paramgmaty programowania
 
+//TODO kolejność
+// dokończyć filtry- tylko po jednym składniku
+
+
 //TODO logowanie
 // sprawdzanie czy mail prawidłowy
 // powtórz hasło

@@ -260,53 +260,6 @@ public class Mapper {
         return koktajlForm;
     }
 
-    public Butelka butlaToBase(Butelka butelka) {
-
-
-        if (butelka.isNewAlko()) {
-            boolean repeatsAlko = alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa()) != null;
-
-            if (repeatsAlko) {
-                butelka.setAlkoholId(alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa()).getId());
-            } else {
-                Alkohol alkohol = new Alkohol();
-                alkohol.setNazwa(butelka.getAlkoholNazwa());
-                alkoholRepo.save(alkohol);
-
-                List<Typ> typList = new ArrayList<>();
-                Typ typ = new Typ();
-                typ.setAlkoholID(alkohol.getId());
-                typ.setNazwa(butelka.getTypNazwa());
-                typRepo.save(typ);
-                typList.add(typ);
-
-                alkohol.setTypList(typList);
-                alkoholRepo.save(alkohol);
-
-                butelka.setAlkoholId(alkohol.getId());
-                butelka.setTypId(typ.getId());
-            }
-
-        } else if (butelka.isNewTyp()) {
-            Alkohol alkohol = alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa());
-            butelka.setAlkoholId(alkohol.getId());
-
-            Typ typ = new Typ();
-            typ.setAlkoholID(alkohol.getId());
-            typ.setNazwa(butelka.getTypNazwa());
-            typRepo.save(typ);
-
-            alkohol.getTypList().add(typ);
-            alkoholRepo.save(alkohol);
-            butelka.setTypId(typ.getId());
-
-        } else {
-            butelka.setAlkoholId(alkoholRepo.findByNazwaEquals(butelka.getAlkoholNazwa()).getId());
-            butelka.setTypId(typRepo.findByNazwaEquals(butelka.getTypNazwa()).getId());
-        }
-
-        return butelka;
-    }
 
     public Butelka butlaToForm(Butelka butelka) {
 

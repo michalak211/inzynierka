@@ -34,9 +34,7 @@ public class Butelka {
     @Lob
     private byte[] zdjecie;
 
-    @Transient
     private String alkoholNazwa;
-    @Transient
     private String typNazwa;
     @Transient
     private  boolean newAlko;

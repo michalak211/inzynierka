@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface KoktailRepo extends CrudRepository<Koktajl, Long>, JpaSpecificationExecutor<Koktajl> {
 
+    public Koktajl findByNazwaEquals(String nazwa);
 
 }

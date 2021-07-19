@@ -21,10 +21,7 @@ public class Skladnik {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String nazwa;
-
-
 
 
 }

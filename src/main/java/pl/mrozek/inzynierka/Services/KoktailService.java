@@ -2,30 +2,17 @@ package pl.mrozek.inzynierka.Services;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
-import pl.mrozek.inzynierka.Dto.SkladnikP;
 import pl.mrozek.inzynierka.Entity.bar.Barek;
-import pl.mrozek.inzynierka.Entity.bar.Butelka;
-import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
-import pl.mrozek.inzynierka.Entity.przepis.SkladnikB;
-import pl.mrozek.inzynierka.Entity.skladniki.Inny;
-import pl.mrozek.inzynierka.Entity.skladniki.Sok;
-import pl.mrozek.inzynierka.Entity.skladniki.Syrop;
-import pl.mrozek.inzynierka.Entity.skladniki.Typ;
 import pl.mrozek.inzynierka.Repo.AlkoholRepo;
 import pl.mrozek.inzynierka.Repo.BarekRepo;
 import pl.mrozek.inzynierka.Repo.KoktailRepo;
 import pl.mrozek.inzynierka.mapper.Mapper;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,17 +23,15 @@ import java.util.Map;
 @Service
 public class KoktailService {
 
-    final
+    private final
     KoktailRepo koktailRepo;
     private final Mapper mapper;
     private final BarekRepo barekRepo;
-    private final AlkoholRepo alkoholRepo;
 
     public KoktailService(KoktailRepo koktailRepo, Mapper mapper, BarekRepo barekRepo, AlkoholRepo alkoholRepo) {
         this.koktailRepo = koktailRepo;
         this.mapper = mapper;
         this.barekRepo = barekRepo;
-        this.alkoholRepo = alkoholRepo;
     }
 
     public List<Koktajl> getAllKoktajls() {
@@ -92,6 +77,7 @@ public class KoktailService {
 
         if (barekRepo.findByNazwaEquals("barek mieszkanie") == null) {
             Barek barek = new Barek();
+            barek.setId((long) 1);
             barek.setNazwa("barek mieszkanie");
             barekRepo.save(barek);
         }
