@@ -41,16 +41,15 @@ public class Mapper {
     }
 
 
-    public List<KoktajlForm> toForms(List<Koktajl> koktajlList){
-        List<KoktajlForm> koktajlFormList= new ArrayList<>();
+    public List<KoktajlForm> toForms(List<Koktajl> koktajlList) {
+        List<KoktajlForm> koktajlFormList = new ArrayList<>();
 
-        for (Koktajl koktajl:koktajlList){
+        for (Koktajl koktajl : koktajlList) {
             koktajlFormList.add(toKoktajlForm(koktajl));
         }
 
         return koktajlFormList;
     }
-
 
 
     public Koktajl toKoktajl(Koktajl koktajl, KoktajlForm koktajlForm) {
@@ -133,8 +132,14 @@ public class Mapper {
                                 skladnikB.setSkladnikId(newTyp.getId());
 
                             } else {
-                                Typ typ = typRepo.findByNazwaEquals(skladnikP.getTyp());
-                                skladnikB.setSkladnikId(typ.getId());
+                                if (skladnikP.getTyp().equals("Dowolny")){
+                                    Alkohol alkohol= alkoholRepo.findByNazwaEquals(skladnikP.getNazwa());
+                                    Typ typ= alkohol.getTypList().stream().filter(o->o.getNazwa().equals("Dowolny")).findFirst().orElse(null);
+                                    skladnikB.setSkladnikId(typ.getId());
+                                }else {
+                                    Typ typ = typRepo.findByNazwaEquals(skladnikP.getTyp());
+                                    skladnikB.setSkladnikId(typ.getId());
+                                }
                             }
 
                             break;
@@ -237,6 +242,14 @@ public class Mapper {
 
 
         return skladnikP;
+    }
+
+    public List<KoktajlForm> koktajlListToForm(List<Koktajl> koktajlList) {
+        List<KoktajlForm> koktajlFormList = new ArrayList<>();
+        for (Koktajl koktajl : koktajlList) {
+            koktajlFormList.add(toKoktajlForm(koktajl));
+        }
+        return koktajlFormList;
     }
 
 

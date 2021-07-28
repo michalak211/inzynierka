@@ -48,7 +48,6 @@ public class KoktailController {
     @Transactional
     @GetMapping("/add")
     public String addKoktajl(Model model) {
-
         KoktajlForm koktajlForm = new KoktajlForm();
         koktajlForm.setZdobienie("Dowolne");
 
@@ -66,22 +65,20 @@ public class KoktailController {
     public String addKoktajlSubmitt(@ModelAttribute("koktajlForm") KoktajlForm koktajlForm) {
 
         koktailService.addKoktajl(koktajlForm);
-
         return "redirect:/przegladaj";
-
     }
 
     @GetMapping("/test")
     public String test(Model model) {
 
 
-        List<Koktajl> koktajls= filterService.findBySet(new Koktajl());
-
-
-        System.out.println("proba");
-        for (Koktajl koktajl:koktajls){
-            System.out.println(koktajl.getNazwa());
-        }
+//        List<Koktajl> koktajls= filterService.findBySet(new Koktajl());
+//
+//
+//        System.out.println("proba");
+//        for (Koktajl koktajl:koktajls){
+//            System.out.println(koktajl.getNazwa());
+//        }
 //        try {
 //            mailSenderService.sendMail("Michalak211@gmail.com", "testTemat","hakunamatta",false);
 //        } catch (MessagingException e) {

@@ -229,13 +229,15 @@
 
     function mainChanger(row, listName, rowIndex, selectList, elementName) {
 
-        var rodzaj = selectList.value;
         var temp = row.cells.length - 1;
+        console.log(temp);
         for (var i = 0; i < (temp); i++) {
             var usuwany = row.cells.length - 1;
             row.removeChild(row.cells[usuwany]);
         }
 
+
+        var rodzaj = selectList.value;
         switch (rodzaj) {
             case '1':
                 addAlkoRowEdit(listName, rowIndex, elementName, row, null);
@@ -785,7 +787,7 @@
             }
         });
 
-    }
+    };
 
 
     function alkoChangerEdit(row, listName, rowIndex, selectList, selectList2, starySkladnik) {

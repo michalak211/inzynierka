@@ -48,20 +48,9 @@ public class SkladnikP {
 // sprawdzanie czy mail prawidłowy
 // powtórz hasło
 
-//TODO backup
-// dodaj zdjecie blokada jesli puste
-// tworzenie pliku txt z kolejno
-// skladniki
-// struktura
-// butelki
-// userami
-// barkami
-// koktajlami
 
 //TODO FILTRY
-// lista skladnikId pasujacych- alko lub typ
-// filtry po barze- dostępność- wybierz bar z listy i sortuj po nim
-// opcje sortowania: wszystko, tylko dostępne, łatwe do uzupełnienia (docelowo), filtr pełny
+// ogarnąć mapper po ludzku
 // wybor barku
 // brak filtrowania po barku
 // pozostałe filtry

@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import pl.mrozek.inzynierka.Dto.KoktajlForm;
+import pl.mrozek.inzynierka.Dto.SkladnikP;
+import pl.mrozek.inzynierka.Entity.bar.Barek;
 import pl.mrozek.inzynierka.Entity.przepis.Alkohol;
 import pl.mrozek.inzynierka.Entity.przepis.Koktajl;
 import pl.mrozek.inzynierka.Entity.skladniki.Skladnik;
 import pl.mrozek.inzynierka.Entity.user.BarUser;
 import pl.mrozek.inzynierka.Repo.*;
-import pl.mrozek.inzynierka.Services.BackupService;
-import pl.mrozek.inzynierka.Services.KoktailService;
-import pl.mrozek.inzynierka.Services.SkladnikService;
-import pl.mrozek.inzynierka.Services.UserService;
+import pl.mrozek.inzynierka.Services.*;
+import pl.mrozek.inzynierka.mapper.Mapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +25,8 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -40,9 +42,14 @@ public class MainController {
     private final UserService userService;
     private final BackupService backupService;
     private final SkladnikRepo skladnikRepo;
+    private final SokRepo sokRepo;
+    private final SyropRepo syropRepo;
+    private final InnyRepo innyRepo;
+    private final FilterService filterService;
+    private final Mapper mapper;
 
 
-    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo, ButelkaRepo butelkaRepo, UserService userService, BackupService backupService, SkladnikRepo skladnikRepo) {
+    public MainController(KoktailService koktailService, AlkoholRepo alkoholRepo, TypRepo typRepo, SkladnikService skladnikService, BarekRepo barekRepo, ButelkaRepo butelkaRepo, UserService userService, BackupService backupService, SkladnikRepo skladnikRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, FilterService filterService, Mapper mapper) {
         this.koktailService = koktailService;
         this.alkoholRepo = alkoholRepo;
         this.typRepo = typRepo;
@@ -52,6 +59,11 @@ public class MainController {
         this.userService = userService;
         this.backupService = backupService;
         this.skladnikRepo = skladnikRepo;
+        this.sokRepo = sokRepo;
+        this.syropRepo = syropRepo;
+        this.innyRepo = innyRepo;
+        this.filterService = filterService;
+        this.mapper = mapper;
     }
 
     @GetMapping("/")
@@ -66,27 +78,54 @@ public class MainController {
 
     @GetMapping("/przegladaj")
     public String przegladanie(Model model) {
+        List<KoktajlForm> koktajlFormList = koktailService.getAllKoktajlForms();
+        Barek barek = barekRepo.findByNazwaEquals("barek mieszkanie");
+        if (barek != null) {
+            filterService.checkSkladnikAccesability(barek.getId(), koktajlFormList);
+        }
 
-        Long defaultBarekId = barekRepo.findByNazwaEquals("barek mieszkanie").getId();
 
         model.addAttribute("bars", barekRepo.findAll());
         model.addAttribute("filterSet", new KoktajlForm());
-        model.addAttribute("alkoholList", alkoholRepo.findAll());
         model.addAttribute("typList", typRepo.findAll());
-        model.addAttribute("koktajlList", koktailService.getAllKoktajlForms());
+        model.addAttribute("koktajlList", koktajlFormList);
+
+        model.addAttribute("alkoholList", alkoholRepo.findAll());
+        model.addAttribute("sokList", sokRepo.findAll());
+        model.addAttribute("syropList", syropRepo.findAll());
+        model.addAttribute("innyList", innyRepo.findAll());
+
         return "wyswietl";
     }
 
     @PostMapping(value = "/przegladaj", params = "filtruj")
-    public String filtrowanie(Model model,@ModelAttribute("filterSet") Koktajl filterSet){
+    public String filtrowanie(Model model, @ModelAttribute("filterSet") KoktajlForm filterSet) {
 
-        System.out.println("test");
         System.out.println(filterSet);
+        List<Koktajl> koktajlList = filterService.filterCoctails(filterSet);
+        if (filterSet.isPoBarku()) {
+            koktajlList = filterService.filterByBar(koktajlList);
+        }
+        List<KoktajlForm> koktajlFormList = mapper.koktajlListToForm(koktajlList);
+        Barek barek = barekRepo.findByNazwaEquals("barek mieszkanie");
+        if (barek != null) {
+            filterService.checkSkladnikAccesability(barek.getId(), koktajlFormList);
+        }
 
-        return "redirect:/przegladaj";
+
+        model.addAttribute("bars", barekRepo.findAll());
+        model.addAttribute("filterSet", new KoktajlForm());
+        model.addAttribute("typList", typRepo.findAll());
+        model.addAttribute("koktajlList", koktajlFormList);
+
+        model.addAttribute("alkoholList", alkoholRepo.findAll());
+        model.addAttribute("sokList", sokRepo.findAll());
+        model.addAttribute("syropList", syropRepo.findAll());
+        model.addAttribute("innyList", innyRepo.findAll());
+
+        return "wyswietl";
 
     }
-
 
 
     @Transactional
