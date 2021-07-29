@@ -2,6 +2,9 @@ package pl.mrozek.inzynierka.Services;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.mrozek.inzynierka.Entity.user.Authoritiy;
@@ -42,7 +45,24 @@ public class UserService {
         if (barUserRepo.findAll().size()==0){adminInit();}
     }
 
+    public BarUser getCurrentUSer(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
 
+        return barUserRepo.findAllByUsername(username);
+    }
+
+    public boolean isAdmin(){
+
+        BarUser barUser= getCurrentUSer();
+        if (barUser==null) return false;
+        return barUser.getAuthorities().stream().anyMatch(o->((GrantedAuthority) o).getAuthority().equals("ROLE_ADMIN"));
+    }
 
     public void addNewUser(BarUser barUser, HttpServletRequest request) {
 

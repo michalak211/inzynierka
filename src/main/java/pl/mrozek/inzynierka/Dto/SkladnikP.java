@@ -40,31 +40,20 @@ public class SkladnikP {
 // garbage colector??? co to
 // paramgmaty programowania
 
-//TODO kolejność
-// dokończyć filtry- tylko po jednym składniku
-
 
 //TODO logowanie
 // sprawdzanie czy mail prawidłowy
 // powtórz hasło
 
 
-//TODO FILTRY
-// ogarnąć mapper po ludzku
-// wybor barku
-// brak filtrowania po barku
-// pozostałe filtry
-
-
 //todo kolejnosc
-// skończyć filtry
-// przetestować backup
+// label do skladnikow
+// usun rzad w filtrach
+// ogarnąć mapper po ludzku
+// paging
 // cena
-// riff
 // dodawanie zapytań o drinki
 // dodwanie własnych zdjęć przez userów i blokowanie odpowiednie
-// dodawanie zdjec butelek
-// paging
 
 
 //todo settings
@@ -80,15 +69,6 @@ public class SkladnikP {
 // dodwanie własnych zdjęć
 
 
-//todo zasoby barku
-// aktualizacja
-// obliczanie ceny koktajlu
-// ładne alkohole
-
-
-//todo refactor
-// mapper skladnik p do b (kolejność w if)
-// pliki ze skryptami js
 
 
 //todo validacja

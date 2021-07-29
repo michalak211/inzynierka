@@ -37,8 +37,9 @@ public class FilterService {
     private final SyropRepo syropRepo;
     private final InnyRepo innyRepo;
     private final TypRepo typRepo;
+    private final UserService userService;
 
-    public FilterService(KoktailRepo koktailRepo, Mapper mapper, BarekRepo barekRepo, AlkoholRepo alkoholRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, TypRepo typRepo) {
+    public FilterService(KoktailRepo koktailRepo, Mapper mapper, BarekRepo barekRepo, AlkoholRepo alkoholRepo, SokRepo sokRepo, SyropRepo syropRepo, InnyRepo innyRepo, TypRepo typRepo, UserService userService) {
         this.koktailRepo = koktailRepo;
         this.mapper = mapper;
         this.barekRepo = barekRepo;
@@ -47,6 +48,27 @@ public class FilterService {
         this.syropRepo = syropRepo;
         this.innyRepo = innyRepo;
         this.typRepo = typRepo;
+        this.userService = userService;
+    }
+
+    public List<KoktajlForm> completeFilters(KoktajlForm filterSet) {
+        List<Koktajl> koktajlList = filterCoctails(filterSet);
+
+
+        Barek barek;
+        if (userService.isAdmin()) {
+            barek = barekRepo.findById(Long.valueOf(filterSet.getOpisPrzyrzadzenia())).orElse(null);
+        } else {
+            barek = barekRepo.findByNazwaEquals("barek mieszkanie");
+        }
+        List<KoktajlForm> koktajlFormList;
+        if (barek != null) {
+            if (filterSet.isPoBarku()) koktajlList = filterByBar(koktajlList, barek.getId());
+            koktajlFormList = mapper.koktajlListToForm(koktajlList);
+            koktajlFormList = checkSkladnikAccesability(barek.getId(), koktajlFormList);
+            return koktajlFormList;
+        }
+        return mapper.koktajlListToForm(koktajlList);
     }
 
 
@@ -93,9 +115,7 @@ public class FilterService {
         HashSet<Long> typList = new HashSet<>();
 
         for (Butelka butelka : barek.getButelkaList()) {
-            if (!typList.contains(butelka.getTypId())) {
-                typList.add(butelka.getTypId());
-            }
+            typList.add(butelka.getTypId());
         }
         return typList;
     }
@@ -155,8 +175,8 @@ public class FilterService {
         return koktajlList;
     }
 
-    public List<Koktajl> filterByBar(List<Koktajl> koktajlList) {
-        Barek barek = barekRepo.findByNazwaEquals("barek mieszkanie");
+    public List<Koktajl> filterByBar(List<Koktajl> koktajlList, long barId) {
+        Barek barek = barekRepo.findById(barId).orElse(null);
         if (barek == null) return koktajlList;
         List<Koktajl> filtered = new ArrayList<>();
         for (Koktajl koktajl1 : koktajlList) {
@@ -167,6 +187,7 @@ public class FilterService {
 
     private List<Koktajl> filterBySkladnik(List<Koktajl> koktajlList, KoktajlForm koktajlForm) {
 
+        if (koktajlForm.getListaSkladnikow()== null) return koktajlList;
         for (SkladnikP skladnikP : koktajlForm.getListaSkladnikow()) {
             if (skladnikP.getRodzaj() == 0) continue;
             if (skladnikP.getRodzaj() == 1 && skladnikP.getTyp() == null) {
@@ -223,33 +244,30 @@ public class FilterService {
 
     private List<Koktajl> findBySet(Koktajl koktajl) {
 
-        return koktailRepo.findAll(new Specification<Koktajl>() {
-            @Override
-            public Predicate toPredicate(Root<Koktajl> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+        return koktailRepo.findAll((Specification<Koktajl>) (root, query, criteriaBuilder) -> {
 
-                List<Predicate> predicates = new ArrayList<>();
+            List<Predicate> predicates = new ArrayList<>();
 
-                if (koktajl.getNazwa() != null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("nazwa"), "%" + koktajl.getNazwa() + "%")));
-                }
-                if (koktajl.getKlasa() != null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("klasa"), "%" + koktajl.getKlasa() + "%")));
-                }
-                if (koktajl.getOcena() != 0) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("ocena"), koktajl.getOcena())));
-                }
-                if (koktajl.getSzklo() != null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("szklo"), "%" + koktajl.getSzklo() + "%")));
-                }
-                if (koktajl.isVegan()) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("vegan"), koktajl.isVegan())));
-                }
-                if (koktajl.getZdobienie() != null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("zdobienie"), "%" + koktajl.getZdobienie() + "%")));
-                }
-
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            if (koktajl.getNazwa() != null) {
+                predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("nazwa"), "%" + koktajl.getNazwa() + "%")));
             }
+            if (koktajl.getKlasa() != null) {
+                predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("klasa"), "%" + koktajl.getKlasa() + "%")));
+            }
+            if (koktajl.getOcena() != 0) {
+                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("ocena"), koktajl.getOcena())));
+            }
+            if (koktajl.getSzklo() != null) {
+                predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("szklo"), "%" + koktajl.getSzklo() + "%")));
+            }
+            if (koktajl.isVegan()) {
+                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("vegan"), koktajl.isVegan())));
+            }
+            if (koktajl.getZdobienie() != null) {
+                predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("zdobienie"), "%" + koktajl.getZdobienie() + "%")));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         });
     }
 
