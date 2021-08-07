@@ -33,8 +33,6 @@ public class Koktajl {
     @Nullable
     private String klasa;
 
-//    @OneToOne
-//    private Skladnik skladnikGlowny;
     @Nullable
     private long ocena;
     @Nullable
