@@ -104,10 +104,8 @@ public class MainController {
     @PostMapping(value = "/przegladaj", params = "filtruj")
     public String filtrowanie(Model model, @ModelAttribute("filterSet") KoktajlForm filterSet) {
 
+
         System.out.println(filterSet);
-
-
-
 
         model.addAttribute("isAdmin",userService.isAdmin());
         model.addAttribute("bars", barekRepo.findAll());

@@ -48,7 +48,6 @@ public class SkladnikP {
 
 //todo kolejnosc
 // label do skladnikow
-// usun rzad w filtrach
 // ogarnąć mapper po ludzku
 // paging
 // cena

@@ -51,153 +51,156 @@ public class Mapper {
         return koktajlFormList;
     }
 
+    private SkladnikB nowyTypToSkldnikB(SkladnikP skladnikP, SkladnikB skladnikB) {
+        Alkohol alkohol = alkoholRepo.findByNazwaEquals(skladnikP.getNazwa());
+        if (alkohol == null) return null;
+
+        Typ typ = alkohol.getTypList().stream().filter(o -> o.getNazwa().equals(skladnikP.getNazwa())).findFirst().
+                orElse(null);
+
+        if (typ != null) {
+            skladnikB.setSkladnikId(typ.getId());
+            return skladnikB;
+        }
+
+        Typ newTyp = new Typ();
+        newTyp.setNazwa(skladnikP.getTyp());
+        newTyp.setAlkoholID(alkohol.getId());
+        typRepo.save(newTyp);
+        alkohol.getTypList().add(newTyp);
+        alkoholRepo.save(alkohol);
+        skladnikB.setSkladnikId(newTyp.getId());
+        skladnikBRepo.save(skladnikB);
+        return skladnikB;
+    }
+
+    private SkladnikB nowyALkoToSkladnikB(SkladnikP skladnikP, SkladnikB skladnikB) {
+        if (alkoholRepo.findByNazwaEquals(skladnikP.getNazwa()) != null) {
+            Alkohol alkohol = alkoholRepo.findByNazwaEquals(skladnikP.getNazwa());
+            Typ typ = alkohol.getTypList().stream().filter(o -> o.getNazwa().equals("Dowolny")).findFirst().orElse(null);
+            assert typ != null;
+            skladnikB.setSkladnikId(typ.getId());
+            return skladnikB;
+        }
+
+        Alkohol alkohol = new Alkohol();
+        alkohol.setNazwa(skladnikP.getNazwa());
+        Typ newTyp = new Typ();
+        newTyp.setNazwa(skladnikP.getTyp());
+        alkoholRepo.save(alkohol);
+        newTyp.setAlkoholID(alkohol.getId());
+        typRepo.save(newTyp);
+
+        List<Typ> alkolist = new ArrayList<>();
+        alkolist.add(newTyp);
+        alkohol.setTypList(alkolist);
+        alkoholRepo.save(alkohol);
+
+        skladnikB.setSkladnikId(newTyp.getId());
+
+        return skladnikB;
+    }
+
+    private void processSokToSkladnikB(SkladnikP skladnikP, SkladnikB skladnikB) {
+
+        Sok sok;
+        if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
+            sok = new Sok();
+            sok.setNazwa(skladnikP.getNazwa());
+            sokRepo.save(sok);
+            skladnikB.setSkladnikId(sok.getId());
+            return;
+        }
+        sok = sokRepo.findByNazwaEquals(skladnikP.getNazwa());
+        skladnikB.setSkladnikId(sok.getId());
+    }
+
+    private SkladnikB alkoToSkladnikBStandard(SkladnikP skladnikP, SkladnikB skladnikB) {
+
+        Alkohol alkohol = alkoholRepo.findByNazwaEquals(skladnikP.getNazwa());
+        Typ typ = alkohol.getTypList().stream().filter(o -> o.getNazwa().equals(skladnikP.getTyp())).findFirst().orElse(null);
+        if (typ == null) return null;
+        skladnikB.setSkladnikId(typ.getId());
+        return skladnikB;
+    }
+
+    private SkladnikB processAlkoToBase(SkladnikP skladnikP) {
+        SkladnikB skladnikB = new SkladnikB();
+        skladnikB.setIlosc(skladnikP.getIloscML());
+        skladnikB.setOpisDodatkowy(skladnikP.getOpisDodatkowy());
+        if (skladnikP.isNowy()) return nowyTypToSkldnikB(skladnikP, skladnikB);
+        if (skladnikP.isNowyAlko()) return nowyALkoToSkladnikB(skladnikP, skladnikB);
+        return alkoToSkladnikBStandard(skladnikP, skladnikB);
+    }
 
     public Koktajl toKoktajl(Koktajl koktajl, KoktajlForm koktajlForm) {
-
         koktajl.setNazwa(koktajlForm.getNazwa());
-        if (koktajlForm.getKlasa() != null) {
-            koktajl.setKlasa(koktajlForm.getKlasa());
-        }
-        if (koktajlForm.getKlasa() != null) {
-            koktajl.setKlasa(koktajlForm.getKlasa());
-        }
-        if (koktajlForm.getSzklo() != null) {
-            koktajl.setSzklo(koktajlForm.getSzklo());
-        }
-
+        if (koktajlForm.getKlasa() != null) koktajl.setKlasa(koktajlForm.getKlasa());
+        if (koktajlForm.getKlasa() != null) koktajl.setKlasa(koktajlForm.getKlasa());
+        if (koktajlForm.getSzklo() != null) koktajl.setSzklo(koktajlForm.getSzklo());
         koktajl.setVegan(koktajlForm.getVegan().equals("tak"));
-
-        if (koktajlForm.getZdobienie() != null) {
-            koktajl.setZdobienie(koktajlForm.getZdobienie());
-        }
-
-
-        if (koktajlForm.getOpisPrzyrzadzenia() != null) {
-            koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
-        }
-        if (koktajlForm.getOcena() != null) {
-            koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
-        }
-
-//        if (koktajl.getId()!=null) {
-//            koktajlForm.setId(koktajl.getId());
-//        }else {
-//            koktajlForm.setId(0);
-//        }
-
+        if (koktajlForm.getZdobienie() != null) koktajl.setZdobienie(koktajlForm.getZdobienie());
+        if (koktajlForm.getOpisPrzyrzadzenia() != null) koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
+        if (koktajlForm.getOcena() != null) koktajl.setOpisPrzyzadzenia(koktajlForm.getOpisPrzyrzadzenia());
 
         koktajl.setSkladnikBList(new ArrayList<>());
-        if (koktajlForm.getListaSkladnikow() != null) {
-            for (SkladnikP skladnikP : koktajlForm.getListaSkladnikow()) {
+        if (koktajlForm.getListaSkladnikow() == null) return koktajl;
 
-                if (skladnikP.getRodzaj() > 0) {
-                    SkladnikB skladnikB = new SkladnikB();
-                    skladnikB.setIlosc(skladnikP.getIloscML());
-                    skladnikB.setOpisDodatkowy(skladnikP.getOpisDodatkowy());
+        for (SkladnikP skladnikP : koktajlForm.getListaSkladnikow()) {
 
-                    switch (skladnikP.getRodzaj()) {
-                        case 1:
+            if ((skladnikP.getRodzaj() <= 0) || (skladnikP.getRodzaj() >= 5)) continue;
 
-                            if (skladnikP.isNowy()) {
-                                Alkohol alkohol = alkoholRepo.findByNazwaEquals(skladnikP.getNazwa());
-                                Typ newTyp;
+            SkladnikB skladnikB = new SkladnikB();
+            skladnikB.setIlosc(skladnikP.getIloscML());
+            skladnikB.setOpisDodatkowy(skladnikP.getOpisDodatkowy());
 
-                                if (typRepo.findByNazwaEquals(skladnikP.getTyp()) == null) {
-                                    newTyp = new Typ();
-                                    newTyp.setNazwa(skladnikP.getTyp());
-                                    newTyp.setAlkoholID(alkohol.getId());
-                                    typRepo.save(newTyp);
-                                    alkohol.getTypList().add(newTyp);
-                                    alkoholRepo.save(alkohol);
-                                } else {
-                                    newTyp = typRepo.findByNazwaEquals(skladnikP.getTyp());
-                                }
-                                skladnikB.setSkladnikId(newTyp.getId());
-
-                            } else if (skladnikP.isNowyAlko() && alkoholRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-
-                                Alkohol alkohol = new Alkohol();
-                                alkohol.setNazwa(skladnikP.getNazwa());
-                                Typ newTyp = new Typ();
-                                newTyp.setNazwa(skladnikP.getTyp());
-                                alkoholRepo.save(alkohol);
-                                newTyp.setAlkoholID(alkohol.getId());
-                                typRepo.save(newTyp);
-
-                                List<Typ> alkolist = new ArrayList<>();
-                                alkolist.add(newTyp);
-                                alkohol.setTypList(alkolist);
-                                alkoholRepo.save(alkohol);
-
-                                skladnikB.setSkladnikId(newTyp.getId());
-
-                            } else {
-                                if (skladnikP.getTyp().equals("Dowolny")){
-                                    Alkohol alkohol= alkoholRepo.findByNazwaEquals(skladnikP.getNazwa());
-                                    Typ typ= alkohol.getTypList().stream().filter(o->o.getNazwa().equals("Dowolny")).findFirst().orElse(null);
-                                    skladnikB.setSkladnikId(typ.getId());
-                                }else {
-                                    Typ typ = typRepo.findByNazwaEquals(skladnikP.getTyp());
-                                    skladnikB.setSkladnikId(typ.getId());
-                                }
-                            }
-
-                            break;
-                        case 2:
-                            if (skladnikP.isNowy()) {
-                                Sok sok;
-                                if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-                                    sok = new Sok();
-                                    sok.setNazwa(skladnikP.getNazwa());
-                                    sokRepo.save(sok);
-                                } else {
-                                    sok = sokRepo.findByNazwaEquals(skladnikP.getNazwa());
-                                }
-                                skladnikB.setSkladnikId(sok.getId());
-                            } else {
-                                skladnikB.setSkladnikId(sokRepo.findByNazwaEquals(skladnikP.getNazwa()).getId());
-                            }
-                            break;
-                        case 3:
-                            if (skladnikP.isNowy()) {
-                                Syrop syrop;
-                                if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-                                    syrop = new Syrop();
-                                    syrop.setNazwa(skladnikP.getNazwa());
-                                    syropRepo.save(syrop);
-                                } else {
-                                    syrop = syropRepo.findByNazwaEquals(skladnikP.getNazwa());
-                                }
-                                skladnikB.setSkladnikId(syrop.getId());
-                            } else {
-                                skladnikB.setSkladnikId(syropRepo.findByNazwaEquals(skladnikP.getNazwa()).getId());
-
-                            }
-                            break;
-                        case 4:
-                            if (skladnikP.isNowy()) {
-
-                                Inny inny;
-                                if (innyRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
-                                    inny = new Inny();
-                                    inny.setNazwa(skladnikP.getNazwa());
-                                    innyRepo.save(inny);
-                                } else {
-                                    inny = innyRepo.findByNazwaEquals(skladnikP.getNazwa());
-                                }
-                                skladnikB.setSkladnikId(inny.getId());
-                            } else {
-                                skladnikB.setSkladnikId(innyRepo.findByNazwaEquals(skladnikP.getNazwa()).getId());
-                            }
-                            break;
+            switch (skladnikP.getRodzaj()) {
+                case 1:
+                    skladnikB = processAlkoToBase(skladnikP);
+                    break;
+                case 2:
+                    if (skladnikP.isNowy()) {
+                        processSokToSkladnikB(skladnikP, skladnikB);
+                        break;
                     }
-                    skladnikBRepo.save(skladnikB);
-                    koktajl.getSkladnikBList().add(skladnikB);
-                }
+                    skladnikB.setSkladnikId(sokRepo.findByNazwaEquals(skladnikP.getNazwa()).getId());
+                    break;
+                case 3:
+                    if (skladnikP.isNowy()) {
+                        Syrop syrop;
+                        if (sokRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
+                            syrop = new Syrop();
+                            syrop.setNazwa(skladnikP.getNazwa());
+                            syropRepo.save(syrop);
+                        } else {
+                            syrop = syropRepo.findByNazwaEquals(skladnikP.getNazwa());
+                        }
+                        skladnikB.setSkladnikId(syrop.getId());
+                    } else {
+                        skladnikB.setSkladnikId(syropRepo.findByNazwaEquals(skladnikP.getNazwa()).getId());
 
+                    }
+                    break;
+                case 4:
+                    if (skladnikP.isNowy()) {
+
+                        Inny inny;
+                        if (innyRepo.findByNazwaEquals(skladnikP.getNazwa()) == null) {
+                            inny = new Inny();
+                            inny.setNazwa(skladnikP.getNazwa());
+                            innyRepo.save(inny);
+                        } else {
+                            inny = innyRepo.findByNazwaEquals(skladnikP.getNazwa());
+                        }
+                        skladnikB.setSkladnikId(inny.getId());
+                    } else {
+                        skladnikB.setSkladnikId(innyRepo.findByNazwaEquals(skladnikP.getNazwa()).getId());
+                    }
+                    break;
             }
+            skladnikBRepo.save(skladnikB);
+            koktajl.getSkladnikBList().add(skladnikB);
         }
-
         return koktajl;
     }
 
@@ -205,18 +208,10 @@ public class Mapper {
 
         koktajlForm.setNazwa(koktajl.getNazwa());
 
-        if (koktajl.getKlasa() != null) {
-            koktajlForm.setKlasa(koktajl.getKlasa());
-        }
-        if (koktajl.getSzklo() != null) {
-            koktajlForm.setSzklo(koktajl.getSzklo());
-        }
-        if (koktajl.getOpisPrzyzadzenia() != null) {
-            koktajlForm.setOpisPrzyrzadzenia(koktajl.getOpisPrzyzadzenia());
-        }
-        if (koktajl.getZdobienie() != null) {
-            koktajlForm.setZdobienie(koktajl.getZdobienie());
-        }
+        if (koktajl.getKlasa() != null) koktajlForm.setKlasa(koktajl.getKlasa());
+        if (koktajl.getSzklo() != null) koktajlForm.setSzklo(koktajl.getSzklo());
+        if (koktajl.getOpisPrzyzadzenia() != null) koktajlForm.setOpisPrzyrzadzenia(koktajl.getOpisPrzyzadzenia());
+        if (koktajl.getZdobienie() != null) koktajlForm.setZdobienie(koktajl.getZdobienie());
         koktajlForm.setOcena(koktajl.getOcena());
 
         if (koktajl.isVegan()) {
@@ -224,7 +219,6 @@ public class Mapper {
         } else {
             koktajlForm.setVegan("nie");
         }
-
         if (koktajl.getId() != null) {
             koktajlForm.setId(koktajl.getId());
         } else {
@@ -255,21 +249,14 @@ public class Mapper {
 
     public KoktajlForm toKoktajlForm(Koktajl koktajl) {
         KoktajlForm koktajlForm = new KoktajlForm();
-
         setBaseInForm(koktajlForm, koktajl);
-
         List<SkladnikP> skladnikPList = new ArrayList<>();
 
         for (SkladnikB skladnikB : koktajl.getSkladnikBList()) {
             if (!skladnikRepo.findById(skladnikB.getSkladnikId()).isPresent()) continue;
-
             skladnikPList.add(skladnikBToSkladnikP(skladnikB));
-
         }
-
         koktajlForm.setListaSkladnikow(skladnikPList);
-
-
         return koktajlForm;
     }
 
