@@ -174,7 +174,7 @@ public class FilterService {
 
         return koktajlList;
     }
-
+//trolololo
     public List<Koktajl> filterByBar(List<Koktajl> koktajlList, long barId) {
         Barek barek = barekRepo.findById(barId).orElse(null);
         if (barek == null) return koktajlList;

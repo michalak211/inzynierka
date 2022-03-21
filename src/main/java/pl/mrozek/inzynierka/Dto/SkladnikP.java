@@ -47,17 +47,12 @@ public class SkladnikP {
 
 
 //todo kolejnosc
-// label do skladnikow
-// ogarnąć mapper po ludzku
 // paging
 // cena
 // dodawanie zapytań o drinki
-// dodwanie własnych zdjęć przez userów i blokowanie odpowiednie
-
 
 //todo settings
 // defaultBar
-
 
 //todo edycja
 // riff - jeżeli origin id=0, jeżeli nie, to
@@ -72,12 +67,6 @@ public class SkladnikP {
 
 //todo validacja
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
-
-
-
-
-
-
 
 
 
